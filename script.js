@@ -37,13 +37,13 @@ document.querySelector('.contact-form').addEventListener('submit', function (e) 
     this.reset();
 });
 
-// Efecto de scroll para el navbar
+// Efecto de scroll para el navbar - Moderno
 window.addEventListener('scroll', function () {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 50) {
-        navbar.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.15)';
+        navbar.classList.add('scrolled');
     } else {
-        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+        navbar.classList.remove('scrolled');
     }
 });
 
