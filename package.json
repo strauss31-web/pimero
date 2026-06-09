@@ -21,6 +21,7 @@
     "remotion": "^4.0.474"
   },
   "devDependencies": {
+    "@remotion/cli": "^4.0.474",
     "typescript": "^6.0.3"
   }
 }
