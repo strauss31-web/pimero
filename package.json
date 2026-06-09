@@ -4,6 +4,8 @@
   "description": "Una página web moderna y responsiva creada con HTML, CSS y JavaScript.",
   "main": "script.js",
   "scripts": {
+    "start": "remotion studio",
+    "render": "remotion render src/index.tsx Intro out.mp4",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -14,6 +16,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "remotion": "^4.0.474"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
   }
 }
