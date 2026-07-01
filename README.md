@@ -1,61 +1,58 @@
-# Pimero - Página Web
+# Pimero — Página web corporativa
 
-Una página web moderna y responsiva creada con HTML, CSS y JavaScript.
+Sitio web moderno y responsivo para Pimero, agencia digital. Construido con HTML, CSS y JavaScript puros — sin dependencias ni proceso de build.
 
-## Características
+## Secciones
 
-✨ Diseño moderno y responsive
-🎨 Gradientes y animaciones suaves
-📱 Funciona en todos los dispositivos
-⚡ Interactividad con JavaScript
-🎯 Formulario de contacto funcional
+1. **Inicio (Hero)** — Presentación con llamada a la acción y estadísticas
+2. **Quiénes somos** — Descripción de la empresa, misión, visión y valores
+3. **Servicios** — Diseño web, desarrollo, optimización/SEO y mantenimiento
+4. **Portafolio** — Muestra de proyectos realizados
+5. **Testimonios** — Opiniones de clientes
+6. **Contacto** — Formulario con validación, datos de contacto y redes sociales
 
 ## Estructura
 
 ```
 pimero/
 ├── index.html      # Página principal
-├── styles.css      # Estilos CSS
-├── script.js       # Funcionalidades JavaScript
+├── styles.css      # Estilos
+├── script.js       # Interactividad
 └── README.md       # Este archivo
 ```
 
-## Secciones
+## Cómo verla
 
-1. **Navbar** - Navegación fija con enlace al logo
-2. **Hero** - Sección principal con llamada a acción
-3. **Servicios** - Grid de 3 servicios con hover effects
-4. **Contacto** - Formulario de contacto
-5. **Footer** - Pie de página
+Abre `index.html` en tu navegador, o sirve la carpeta con cualquier servidor estático:
 
-## Cómo usar
-
-1. Abre `index.html` en tu navegador
-2. Personaliza el contenido según necesites
-3. Modifica los colores en `styles.css` editando las variables CSS
-4. Expande las funcionalidades en `script.js`
+```bash
+python3 -m http.server 8000
+# luego visita http://localhost:8000
+```
 
 ## Personalización
 
-### Cambiar colores
-Edita las variables CSS en `styles.css`:
+### Colores
+Edita las variables CSS al inicio de `styles.css`:
+
 ```css
 :root {
-    --primary-color: #667eea;
-    --secondary-color: #764ba2;
+    --primary: #0f172a;   /* Color principal (fondos oscuros) */
+    --accent: #06b6d4;    /* Color de acento (botones, enlaces) */
+    --accent-2: #ec4899;  /* Acento secundario (degradados) */
 }
 ```
 
-### Agregar más secciones
-1. Agrega el HTML en `index.html`
-2. Crea los estilos en `styles.css`
-3. Agrega la interactividad en `script.js`
+### Contenido
+Todo el texto está en `index.html`: nombre de la empresa, servicios, proyectos, testimonios y datos de contacto (correo, teléfono, redes sociales). Reemplaza los datos de ejemplo por los reales.
 
-## Características incluidas
+### Formulario de contacto
+El formulario valida y confirma en pantalla, pero no envía correos por sí solo. Para recibir mensajes, conecta un servicio como [Formspree](https://formspree.io) o un backend propio en el handler de `script.js`.
 
-- ✅ Navegación suave (smooth scroll)
-- ✅ Formulario de contacto funcional
-- ✅ Animaciones al scroll
-- ✅ Efectos hover en tarjetas
-- ✅ Responsive design
-- ✅ Compatible con todos los navegadores modernos
+## Características
+
+- ✅ Diseño responsive (móvil, tablet y escritorio) con menú hamburguesa
+- ✅ Navegación con scroll suave y navbar fija
+- ✅ Animaciones de aparición al hacer scroll (respeta `prefers-reduced-motion`)
+- ✅ Formulario de contacto con validación
+- ✅ Sin dependencias externas (solo la fuente Inter de Google Fonts)

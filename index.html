@@ -3,152 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pimero - Bienvenido</title>
+    <meta name="description" content="Pimero — Agencia digital especializada en diseño web, desarrollo y optimización. Impulsamos tu negocio en internet.">
+    <title>Pimero — Agencia Digital</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f172a'/%3E%3Ctext x='16' y='23' font-family='Arial,sans-serif' font-size='19' font-weight='800' fill='%2306b6d4' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <div class="logo">Pimero</div>
-            <ul class="nav-links">
+    <!-- ===== Navbar ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#inicio" class="logo">Pime<span>ro</span></a>
+            <ul class="nav-links" id="navLinks">
                 <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#nosotros">Quiénes somos</a></li>
                 <li><a href="#servicios">Servicios</a></li>
-                <li><a href="#presentaciones">Presentaciones</a></li>
-                <li><a href="#videos">Videos</a></li>
-                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="#portafolio">Portafolio</a></li>
+                <li><a href="#testimonios">Testimonios</a></li>
+                <li><a href="#contacto" class="nav-cta">Contacto</a></li>
             </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
+    <!-- ===== Hero / Inicio ===== -->
     <header id="inicio" class="hero">
-        <div class="hero-content">
-            <h1>Bienvenido a Pimero</h1>
-            <p>Crea algo increíble hoy</p>
-            <button class="btn btn-primary">Comenzar</button>
+        <div class="hero-glow hero-glow-1"></div>
+        <div class="hero-glow hero-glow-2"></div>
+        <div class="container hero-content">
+            <span class="hero-badge">✦ Agencia digital</span>
+            <h1>Llevamos tu empresa<br>al <span class="gradient-text">mundo digital</span></h1>
+            <p>Diseñamos, desarrollamos y optimizamos experiencias web que convierten visitantes en clientes.</p>
+            <div class="hero-actions">
+                <a href="#contacto" class="btn btn-primary">Empieza tu proyecto</a>
+                <a href="#servicios" class="btn btn-ghost">Ver servicios</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <strong>+50</strong>
+                    <span>Proyectos entregados</span>
+                </div>
+                <div class="stat">
+                    <strong>98%</strong>
+                    <span>Clientes satisfechos</span>
+                </div>
+                <div class="stat">
+                    <strong>5+</strong>
+                    <span>Años de experiencia</span>
+                </div>
+            </div>
         </div>
     </header>
 
-    <section id="servicios" class="servicios">
+    <!-- ===== Quiénes somos ===== -->
+    <section id="nosotros" class="nosotros section">
         <div class="container">
-            <h2>Nuestros Servicios</h2>
+            <div class="nosotros-grid">
+                <div class="nosotros-text reveal">
+                    <span class="section-tag">Quiénes somos</span>
+                    <h2>Un equipo que convierte ideas en resultados</h2>
+                    <p>En <strong>Pimero</strong> creemos que toda empresa, sin importar su tamaño, merece una presencia digital profesional. Combinamos diseño, tecnología y estrategia para crear sitios web que no solo se ven bien, sino que funcionan.</p>
+                    <p>Trabajamos de la mano con cada cliente: escuchamos, proponemos y ejecutamos con transparencia en cada etapa del proyecto.</p>
+                    <ul class="valores">
+                        <li><span class="check">✓</span> Comunicación clara y directa</li>
+                        <li><span class="check">✓</span> Entregas puntuales</li>
+                        <li><span class="check">✓</span> Soporte continuo después del lanzamiento</li>
+                    </ul>
+                </div>
+                <div class="nosotros-visual reveal">
+                    <div class="visual-card visual-card-main">
+                        <div class="visual-icon">🚀</div>
+                        <h3>Nuestra misión</h3>
+                        <p>Impulsar el crecimiento de nuestros clientes con soluciones digitales a su medida.</p>
+                    </div>
+                    <div class="visual-card">
+                        <div class="visual-icon">👁️</div>
+                        <h3>Nuestra visión</h3>
+                        <p>Ser la agencia de confianza para las empresas que quieren destacar en internet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Servicios ===== -->
+    <section id="servicios" class="servicios section section-alt">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">Servicios</span>
+                <h2>Lo que hacemos por tu empresa</h2>
+                <p>Soluciones completas para tu presencia digital, de principio a fin.</p>
+            </div>
             <div class="servicios-grid">
-                <div class="servicio-card">
-                    <h3>Diseño</h3>
-                    <p>Diseños modernos y responsivos para tu negocio</p>
-                </div>
-                <div class="servicio-card">
+                <article class="servicio-card reveal">
+                    <div class="servicio-icon">🎨</div>
+                    <h3>Diseño web</h3>
+                    <p>Diseños modernos, responsivos y alineados con la identidad de tu marca, pensados para destacar en cualquier dispositivo.</p>
+                </article>
+                <article class="servicio-card reveal">
+                    <div class="servicio-icon">💻</div>
                     <h3>Desarrollo</h3>
-                    <p>Desarrollo web de alta calidad con las últimas tecnologías</p>
-                </div>
-                <div class="servicio-card">
-                    <h3>Optimización</h3>
-                    <p>Mejora el rendimiento de tu sitio web</p>
-                </div>
+                    <p>Sitios y aplicaciones web rápidos y seguros, construidos con las últimas tecnologías y buenas prácticas.</p>
+                </article>
+                <article class="servicio-card reveal">
+                    <div class="servicio-icon">⚡</div>
+                    <h3>Optimización y SEO</h3>
+                    <p>Mejoramos la velocidad y el posicionamiento de tu sitio para que tus clientes te encuentren primero.</p>
+                </article>
+                <article class="servicio-card reveal">
+                    <div class="servicio-icon">🛠️</div>
+                    <h3>Mantenimiento</h3>
+                    <p>Actualizaciones, copias de seguridad y soporte técnico para que tu web funcione siempre al 100%.</p>
+                </article>
             </div>
         </div>
     </section>
 
-    <!-- Sección de Presentaciones -->
-    <section id="presentaciones" class="presentaciones">
+    <!-- ===== Portafolio ===== -->
+    <section id="portafolio" class="portafolio section">
         <div class="container">
-            <h2>Nuestras Presentaciones</h2>
-            <div class="presentaciones-container">
-                <div class="presentation-item">
-                    <h3>Proyecto Web Design</h3>
-                    <div class="presentation-viewer">
-                        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQd8qs_Qxz3-9_Y9xZ_qxZ_pXzXzXzXzXzXzXz/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="500" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+            <div class="section-header reveal">
+                <span class="section-tag">Portafolio</span>
+                <h2>Proyectos que hablan por nosotros</h2>
+                <p>Una muestra de nuestro trabajo reciente.</p>
+            </div>
+            <div class="portafolio-grid">
+                <article class="proyecto reveal">
+                    <div class="proyecto-visual proyecto-visual-1"><span>🛍️</span></div>
+                    <div class="proyecto-info">
+                        <h3>Tienda online de moda</h3>
+                        <p>E-commerce completo con catálogo, carrito y pagos en línea.</p>
+                        <span class="proyecto-tag">E-commerce</span>
                     </div>
-                    <div class="approval-section">
-                        <h4>Aprobación</h4>
-                        <div class="comments-section">
-                            <h5>Comentarios:</h5>
-                            <div class="comments-list" id="comments-1"></div>
-                            <div class="add-comment">
-                                <textarea placeholder="Añade tu comentario..." class="comment-input" data-presentation="1"></textarea>
-                                <button class="btn btn-secondary" onclick="addComment(1)">Enviar Comentario</button>
-                            </div>
-                        </div>
-                        <div class="signature-section">
-                            <h5>Firma Digital:</h5>
-                            <div class="signature-pad-container">
-                                <canvas id="signaturePad-1" class="signature-pad"></canvas>
-                                <div class="signature-buttons">
-                                    <button class="btn btn-secondary" onclick="clearSignature(1)">Limpiar</button>
-                                    <button class="btn btn-primary" onclick="approvePresentation(1)">Aprobar y Firmar</button>
-                                </div>
-                            </div>
-                            <div id="approval-status-1" class="approval-status"></div>
-                        </div>
+                </article>
+                <article class="proyecto reveal">
+                    <div class="proyecto-visual proyecto-visual-2"><span>🏥</span></div>
+                    <div class="proyecto-info">
+                        <h3>Portal de clínica médica</h3>
+                        <p>Sitio institucional con reserva de citas y perfiles de especialistas.</p>
+                        <span class="proyecto-tag">Sitio institucional</span>
                     </div>
-                </div>
-
-                <div class="presentation-item">
-                    <h3>Propuesta de SEO</h3>
-                    <div class="presentation-viewer">
-                        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQd8qs_Qxz3-9_Y9xZ_qxZ_pXzXzXzXzXzXzXz/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="500" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                </article>
+                <article class="proyecto reveal">
+                    <div class="proyecto-visual proyecto-visual-3"><span>🍽️</span></div>
+                    <div class="proyecto-info">
+                        <h3>Restaurante La Terraza</h3>
+                        <p>Menú digital, reservas online y galería de platos.</p>
+                        <span class="proyecto-tag">Gastronomía</span>
                     </div>
-                    <div class="approval-section">
-                        <h4>Aprobación</h4>
-                        <div class="comments-section">
-                            <h5>Comentarios:</h5>
-                            <div class="comments-list" id="comments-2"></div>
-                            <div class="add-comment">
-                                <textarea placeholder="Añade tu comentario..." class="comment-input" data-presentation="2"></textarea>
-                                <button class="btn btn-secondary" onclick="addComment(2)">Enviar Comentario</button>
-                            </div>
-                        </div>
-                        <div class="signature-section">
-                            <h5>Firma Digital:</h5>
-                            <div class="signature-pad-container">
-                                <canvas id="signaturePad-2" class="signature-pad"></canvas>
-                                <div class="signature-buttons">
-                                    <button class="btn btn-secondary" onclick="clearSignature(2)">Limpiar</button>
-                                    <button class="btn btn-primary" onclick="approvePresentation(2)">Aprobar y Firmar</button>
-                                </div>
-                            </div>
-                            <div id="approval-status-2" class="approval-status"></div>
-                        </div>
-                    </div>
-                </div>
+                </article>
             </div>
         </div>
     </section>
 
-    <!-- Sección de Videos -->
-    <section id="videos" class="videos">
+    <!-- ===== Testimonios ===== -->
+    <section id="testimonios" class="testimonios section section-alt">
         <div class="container">
-            <h2>Videos de Proyectos</h2>
-            <div class="videos-grid">
-                <div class="video-item">
-                    <h3>Demo del Sitio Web</h3>
-                    <div class="video-container">
-                        <iframe src="https://drive.google.com/embeddedfolderview?id=FOLDER_ID#grid" width="100%" height="400" frameborder="0" allow="autoplay"></iframe>
-                    </div>
-                </div>
-                <div class="video-item">
-                    <h3>Tutorial de Integración</h3>
-                    <div class="video-container">
-                        <iframe src="https://drive.google.com/embeddedfolderview?id=FOLDER_ID#grid" width="100%" height="400" frameborder="0" allow="autoplay"></iframe>
-                    </div>
-                </div>
+            <div class="section-header reveal">
+                <span class="section-tag">Testimonios</span>
+                <h2>Lo que dicen nuestros clientes</h2>
+            </div>
+            <div class="testimonios-grid">
+                <blockquote class="testimonio reveal">
+                    <div class="estrellas">★★★★★</div>
+                    <p>"Pimero renovó por completo nuestra web y las consultas de clientes se duplicaron en tres meses. Muy profesionales."</p>
+                    <footer>
+                        <div class="avatar">MG</div>
+                        <div>
+                            <strong>María González</strong>
+                            <span>Boutique Aurora</span>
+                        </div>
+                    </footer>
+                </blockquote>
+                <blockquote class="testimonio reveal">
+                    <div class="estrellas">★★★★★</div>
+                    <p>"Entendieron exactamente lo que necesitábamos. El proceso fue claro, rápido y el resultado superó nuestras expectativas."</p>
+                    <footer>
+                        <div class="avatar">JR</div>
+                        <div>
+                            <strong>Javier Ruiz</strong>
+                            <span>Clínica Vida Sana</span>
+                        </div>
+                    </footer>
+                </blockquote>
+                <blockquote class="testimonio reveal">
+                    <div class="estrellas">★★★★★</div>
+                    <p>"El mejor equipo con el que hemos trabajado. Siempre atentos y con soluciones para cada problema."</p>
+                    <footer>
+                        <div class="avatar">LC</div>
+                        <div>
+                            <strong>Laura Castro</strong>
+                            <span>Restaurante La Terraza</span>
+                        </div>
+                    </footer>
+                </blockquote>
             </div>
         </div>
     </section>
 
-    <section id="contacto" class="contacto">
+    <!-- ===== Contacto ===== -->
+    <section id="contacto" class="contacto section">
         <div class="container">
-            <h2>Contacto</h2>
-            <form class="contact-form">
-                <input type="text" placeholder="Tu nombre" required>
-                <input type="email" placeholder="Tu correo" required>
-                <textarea placeholder="Tu mensaje" rows="5" required></textarea>
-                <button type="submit" class="btn btn-primary">Enviar</button>
-            </form>
+            <div class="contacto-grid">
+                <div class="contacto-info reveal">
+                    <span class="section-tag">Contacto</span>
+                    <h2>Hablemos de tu proyecto</h2>
+                    <p>Cuéntanos qué necesitas y te responderemos en menos de 24 horas.</p>
+                    <ul class="contacto-datos">
+                        <li><span class="dato-icon">📧</span> hola@pimero.com</li>
+                        <li><span class="dato-icon">📱</span> +34 600 000 000</li>
+                        <li><span class="dato-icon">📍</span> Atención en toda España · Trabajo remoto</li>
+                    </ul>
+                    <div class="redes">
+                        <a href="#" aria-label="Instagram">Instagram</a>
+                        <a href="#" aria-label="LinkedIn">LinkedIn</a>
+                        <a href="#" aria-label="X">X</a>
+                    </div>
+                </div>
+                <form class="contact-form reveal" id="contactForm" novalidate>
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" name="email" placeholder="tu@correo.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mensaje">Mensaje</label>
+                        <textarea id="mensaje" name="mensaje" rows="5" placeholder="Cuéntanos sobre tu proyecto..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Enviar mensaje</button>
+                    <p class="form-status" id="formStatus" role="status"></p>
+                </form>
+            </div>
         </div>
     </section>
 
-    <footer>
-        <p>&copy; 2026 Pimero. Todos los derechos reservados.</p>
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <a href="#inicio" class="logo logo-footer">Pime<span>ro</span></a>
+            <ul class="footer-links">
+                <li><a href="#nosotros">Quiénes somos</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#portafolio">Portafolio</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            <p>&copy; 2026 Pimero. Todos los derechos reservados.</p>
+        </div>
     </footer>
 
     <script src="script.js"></script>
