@@ -6,9 +6,9 @@ La página misma está diseñada para sentirse inmersiva: fondo de partículas q
 
 ## Secciones
 
-1. **Inicio** — Hero a pantalla completa con campo de partículas interactivo
-2. **Experiencias** — VR/AR, video mapping, instalaciones interactivas y eventos
-3. **El estudio** — Manifiesto y estadísticas con contadores animados
+1. **Inicio** — Hero a pantalla completa con constelación de puntos interactiva (el isotipo, vivo)
+2. **Qué hacemos** — Museografía inmersiva, instalaciones interactivas, narrativa digital y diseño audiovisual
+3. **El estudio** — Manifiesto real del estudio, sectores con los que colabora y estadísticas animadas
 4. **Proyectos** — Casos seleccionados con tarjetas 3D
 5. **Voces** — Testimonios de clientes
 6. **Contacto** — Formulario con validación, datos y redes

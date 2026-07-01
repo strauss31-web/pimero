@@ -463,6 +463,15 @@ h2 {
     letter-spacing: 0.18em;
 }
 
+.clientes {
+    margin-top: 44px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    border-top: 2px solid var(--black);
+    padding-top: 18px;
+}
+
 /* ===== Proyectos (paneles apilados) ===== */
 .stack {
     display: flex;
@@ -535,6 +544,28 @@ h2 {
 
 .arrow-h {
     letter-spacing: 0;
+}
+
+.obras-banner {
+    margin: 0 28px 34px;
+    border: 2px solid var(--black);
+    box-shadow: 10px 10px 0 rgba(17, 17, 17, 0.35);
+}
+
+.obras-banner-img {
+    height: min(52vh, 460px);
+    background-size: cover;
+    background-position: center;
+    background-color: var(--black);
+}
+
+.obras-banner figcaption {
+    background: var(--black);
+    color: var(--red);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    padding: 12px 18px;
 }
 
 .obras-scroll {
