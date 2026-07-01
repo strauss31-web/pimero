@@ -1,31 +1,28 @@
 // ============================================
-// Pimero — Interactividad inmersiva
+// LÚDICA LAB — Interactividad
 // ============================================
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-// ===== Campo de partículas del hero =====
-// Partículas conectadas que reaccionan al cursor: el fondo "siente" al visitante.
+// ===== Constelación de puntos del hero =====
+// Puntos negros conectados por líneas: el isotipo de Lúdica, vivo.
 const canvas = document.getElementById('particleField');
 const ctx = canvas.getContext('2d');
 const mouse = { x: null, y: null };
 let particles = [];
 
-const PALETTE = ['139, 92, 246', '34, 211, 238', '232, 121, 249'];
-
 function resizeCanvas() {
     const rect = canvas.parentElement.getBoundingClientRect();
     canvas.width = rect.width;
     canvas.height = rect.height;
-    const count = Math.min(Math.floor((canvas.width * canvas.height) / 14000), 130);
+    const count = Math.min(Math.floor((canvas.width * canvas.height) / 20000), 90);
     particles = Array.from({ length: count }, () => ({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: (Math.random() - 0.5) * 0.35,
-        r: Math.random() * 1.8 + 0.6,
-        color: PALETTE[Math.floor(Math.random() * PALETTE.length)]
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 3.2 + 1.4
     }));
 }
 
@@ -38,8 +35,8 @@ function drawParticles() {
             const dx = p.x - mouse.x;
             const dy = p.y - mouse.y;
             const dist = Math.hypot(dx, dy);
-            if (dist < 140 && dist > 0.01) {
-                const force = (140 - dist) / 140;
+            if (dist < 150 && dist > 0.01) {
+                const force = (150 - dist) / 150;
                 p.vx += (dx / dist) * force * 0.35;
                 p.vy += (dy / dist) * force * 0.35;
             }
@@ -54,28 +51,32 @@ function drawParticles() {
         if (p.x > canvas.width) p.x = 0;
         if (p.y < 0) p.y = canvas.height;
         if (p.y > canvas.height) p.y = 0;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${p.color}, 0.85)`;
-        ctx.fill();
     }
 
-    // Líneas entre partículas cercanas
+    // Líneas entre puntos cercanos (como el isotipo)
+    ctx.strokeStyle = 'rgba(17, 17, 17, 0.35)';
+    ctx.lineWidth = 1.5;
     for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
             const a = particles[i];
             const b = particles[j];
             const dist = Math.hypot(a.x - b.x, a.y - b.y);
-            if (dist < 110) {
+            if (dist < 130) {
+                ctx.globalAlpha = 1 - dist / 130;
                 ctx.beginPath();
                 ctx.moveTo(a.x, a.y);
                 ctx.lineTo(b.x, b.y);
-                ctx.strokeStyle = `rgba(${a.color}, ${0.14 * (1 - dist / 110)})`;
-                ctx.lineWidth = 1;
                 ctx.stroke();
             }
         }
+    }
+    ctx.globalAlpha = 1;
+
+    ctx.fillStyle = 'rgba(17, 17, 17, 0.9)';
+    for (const p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
     }
 
     requestAnimationFrame(drawParticles);
@@ -87,11 +88,11 @@ window.addEventListener('resize', resizeCanvas);
 if (!reduceMotion) {
     drawParticles();
 } else {
-    // Sin animación: un solo fotograma estático
+    // Sin animación: un fotograma estático
+    ctx.fillStyle = 'rgba(17, 17, 17, 0.9)';
     for (const p of particles) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${p.color}, 0.85)`;
         ctx.fill();
     }
 }
@@ -110,25 +111,13 @@ canvas.parentElement.addEventListener('mouseleave', () => {
 // ===== Cursor personalizado =====
 if (finePointer && !reduceMotion) {
     const cursor = document.getElementById('cursor');
-    const glow = document.getElementById('cursorGlow');
-    let cx = 0, cy = 0, gx = 0, gy = 0;
 
     window.addEventListener('mousemove', e => {
-        cx = e.clientX;
-        cy = e.clientY;
-        cursor.style.left = cx + 'px';
-        cursor.style.top = cy + 'px';
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
     });
 
-    (function followGlow() {
-        gx += (cx - gx) * 0.08;
-        gy += (cy - gy) * 0.08;
-        glow.style.left = gx + 'px';
-        glow.style.top = gy + 'px';
-        requestAnimationFrame(followGlow);
-    })();
-
-    document.querySelectorAll('a, button, .exp-item, .proyecto').forEach(el => {
+    document.querySelectorAll('a, button, .exp-item, .obra').forEach(el => {
         el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
         el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
     });
@@ -141,25 +130,10 @@ if (finePointer && !reduceMotion) {
             const rect = btn.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
-            btn.style.transform = `translate(${x * 0.18}px, ${y * 0.18}px)`;
+            btn.style.transform = `translate(${x * 0.16}px, ${y * 0.16}px)`;
         });
         btn.addEventListener('mouseleave', () => {
             btn.style.transform = '';
-        });
-    });
-}
-
-// ===== Tilt 3D en tarjetas de proyecto =====
-if (finePointer && !reduceMotion) {
-    document.querySelectorAll('[data-tilt]').forEach(card => {
-        card.addEventListener('mousemove', e => {
-            const rect = card.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width - 0.5;
-            const y = (e.clientY - rect.top) / rect.height - 0.5;
-            card.style.transform = `perspective(800px) rotateY(${x * 7}deg) rotateX(${-y * 7}deg)`;
-        });
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = '';
         });
     });
 }
@@ -169,7 +143,7 @@ const navbar = document.getElementById('navbar');
 const scrollProgress = document.getElementById('scrollProgress');
 
 window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
+    navbar.classList.toggle('scrolled', window.scrollY > 30);
     const total = document.documentElement.scrollHeight - window.innerHeight;
     scrollProgress.style.width = (total > 0 ? (window.scrollY / total) * 100 : 0) + '%';
 }, { passive: true });
@@ -204,14 +178,14 @@ const revealObserver = new IntersectionObserver(entries => {
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-// ===== Contadores animados de estadísticas =====
+// ===== Contadores animados =====
 function animateCount(el) {
     const target = parseInt(el.dataset.count, 10);
     if (reduceMotion) {
         el.textContent = target;
         return;
     }
-    const duration = 1600;
+    const duration = 1500;
     const start = performance.now();
     (function tick(now) {
         const progress = Math.min((now - start) / duration, 1);
@@ -246,18 +220,18 @@ contactForm.addEventListener('submit', event => {
     const mensaje = contactForm.mensaje.value.trim();
 
     if (!nombre || !email || !mensaje) {
-        formStatus.textContent = 'Completa todos los campos para cruzar al otro lado.';
+        formStatus.textContent = 'COMPLETA TODOS LOS CAMPOS.';
         formStatus.className = 'form-status error';
         return;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        formStatus.textContent = 'Ese correo no parece de este mundo. Revísalo.';
+        formStatus.textContent = 'REVISA TU CORREO ELECTRÓNICO.';
         formStatus.className = 'form-status error';
         return;
     }
 
-    formStatus.textContent = `Recibido, ${nombre}. Te contactaremos muy pronto.`;
+    formStatus.textContent = `RECIBIDO, ${nombre.toUpperCase()}. TE CONTACTAREMOS PRONTO.`;
     formStatus.className = 'form-status ok';
     contactForm.reset();
 });
