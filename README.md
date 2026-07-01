@@ -1,15 +1,17 @@
-# Pimero — Página web corporativa
+# Pimero — Estudio de experiencias inmersivas
 
-Sitio web moderno y responsivo para Pimero, agencia digital. Construido con HTML, CSS y JavaScript puros — sin dependencias ni proceso de build.
+Sitio web para Pimero, estudio especializado en experiencias inmersivas: realidad virtual y aumentada, video mapping, instalaciones interactivas y eventos. Construido con HTML, CSS y JavaScript puros — sin dependencias ni proceso de build.
+
+La página misma está diseñada para sentirse inmersiva: fondo de partículas que reacciona al cursor, cursor personalizado con estela de luz, botones magnéticos, tarjetas con efecto 3D y textura de ruido cinematográfica.
 
 ## Secciones
 
-1. **Inicio (Hero)** — Presentación con llamada a la acción y estadísticas
-2. **Quiénes somos** — Descripción de la empresa, misión, visión y valores
-3. **Servicios** — Diseño web, desarrollo, optimización/SEO y mantenimiento
-4. **Portafolio** — Muestra de proyectos realizados
-5. **Testimonios** — Opiniones de clientes
-6. **Contacto** — Formulario con validación, datos de contacto y redes sociales
+1. **Inicio** — Hero a pantalla completa con campo de partículas interactivo
+2. **Experiencias** — VR/AR, video mapping, instalaciones interactivas y eventos
+3. **El estudio** — Manifiesto y estadísticas con contadores animados
+4. **Proyectos** — Casos seleccionados con tarjetas 3D
+5. **Voces** — Testimonios de clientes
+6. **Contacto** — Formulario con validación, datos y redes
 
 ## Estructura
 
@@ -17,7 +19,7 @@ Sitio web moderno y responsivo para Pimero, agencia digital. Construido con HTML
 pimero/
 ├── index.html      # Página principal
 ├── styles.css      # Estilos
-├── script.js       # Interactividad
+├── script.js       # Partículas, cursor, animaciones y formulario
 └── README.md       # Este archivo
 ```
 
@@ -33,26 +35,29 @@ python3 -m http.server 8000
 ## Personalización
 
 ### Colores
-Edita las variables CSS al inicio de `styles.css`:
+Edita las variables al inicio de `styles.css`:
 
 ```css
 :root {
-    --primary: #0f172a;   /* Color principal (fondos oscuros) */
-    --accent: #06b6d4;    /* Color de acento (botones, enlaces) */
-    --accent-2: #ec4899;  /* Acento secundario (degradados) */
+    --bg: #050508;        /* Fondo principal */
+    --violet: #8b5cf6;    /* Acento principal */
+    --cyan: #22d3ee;      /* Acento secundario */
+    --magenta: #e879f9;   /* Acento terciario */
 }
 ```
 
 ### Contenido
-Todo el texto está en `index.html`: nombre de la empresa, servicios, proyectos, testimonios y datos de contacto (correo, teléfono, redes sociales). Reemplaza los datos de ejemplo por los reales.
+Todo el texto está en `index.html`: experiencias, proyectos, estadísticas (atributo `data-count`), testimonios y datos de contacto. Reemplaza los ejemplos por tus casos reales.
 
 ### Formulario de contacto
 El formulario valida y confirma en pantalla, pero no envía correos por sí solo. Para recibir mensajes, conecta un servicio como [Formspree](https://formspree.io) o un backend propio en el handler de `script.js`.
 
 ## Características
 
-- ✅ Diseño responsive (móvil, tablet y escritorio) con menú hamburguesa
-- ✅ Navegación con scroll suave y navbar fija
-- ✅ Animaciones de aparición al hacer scroll (respeta `prefers-reduced-motion`)
-- ✅ Formulario de contacto con validación
-- ✅ Sin dependencias externas (solo la fuente Inter de Google Fonts)
+- ✅ Campo de partículas en canvas que reacciona al movimiento del cursor
+- ✅ Cursor personalizado con halo de luz (solo escritorio)
+- ✅ Botones magnéticos y tarjetas con tilt 3D
+- ✅ Cintas marquee animadas y contadores de estadísticas
+- ✅ Responsive con menú hamburguesa
+- ✅ Respeta `prefers-reduced-motion` (desactiva animaciones si el usuario lo pide)
+- ✅ Sin dependencias externas (solo las fuentes Syne e Inter de Google Fonts)

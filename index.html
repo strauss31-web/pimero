@@ -3,26 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Pimero — Agencia digital especializada en diseño web, desarrollo y optimización. Impulsamos tu negocio en internet.">
-    <title>Pimero — Agencia Digital</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f172a'/%3E%3Ctext x='16' y='23' font-family='Arial,sans-serif' font-size='19' font-weight='800' fill='%2306b6d4' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+    <meta name="description" content="Pimero — Estudio de experiencias inmersivas. Realidad virtual, video mapping, instalaciones interactivas y eventos que difuminan la línea entre lo real y lo digital.">
+    <title>Pimero — Experiencias Inmersivas</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050508'/%3E%3Ctext x='16' y='23' font-family='Arial,sans-serif' font-size='19' font-weight='800' fill='%23a78bfa' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="noise"></div>
+
     <!-- ===== Navbar ===== -->
     <nav class="navbar" id="navbar">
         <div class="container nav-container">
-            <a href="#inicio" class="logo">Pime<span>ro</span></a>
+            <a href="#inicio" class="logo">PIMERO<span class="logo-dot">◉</span></a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#nosotros">Quiénes somos</a></li>
-                <li><a href="#servicios">Servicios</a></li>
-                <li><a href="#portafolio">Portafolio</a></li>
-                <li><a href="#testimonios">Testimonios</a></li>
-                <li><a href="#contacto" class="nav-cta">Contacto</a></li>
+                <li><a href="#experiencias">Experiencias</a></li>
+                <li><a href="#estudio">El estudio</a></li>
+                <li><a href="#proyectos">Proyectos</a></li>
+                <li><a href="#voces">Voces</a></li>
+                <li><a href="#contacto" class="nav-cta">Iniciar un proyecto</a></li>
             </ul>
             <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
                 <span></span><span></span><span></span>
@@ -30,214 +34,231 @@
         </div>
     </nav>
 
-    <!-- ===== Hero / Inicio ===== -->
+    <!-- ===== Hero ===== -->
     <header id="inicio" class="hero">
-        <div class="hero-glow hero-glow-1"></div>
-        <div class="hero-glow hero-glow-2"></div>
-        <div class="container hero-content">
-            <span class="hero-badge">✦ Agencia digital</span>
-            <h1>Llevamos tu empresa<br>al <span class="gradient-text">mundo digital</span></h1>
-            <p>Diseñamos, desarrollamos y optimizamos experiencias web que convierten visitantes en clientes.</p>
+        <canvas id="particleField" aria-hidden="true"></canvas>
+        <div class="hero-content container">
+            <p class="hero-kicker">[ Estudio de experiencias inmersivas ]</p>
+            <h1 class="hero-title">
+                <span class="line">CREAMOS</span>
+                <span class="line line-outline">MUNDOS</span>
+                <span class="line">QUE PUEDES <em class="glow">SENTIR</em></span>
+            </h1>
+            <p class="hero-sub">Realidad virtual, video mapping e instalaciones interactivas.<br>Donde termina la pantalla, empieza Pimero.</p>
             <div class="hero-actions">
-                <a href="#contacto" class="btn btn-primary">Empieza tu proyecto</a>
-                <a href="#servicios" class="btn btn-ghost">Ver servicios</a>
+                <a href="#contacto" class="btn btn-solid" data-magnetic>Entra al otro lado ↗</a>
+                <a href="#experiencias" class="btn btn-line" data-magnetic>Explorar experiencias</a>
             </div>
-            <div class="hero-stats">
-                <div class="stat">
-                    <strong>+50</strong>
-                    <span>Proyectos entregados</span>
-                </div>
-                <div class="stat">
-                    <strong>98%</strong>
-                    <span>Clientes satisfechos</span>
-                </div>
-                <div class="stat">
-                    <strong>5+</strong>
-                    <span>Años de experiencia</span>
-                </div>
-            </div>
+        </div>
+        <div class="hero-scroll" aria-hidden="true">
+            <span>desliza</span>
+            <div class="scroll-line"></div>
         </div>
     </header>
 
-    <!-- ===== Quiénes somos ===== -->
-    <section id="nosotros" class="nosotros section">
+    <!-- ===== Marquee ===== -->
+    <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+            <span>REALIDAD VIRTUAL ✦ VIDEO MAPPING ✦ INSTALACIONES INTERACTIVAS ✦ REALIDAD AUMENTADA ✦ EVENTOS INMERSIVOS ✦&nbsp;</span>
+            <span>REALIDAD VIRTUAL ✦ VIDEO MAPPING ✦ INSTALACIONES INTERACTIVAS ✦ REALIDAD AUMENTADA ✦ EVENTOS INMERSIVOS ✦&nbsp;</span>
+        </div>
+    </div>
+
+    <!-- ===== Experiencias ===== -->
+    <section id="experiencias" class="section experiencias">
         <div class="container">
-            <div class="nosotros-grid">
-                <div class="nosotros-text reveal">
-                    <span class="section-tag">Quiénes somos</span>
-                    <h2>Un equipo que convierte ideas en resultados</h2>
-                    <p>En <strong>Pimero</strong> creemos que toda empresa, sin importar su tamaño, merece una presencia digital profesional. Combinamos diseño, tecnología y estrategia para crear sitios web que no solo se ven bien, sino que funcionan.</p>
-                    <p>Trabajamos de la mano con cada cliente: escuchamos, proponemos y ejecutamos con transparencia en cada etapa del proyecto.</p>
-                    <ul class="valores">
-                        <li><span class="check">✓</span> Comunicación clara y directa</li>
-                        <li><span class="check">✓</span> Entregas puntuales</li>
-                        <li><span class="check">✓</span> Soporte continuo después del lanzamiento</li>
-                    </ul>
+            <div class="section-head reveal">
+                <span class="section-index">01</span>
+                <h2>Experiencias que <span class="glow">rompen</span> la cuarta pared</h2>
+                <p>No hacemos páginas ni videos: construimos lugares a los que la gente quiere volver.</p>
+            </div>
+            <div class="exp-list">
+                <article class="exp-item reveal">
+                    <span class="exp-num">/01</span>
+                    <div class="exp-body">
+                        <h3>Realidad virtual & aumentada</h3>
+                        <p>Mundos VR a medida y capas de AR que transforman espacios, productos y campañas en experiencias que se viven en primera persona.</p>
+                    </div>
+                    <span class="exp-arrow">→</span>
+                </article>
+                <article class="exp-item reveal">
+                    <span class="exp-num">/02</span>
+                    <div class="exp-body">
+                        <h3>Video mapping & proyección</h3>
+                        <p>Fachadas, escenarios e interiores convertidos en lienzos vivos. Proyecciones a gran escala sincronizadas con sonido y luz.</p>
+                    </div>
+                    <span class="exp-arrow">→</span>
+                </article>
+                <article class="exp-item reveal">
+                    <span class="exp-num">/03</span>
+                    <div class="exp-body">
+                        <h3>Instalaciones interactivas</h3>
+                        <p>Sensores, cámaras y pantallas que responden al movimiento del público. El visitante no mira la obra: la obra lo mira a él.</p>
+                    </div>
+                    <span class="exp-arrow">→</span>
+                </article>
+                <article class="exp-item reveal">
+                    <span class="exp-num">/04</span>
+                    <div class="exp-body">
+                        <h3>Eventos & activaciones de marca</h3>
+                        <p>Lanzamientos, museos pop-up y activaciones donde tu marca deja de contarse y empieza a experimentarse.</p>
+                    </div>
+                    <span class="exp-arrow">→</span>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== El estudio ===== -->
+    <section id="estudio" class="section estudio">
+        <div class="container">
+            <div class="section-head reveal">
+                <span class="section-index">02</span>
+                <h2>El estudio</h2>
+            </div>
+            <p class="manifesto reveal">Somos un equipo de artistas digitales, desarrolladores y productores obsesionados con una idea: <span class="glow">la tecnología solo importa cuando se siente</span>. Diseñamos cada experiencia desde la emoción — el asombro, el vértigo, la curiosidad — y después elegimos la tecnología que la hace posible.</p>
+            <div class="stats reveal">
+                <div class="stat">
+                    <strong data-count="40">0</strong><span class="stat-plus">+</span>
+                    <p>experiencias producidas</p>
                 </div>
-                <div class="nosotros-visual reveal">
-                    <div class="visual-card visual-card-main">
-                        <div class="visual-icon">🚀</div>
-                        <h3>Nuestra misión</h3>
-                        <p>Impulsar el crecimiento de nuestros clientes con soluciones digitales a su medida.</p>
-                    </div>
-                    <div class="visual-card">
-                        <div class="visual-icon">👁️</div>
-                        <h3>Nuestra visión</h3>
-                        <p>Ser la agencia de confianza para las empresas que quieren destacar en internet.</p>
-                    </div>
+                <div class="stat">
+                    <strong data-count="120">0</strong><span class="stat-plus">K</span>
+                    <p>personas las han vivido</p>
+                </div>
+                <div class="stat">
+                    <strong data-count="8">0</strong><span class="stat-plus"></span>
+                    <p>países alcanzados</p>
+                </div>
+                <div class="stat">
+                    <strong data-count="6">0</strong><span class="stat-plus"></span>
+                    <p>premios de diseño</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== Servicios ===== -->
-    <section id="servicios" class="servicios section section-alt">
+    <!-- ===== Proyectos ===== -->
+    <section id="proyectos" class="section proyectos">
         <div class="container">
-            <div class="section-header reveal">
-                <span class="section-tag">Servicios</span>
-                <h2>Lo que hacemos por tu empresa</h2>
-                <p>Soluciones completas para tu presencia digital, de principio a fin.</p>
+            <div class="section-head reveal">
+                <span class="section-index">03</span>
+                <h2>Proyectos <span class="glow">seleccionados</span></h2>
+                <p>Una muestra de los mundos que hemos construido.</p>
             </div>
-            <div class="servicios-grid">
-                <article class="servicio-card reveal">
-                    <div class="servicio-icon">🎨</div>
-                    <h3>Diseño web</h3>
-                    <p>Diseños modernos, responsivos y alineados con la identidad de tu marca, pensados para destacar en cualquier dispositivo.</p>
-                </article>
-                <article class="servicio-card reveal">
-                    <div class="servicio-icon">💻</div>
-                    <h3>Desarrollo</h3>
-                    <p>Sitios y aplicaciones web rápidos y seguros, construidos con las últimas tecnologías y buenas prácticas.</p>
-                </article>
-                <article class="servicio-card reveal">
-                    <div class="servicio-icon">⚡</div>
-                    <h3>Optimización y SEO</h3>
-                    <p>Mejoramos la velocidad y el posicionamiento de tu sitio para que tus clientes te encuentren primero.</p>
-                </article>
-                <article class="servicio-card reveal">
-                    <div class="servicio-icon">🛠️</div>
-                    <h3>Mantenimiento</h3>
-                    <p>Actualizaciones, copias de seguridad y soporte técnico para que tu web funcione siempre al 100%.</p>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== Portafolio ===== -->
-    <section id="portafolio" class="portafolio section">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="section-tag">Portafolio</span>
-                <h2>Proyectos que hablan por nosotros</h2>
-                <p>Una muestra de nuestro trabajo reciente.</p>
-            </div>
-            <div class="portafolio-grid">
-                <article class="proyecto reveal">
-                    <div class="proyecto-visual proyecto-visual-1"><span>🛍️</span></div>
+            <div class="proyectos-grid">
+                <article class="proyecto reveal" data-tilt>
+                    <div class="proyecto-visual pv-1">
+                        <div class="pv-orb"></div>
+                        <span class="pv-icon">🌌</span>
+                    </div>
                     <div class="proyecto-info">
-                        <h3>Tienda online de moda</h3>
-                        <p>E-commerce completo con catálogo, carrito y pagos en línea.</p>
-                        <span class="proyecto-tag">E-commerce</span>
+                        <span class="proyecto-tag">VR · Museo</span>
+                        <h3>Nébula</h3>
+                        <p>Un viaje en realidad virtual por el interior de una nebulosa, creado para un museo de ciencias. 20 minutos de ingravidez.</p>
                     </div>
                 </article>
-                <article class="proyecto reveal">
-                    <div class="proyecto-visual proyecto-visual-2"><span>🏥</span></div>
+                <article class="proyecto reveal" data-tilt>
+                    <div class="proyecto-visual pv-2">
+                        <div class="pv-orb"></div>
+                        <span class="pv-icon">🏛️</span>
+                    </div>
                     <div class="proyecto-info">
-                        <h3>Portal de clínica médica</h3>
-                        <p>Sitio institucional con reserva de citas y perfiles de especialistas.</p>
-                        <span class="proyecto-tag">Sitio institucional</span>
+                        <span class="proyecto-tag">Mapping · Festival</span>
+                        <h3>Fachada Viva</h3>
+                        <p>Video mapping de 12 minutos sobre un edificio histórico, sincronizado con orquesta en vivo ante 15.000 personas.</p>
                     </div>
                 </article>
-                <article class="proyecto reveal">
-                    <div class="proyecto-visual proyecto-visual-3"><span>🍽️</span></div>
+                <article class="proyecto reveal" data-tilt>
+                    <div class="proyecto-visual pv-3">
+                        <div class="pv-orb"></div>
+                        <span class="pv-icon">🪞</span>
+                    </div>
                     <div class="proyecto-info">
-                        <h3>Restaurante La Terraza</h3>
-                        <p>Menú digital, reservas online y galería de platos.</p>
-                        <span class="proyecto-tag">Gastronomía</span>
+                        <span class="proyecto-tag">Instalación · Retail</span>
+                        <h3>Espejo Infinito</h3>
+                        <p>Instalación interactiva que convierte el reflejo de cada visitante en partículas de luz que reaccionan a su movimiento.</p>
+                    </div>
+                </article>
+                <article class="proyecto reveal" data-tilt>
+                    <div class="proyecto-visual pv-4">
+                        <div class="pv-orb"></div>
+                        <span class="pv-icon">🎧</span>
+                    </div>
+                    <div class="proyecto-info">
+                        <span class="proyecto-tag">Evento · Marca</span>
+                        <h3>Frecuencia</h3>
+                        <p>Activación sensorial para el lanzamiento de una marca de audio: una sala donde el sonido se ve y la luz se escucha.</p>
                     </div>
                 </article>
             </div>
         </div>
     </section>
 
-    <!-- ===== Testimonios ===== -->
-    <section id="testimonios" class="testimonios section section-alt">
+    <!-- ===== Marquee 2 ===== -->
+    <div class="marquee marquee-alt" aria-hidden="true">
+        <div class="marquee-track reverse">
+            <span>LO REAL ES SOLO EL PUNTO DE PARTIDA ✦ PIMERO ✦ LO REAL ES SOLO EL PUNTO DE PARTIDA ✦ PIMERO ✦&nbsp;</span>
+            <span>LO REAL ES SOLO EL PUNTO DE PARTIDA ✦ PIMERO ✦ LO REAL ES SOLO EL PUNTO DE PARTIDA ✦ PIMERO ✦&nbsp;</span>
+        </div>
+    </div>
+
+    <!-- ===== Voces ===== -->
+    <section id="voces" class="section voces">
         <div class="container">
-            <div class="section-header reveal">
-                <span class="section-tag">Testimonios</span>
-                <h2>Lo que dicen nuestros clientes</h2>
+            <div class="section-head reveal">
+                <span class="section-index">04</span>
+                <h2>Voces del otro lado</h2>
             </div>
-            <div class="testimonios-grid">
-                <blockquote class="testimonio reveal">
-                    <div class="estrellas">★★★★★</div>
-                    <p>"Pimero renovó por completo nuestra web y las consultas de clientes se duplicaron en tres meses. Muy profesionales."</p>
-                    <footer>
-                        <div class="avatar">MG</div>
-                        <div>
-                            <strong>María González</strong>
-                            <span>Boutique Aurora</span>
-                        </div>
-                    </footer>
+            <div class="voces-grid">
+                <blockquote class="voz reveal">
+                    <p>"La gente salía de la sala con lágrimas en los ojos. Nunca vi una reacción así con ninguna campaña tradicional."</p>
+                    <footer><strong>Marta Iglesias</strong><span>Directora de marca · Festival Lumen</span></footer>
                 </blockquote>
-                <blockquote class="testimonio reveal">
-                    <div class="estrellas">★★★★★</div>
-                    <p>"Entendieron exactamente lo que necesitábamos. El proceso fue claro, rápido y el resultado superó nuestras expectativas."</p>
-                    <footer>
-                        <div class="avatar">JR</div>
-                        <div>
-                            <strong>Javier Ruiz</strong>
-                            <span>Clínica Vida Sana</span>
-                        </div>
-                    </footer>
+                <blockquote class="voz reveal">
+                    <p>"Pimero entendió que no queríamos un stand: queríamos que nos recordaran. Tres meses después, siguen hablando de la experiencia."</p>
+                    <footer><strong>Diego Ferrer</strong><span>CMO · Nova Audio</span></footer>
                 </blockquote>
-                <blockquote class="testimonio reveal">
-                    <div class="estrellas">★★★★★</div>
-                    <p>"El mejor equipo con el que hemos trabajado. Siempre atentos y con soluciones para cada problema."</p>
-                    <footer>
-                        <div class="avatar">LC</div>
-                        <div>
-                            <strong>Laura Castro</strong>
-                            <span>Restaurante La Terraza</span>
-                        </div>
-                    </footer>
+                <blockquote class="voz reveal">
+                    <p>"Duplicamos las visitas del museo el mes del estreno de Nébula. La fila daba la vuelta a la manzana."</p>
+                    <footer><strong>Carmen Ruiz</strong><span>Directora · Museo de Ciencias</span></footer>
                 </blockquote>
             </div>
         </div>
     </section>
 
     <!-- ===== Contacto ===== -->
-    <section id="contacto" class="contacto section">
+    <section id="contacto" class="section contacto">
         <div class="container">
             <div class="contacto-grid">
                 <div class="contacto-info reveal">
-                    <span class="section-tag">Contacto</span>
-                    <h2>Hablemos de tu proyecto</h2>
-                    <p>Cuéntanos qué necesitas y te responderemos en menos de 24 horas.</p>
+                    <span class="section-index">05</span>
+                    <h2>¿Tienes un mundo<br>en mente? <span class="glow">Constrúyelo<br>con nosotros.</span></h2>
                     <ul class="contacto-datos">
-                        <li><span class="dato-icon">📧</span> hola@pimero.com</li>
-                        <li><span class="dato-icon">📱</span> +34 600 000 000</li>
-                        <li><span class="dato-icon">📍</span> Atención en toda España · Trabajo remoto</li>
+                        <li><span>◉</span> hola@pimero.studio</li>
+                        <li><span>◉</span> +34 600 000 000</li>
+                        <li><span>◉</span> Proyectos en todo el mundo</li>
                     </ul>
                     <div class="redes">
-                        <a href="#" aria-label="Instagram">Instagram</a>
-                        <a href="#" aria-label="LinkedIn">LinkedIn</a>
-                        <a href="#" aria-label="X">X</a>
+                        <a href="#">Instagram</a>
+                        <a href="#">Behance</a>
+                        <a href="#">Vimeo</a>
                     </div>
                 </div>
                 <form class="contact-form reveal" id="contactForm" novalidate>
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+                        <input type="text" id="nombre" name="nombre" placeholder="¿Cómo te llamas?" required>
                     </div>
                     <div class="form-group">
-                        <label for="email">Correo electrónico</label>
+                        <label for="email">Correo</label>
                         <input type="email" id="email" name="email" placeholder="tu@correo.com" required>
                     </div>
                     <div class="form-group">
-                        <label for="mensaje">Mensaje</label>
-                        <textarea id="mensaje" name="mensaje" rows="5" placeholder="Cuéntanos sobre tu proyecto..." required></textarea>
+                        <label for="mensaje">Tu idea</label>
+                        <textarea id="mensaje" name="mensaje" rows="5" placeholder="Cuéntanos qué quieres que la gente sienta..." required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Enviar mensaje</button>
+                    <button type="submit" class="btn btn-solid btn-block" data-magnetic>Enviar al otro lado ↗</button>
                     <p class="form-status" id="formStatus" role="status"></p>
                 </form>
             </div>
@@ -247,14 +268,9 @@
     <!-- ===== Footer ===== -->
     <footer class="footer">
         <div class="container footer-content">
-            <a href="#inicio" class="logo logo-footer">Pime<span>ro</span></a>
-            <ul class="footer-links">
-                <li><a href="#nosotros">Quiénes somos</a></li>
-                <li><a href="#servicios">Servicios</a></li>
-                <li><a href="#portafolio">Portafolio</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-            </ul>
-            <p>&copy; 2026 Pimero. Todos los derechos reservados.</p>
+            <a href="#inicio" class="logo">PIMERO<span class="logo-dot">◉</span></a>
+            <p class="footer-tag">Lo real es solo el punto de partida.</p>
+            <p class="footer-copy">&copy; 2026 Pimero. Todos los derechos reservados.</p>
         </div>
     </footer>
 
