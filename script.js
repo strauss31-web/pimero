@@ -117,7 +117,7 @@ if (finePointer && !reduceMotion) {
         cursor.style.top = e.clientY + 'px';
     });
 
-    document.querySelectorAll('a, button, .exp-item, .obra').forEach(el => {
+    document.querySelectorAll('a, button, .exp-item, .prop, .fundador').forEach(el => {
         el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
         el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
     });
@@ -182,7 +182,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 function animateCount(el) {
     const target = parseInt(el.dataset.count, 10);
     if (reduceMotion) {
-        el.textContent = target;
+        el.textContent = target.toLocaleString('en-US');
         return;
     }
     const duration = 1500;
@@ -190,7 +190,7 @@ function animateCount(el) {
     (function tick(now) {
         const progress = Math.min((now - start) / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.round(target * eased);
+        el.textContent = Math.round(target * eased).toLocaleString('en-US');
         if (progress < 1) requestAnimationFrame(tick);
     })(start);
 }

@@ -6,12 +6,17 @@ La página misma está diseñada para sentirse inmersiva: fondo de partículas q
 
 ## Secciones
 
-1. **Inicio** — Hero a pantalla completa con constelación de puntos interactiva (el isotipo, vivo)
-2. **Qué hacemos** — Museografía inmersiva, instalaciones interactivas, narrativa digital y diseño audiovisual
-3. **El estudio** — Manifiesto real del estudio, sectores con los que colabora y estadísticas animadas
-4. **Proyectos** — Casos seleccionados con tarjetas 3D
-5. **Voces** — Testimonios de clientes
-6. **Contacto** — Formulario con validación, datos y redes
+1. **Inicio** — Hero con constelación de puntos interactiva (el isotipo, vivo)
+2. **El reto** — Estadísticas de saturación publicitaria
+3. **Filosofía** — "Las personas no recuerdan espacios. Recuerdan lo que sintieron en ellos."
+4. **Qué hacemos** — Activaciones & lanzamientos, arte digital permanente, intervenciones urbanas
+5. **Resultados** — Métricas reales (+6M personas, +40K/día, 3x permanencia)
+6. **Casos** — 6 proyectos con fotos reales (Metro Bellas Artes, Celebrando la Eternidad, Museo Identidades Juárez, Friedeberg, Celebrity Xcel, Santa Úrsula Coapa)
+7. **Equipo** — Fundadores: Alejandro Strauss y Mykaela Plotkin
+8. **Alianza** — Modelo de trabajo conjunto
+9. **Contacto** — Datos reales y formulario con validación
+
+Las fotos y el logo (en `assets/`) provienen del sales deck oficial de Lúdica Lab.
 
 ## Estructura
 

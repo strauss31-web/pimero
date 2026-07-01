@@ -67,7 +67,6 @@ body {
     z-index: 9999;
     transform: translate(-50%, -50%);
     transition: width 0.2s ease, height 0.2s ease;
-    mix-blend-mode: normal;
 }
 
 .cursor.hovering {
@@ -100,7 +99,7 @@ h1, h2, h3 {
 
 h2 {
     font-size: clamp(1.7rem, 4.2vw, 3rem);
-    max-width: 22ch;
+    max-width: 24ch;
 }
 
 .red { color: var(--red); }
@@ -108,6 +107,10 @@ h2 {
 .outline {
     color: transparent;
     -webkit-text-stroke: 2px var(--black);
+}
+
+.section.dark .outline {
+    -webkit-text-stroke: 2px var(--bone);
 }
 
 .section-index {
@@ -120,12 +123,6 @@ h2 {
 
 .section-head {
     margin-bottom: 60px;
-}
-
-.section-sub {
-    margin-top: 16px;
-    font-size: 0.9rem;
-    letter-spacing: 0.1em;
 }
 
 /* ===== Botones ===== */
@@ -211,10 +208,8 @@ h2 {
 }
 
 .logo-mark {
-    width: 44px;
-    height: 44px;
-    fill: var(--black);
-    stroke: var(--black);
+    width: 38px;
+    height: auto;
     flex-shrink: 0;
 }
 
@@ -371,16 +366,114 @@ h2 {
     to { transform: translateX(-50%); }
 }
 
-/* ===== Qué hacemos ===== */
-.hacemos .section-head h2 .red {
-    -webkit-text-stroke: 0;
+/* ===== Stats (compartidas) ===== */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    border-top: 2px solid var(--black);
+    border-left: 2px solid var(--black);
 }
 
+.stat {
+    border-right: 2px solid var(--black);
+    border-bottom: 2px solid var(--black);
+    padding: 30px 26px;
+}
+
+.stat strong {
+    display: block;
+    font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 12px;
+}
+
+.stat-unit {
+    font-size: 0.45em;
+    letter-spacing: 0.1em;
+}
+
+.stat p {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+}
+
+.section.dark .stats,
+.section.dark .stat {
+    border-color: rgba(243, 239, 231, 0.35);
+}
+
+.section.dark .stat strong {
+    color: var(--red);
+}
+
+/* ===== El reto ===== */
+.reto-cierre {
+    margin-top: 64px;
+    font-size: clamp(1.15rem, 2.6vw, 1.8rem);
+    font-weight: 700;
+    line-height: 1.4;
+    text-transform: uppercase;
+    max-width: 40ch;
+}
+
+/* ===== Filosofía ===== */
+.manifesto {
+    font-size: clamp(1.3rem, 3.2vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.35;
+    text-transform: uppercase;
+    max-width: 30ch;
+    margin-bottom: 26px;
+}
+
+.filosofia-sub {
+    font-size: 1rem;
+    max-width: 62ch;
+    margin-bottom: 64px;
+}
+
+.props {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    border-top: 2px solid var(--black);
+    border-left: 2px solid var(--black);
+}
+
+.prop {
+    border-right: 2px solid var(--black);
+    border-bottom: 2px solid var(--black);
+    padding: 34px 28px;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.prop:hover {
+    background: var(--black);
+    color: var(--red);
+}
+
+.prop h3 {
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+}
+
+.prop p {
+    font-size: 0.88rem;
+    opacity: 0.9;
+}
+
+/* ===== Qué hacemos ===== */
 .exp-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     border-top: 2px solid var(--bone);
     border-left: 2px solid var(--bone);
+}
+
+.exp-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .exp-item {
@@ -406,7 +499,7 @@ h2 {
 }
 
 .exp-item h3 {
-    font-size: clamp(1.05rem, 2vw, 1.45rem);
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
     margin-bottom: 16px;
 }
 
@@ -416,60 +509,19 @@ h2 {
     max-width: 46ch;
 }
 
-/* ===== El estudio ===== */
-.estudio {
-    background: var(--red);
-}
-
-.manifesto {
-    font-size: clamp(1.15rem, 2.7vw, 1.9rem);
-    font-weight: 700;
-    line-height: 1.45;
-    text-transform: uppercase;
-    max-width: 34ch;
-    margin-bottom: 26px;
-}
-
-.estudio-firma {
-    font-size: 0.85rem;
-    letter-spacing: 0.22em;
-    margin-bottom: 70px;
-}
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    border-top: 2px solid var(--black);
-    border-left: 2px solid var(--black);
-}
-
-.stat {
-    border-right: 2px solid var(--black);
-    border-bottom: 2px solid var(--black);
-    padding: 30px 26px;
-}
-
-.stat strong {
-    display: block;
-    font-size: clamp(2.4rem, 5vw, 4rem);
-    font-weight: 700;
-    line-height: 1;
-    margin-bottom: 12px;
-}
-
-.stat p {
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-}
-
-.clientes {
+/* ===== Resultados ===== */
+.resultados-claves {
+    list-style: none;
     margin-top: 44px;
-    font-size: 0.8rem;
+}
+
+.resultados-claves li {
+    padding: 10px 0;
+    font-size: 0.85rem;
     font-weight: 700;
-    letter-spacing: 0.16em;
-    border-top: 2px solid var(--black);
-    padding-top: 18px;
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid rgba(17, 17, 17, 0.35);
+    max-width: 900px;
 }
 
 /* ===== Proyectos (paneles apilados) ===== */
@@ -495,20 +547,19 @@ h2 {
     background-size: cover;
     background-position: center;
     background-color: #1c1c1c;
-    filter: saturate(1.05);
 }
 
 .panel-media::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(200deg, transparent 30%, rgba(17, 17, 17, 0.88) 82%);
+    background: linear-gradient(200deg, transparent 40%, rgba(17, 17, 17, 0.82) 85%);
 }
 
 .panel-card {
     position: relative;
     z-index: 2;
-    max-width: 640px;
+    max-width: 680px;
     margin: 0 0 54px 54px;
     padding: 34px;
     background: var(--red);
@@ -521,9 +572,9 @@ h2 {
     display: flex;
     justify-content: space-between;
     gap: 20px;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.24em;
+    letter-spacing: 0.18em;
     margin-bottom: 18px;
 }
 
@@ -537,102 +588,131 @@ h2 {
     line-height: 1.6;
 }
 
-/* ===== Obras (scroll horizontal) ===== */
-.obras {
-    background: var(--red);
+.panel-stats {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 26px;
+    margin-top: 18px;
+    border-top: 2px solid var(--black);
+    padding-top: 14px;
 }
 
-.arrow-h {
-    letter-spacing: 0;
-}
-
-.obras-banner {
-    margin: 0 28px 34px;
-    border: 2px solid var(--black);
-    box-shadow: 10px 10px 0 rgba(17, 17, 17, 0.35);
-}
-
-.obras-banner-img {
-    height: min(52vh, 460px);
-    background-size: cover;
-    background-position: center;
-    background-color: var(--black);
-}
-
-.obras-banner figcaption {
-    background: var(--black);
-    color: var(--red);
+.panel-stats li {
     font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 0.3em;
-    padding: 12px 18px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
-.obras-scroll {
-    display: flex;
-    gap: 24px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding: 6px 28px 26px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--black) transparent;
+.panel-stats strong {
+    font-size: 1rem;
+    display: block;
 }
 
-.obra {
-    flex: 0 0 min(420px, 82vw);
-    scroll-snap-align: start;
-    background: var(--black);
-    color: var(--bone);
+/* ===== Equipo ===== */
+.equipo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+}
+
+.fundador {
     border: 2px solid var(--black);
-    padding: 34px 30px 40px;
-    min-height: 300px;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    padding: 38px 34px;
+    box-shadow: 10px 10px 0 rgba(17, 17, 17, 0.25);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
-.obra:hover {
-    transform: translateY(-8px);
-    box-shadow: 8px 8px 0 rgba(17, 17, 17, 0.35);
+.fundador:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 14px 14px 0 rgba(17, 17, 17, 0.35);
 }
 
-.obra-num {
-    font-size: 0.75rem;
+.fundador-rol {
+    display: block;
+    font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.3em;
-    color: var(--red);
-    margin-bottom: 40px;
+    letter-spacing: 0.26em;
+    margin-bottom: 16px;
+    opacity: 0.75;
 }
 
-.obra h3 {
-    font-size: 1.25rem;
+.fundador h3 {
+    font-size: clamp(1.4rem, 2.6vw, 2rem);
     margin-bottom: 16px;
 }
 
-.obra p {
+.fundador p {
+    font-size: 0.9rem;
+    margin-bottom: 22px;
+}
+
+.fundador-tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.fundador-tags li {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    border: 2px solid var(--black);
+    padding: 6px 12px;
+}
+
+/* ===== Modelo de alianza ===== */
+.alianza-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 2px solid rgba(243, 239, 231, 0.35);
+    border-left: 2px solid rgba(243, 239, 231, 0.35);
+}
+
+.alianza-col {
+    border-right: 2px solid rgba(243, 239, 231, 0.35);
+    border-bottom: 2px solid rgba(243, 239, 231, 0.35);
+    padding: 38px 32px;
+}
+
+.alianza-col h3 {
+    font-size: 1.05rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 22px;
+}
+
+.alianza-col ul {
+    list-style: none;
+}
+
+.alianza-col li {
     font-size: 0.85rem;
-    opacity: 0.8;
-    margin-top: auto;
+    padding: 7px 0;
+    opacity: 0.9;
 }
 
-.escenarios {
-    margin-top: 42px;
-    font-size: 0.82rem;
-    letter-spacing: 0.06em;
-    max-width: 900px;
-    border-left: 4px solid var(--black);
-    padding-left: 22px;
+.alianza-col-red {
+    background: var(--red);
+    color: var(--black);
 }
 
-/* ===== Contacto ===== */
+.alianza-col-red li {
+    opacity: 1;
+}
+
+/* ===== Contacto (sección roja) ===== */
 .contacto-title {
-    font-size: clamp(1.8rem, 4.6vw, 3.4rem);
-    max-width: 24ch;
-    margin-bottom: 64px;
+    font-size: clamp(1.5rem, 3.8vw, 2.8rem);
+    max-width: 32ch;
+    margin-bottom: 20px;
 }
 
-.contacto-title .red {
-    -webkit-text-stroke: 0;
+.contacto-sub {
+    font-size: 0.95rem;
+    max-width: 60ch;
+    margin-bottom: 60px;
 }
 
 .contacto-grid {
@@ -648,11 +728,29 @@ h2 {
 }
 
 .contacto-datos li {
-    padding: 10px 0;
-    font-size: 0.88rem;
+    padding: 14px 0;
+    font-size: 0.95rem;
     font-weight: 700;
-    letter-spacing: 0.1em;
-    border-bottom: 1px solid rgba(243, 239, 231, 0.25);
+    letter-spacing: 0.08em;
+    border-bottom: 2px solid rgba(17, 17, 17, 0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+.contacto-datos li span {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    opacity: 0.6;
+    margin-bottom: 4px;
+}
+
+.contacto-datos a {
+    color: var(--black);
+    text-decoration: none;
+}
+
+.contacto-datos a:hover {
+    text-decoration: underline;
 }
 
 .redes {
@@ -662,25 +760,25 @@ h2 {
 }
 
 .redes a {
-    color: var(--bone);
+    color: var(--black);
     text-decoration: none;
     font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.14em;
     padding: 12px 20px;
-    border: 2px solid var(--bone);
+    border: 2px solid var(--black);
     transition: background 0.2s ease, color 0.2s ease;
 }
 
 .redes a:hover {
-    background: var(--red);
-    color: var(--black);
-    border-color: var(--red);
+    background: var(--black);
+    color: var(--red);
 }
 
 .contact-form {
-    border: 2px solid var(--bone);
+    border: 2px solid var(--black);
     padding: 38px;
+    background: rgba(17, 17, 17, 0.04);
 }
 
 .form-group {
@@ -689,20 +787,19 @@ h2 {
 
 .form-group label {
     display: block;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.26em;
     margin-bottom: 10px;
-    color: var(--red);
 }
 
 .contact-form input,
 .contact-form textarea {
     width: 100%;
     background: transparent;
-    border: 2px solid rgba(243, 239, 231, 0.4);
+    border: 2px solid rgba(17, 17, 17, 0.4);
     padding: 14px 16px;
-    color: var(--bone);
+    color: var(--black);
     font-family: var(--font);
     font-size: 0.88rem;
     resize: vertical;
@@ -711,13 +808,23 @@ h2 {
 
 .contact-form input::placeholder,
 .contact-form textarea::placeholder {
-    color: rgba(243, 239, 231, 0.45);
+    color: rgba(17, 17, 17, 0.45);
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
     outline: none;
-    border-color: var(--red);
+    border-color: var(--black);
+}
+
+.contact-form .btn-red {
+    background: var(--black);
+    color: var(--red);
+    border-color: var(--black);
+}
+
+.contact-form .btn-red:hover {
+    box-shadow: 6px 6px 0 rgba(17, 17, 17, 0.35);
 }
 
 .form-status {
@@ -729,8 +836,8 @@ h2 {
     letter-spacing: 0.06em;
 }
 
-.form-status.ok { color: #7ddf9a; }
-.form-status.error { color: var(--red); }
+.form-status.ok { color: #0d6b34; }
+.form-status.error { color: var(--bone); background: var(--black); padding: 4px 8px; }
 
 /* ===== Footer ===== */
 .footer {
@@ -758,15 +865,15 @@ h2 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
     text-align: center;
 }
 
 .logo-mark-footer {
-    width: 52px;
-    height: 52px;
-    fill: var(--red);
-    stroke: var(--red);
+    width: 64px;
+    height: auto;
+    background: var(--red);
+    padding: 10px;
 }
 
 .footer-tag {
@@ -800,8 +907,16 @@ h2 {
 }
 
 /* ===== Responsive ===== */
+@media (max-width: 1000px) {
+    .exp-grid-3,
+    .alianza-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 900px) {
-    .contacto-grid {
+    .contacto-grid,
+    .equipo-grid {
         grid-template-columns: 1fr;
         gap: 44px;
     }
