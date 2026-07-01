@@ -678,6 +678,19 @@ h2 {
     font-size: 0.85rem;
 }
 
+.escenarios {
+    margin-top: 48px;
+    color: var(--text-dim);
+    max-width: 68ch;
+    font-size: 1.02rem;
+    border-left: 3px solid var(--cyan);
+    padding-left: 22px;
+}
+
+.escenarios strong {
+    color: var(--text);
+}
+
 /* ===== Contacto ===== */
 .contacto {
     background: radial-gradient(ellipse 70% 70% at 80% 20%, rgba(232, 121, 249, 0.08), transparent), var(--bg-soft);

@@ -1,6 +1,6 @@
-# Pimero — Estudio de experiencias inmersivas
+# Lúdica — Experiencias inmersivas
 
-Sitio web para Pimero, estudio especializado en experiencias inmersivas: realidad virtual y aumentada, video mapping, instalaciones interactivas y eventos. Construido con HTML, CSS y JavaScript puros — sin dependencias ni proceso de build.
+Sitio web para Lúdica (ludicalab.com), estudio de experiencias inmersivas para museos, marcas, hoteles y espacios culturales: museografía inmersiva, instalaciones interactivas, narrativa digital y diseño audiovisual. Construido con HTML, CSS y JavaScript puros — sin dependencias ni proceso de build.
 
 La página misma está diseñada para sentirse inmersiva: fondo de partículas que reacciona al cursor, cursor personalizado con estela de luz, botones magnéticos, tarjetas con efecto 3D y textura de ruido cinematográfica.
 
