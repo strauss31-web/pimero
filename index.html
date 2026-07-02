@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Lúdica Lab — Arquitectura de experiencias inmersivas para marcas, hoteles, espacios y agencias. Transformamos espacios físicos en experiencias que la gente recuerda, fotografía y busca volver a vivir.">
-    <title>LÚDICA LAB — Arquitectura de Experiencias Inmersivas</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23E8383D'/%3E%3Ccircle cx='24' cy='25' r='9' fill='%23111'/%3E%3Ccircle cx='66' cy='22' r='11' fill='%23111'/%3E%3Ccircle cx='22' cy='65' r='10' fill='%23111'/%3E%3Ccircle cx='64' cy='74' r='7' fill='%23111'/%3E%3Cpath d='M66 22 L22 65 L40 83' stroke='%23111' stroke-width='7' fill='none'/%3E%3C/svg%3E">
+    <meta name="description" content="Lúdica Lab — Experiencias inmersivas para museos, marcas, hoteles y espacios culturales. Museografía inmersiva, instalaciones interactivas, narrativa digital y diseño audiovisual.">
+    <title>LÚDICA LAB — Experiencias Inmersivas</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23FF0031'/%3E%3Ccircle cx='24' cy='25' r='9' fill='%23111'/%3E%3Ccircle cx='66' cy='22' r='11' fill='%23111'/%3E%3Ccircle cx='22' cy='65' r='10' fill='%23111'/%3E%3Ccircle cx='64' cy='74' r='7' fill='%23111'/%3E%3Cpath d='M66 22 L22 65 L40 83' stroke='%23111' stroke-width='7' fill='none'/%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -23,10 +23,11 @@
                 <span class="logo-text">LÚDICA<br>LAB</span>
             </a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="#reto">[01] EL RETO</a></li>
-                <li><a href="#hacemos">[02] QUÉ HACEMOS</a></li>
-                <li><a href="#proyectos">[03] CASOS</a></li>
-                <li><a href="#equipo">[04] EQUIPO</a></li>
+                <li><a href="#hacemos">[01] QUÉ HACEMOS</a></li>
+                <li><a href="#estudio">[02] ESTUDIO</a></li>
+                <li><a href="#proyectos">[03] PROYECTOS</a></li>
+                <li><a href="#obras">[04] OBRAS</a></li>
+                <li><a href="#equipo">[05] EQUIPO</a></li>
                 <li><a href="#contacto" class="nav-cta">HABLEMOS ↗</a></li>
             </ul>
             <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
@@ -39,17 +40,17 @@
     <header id="inicio" class="hero">
         <canvas id="particleField" aria-hidden="true"></canvas>
         <div class="hero-frame" aria-hidden="true">
-            <span class="fi fi-tl">ARQUITECTURA DE EXPERIENCIAS INMERSIVAS</span>
+            <span class="fi fi-tl">EXPERIENCIAS INMERSIVAS</span>
             <span class="fi fi-tr">CDMX — MUNDO / 2026</span>
-            <span class="fi fi-bl">PARA MARCAS · HOTELES · ESPACIOS · AGENCIAS</span>
+            <span class="fi fi-bl">MUSEOS / MARCAS / HOTELES / CULTURA</span>
             <span class="fi fi-br">(DESLIZA ↓)</span>
         </div>
         <div class="hero-content">
             <h1 class="hero-brand">LÚDICA<br><span class="hero-lab">LAB<span class="hero-dot">.</span></span></h1>
-            <p class="hero-tag">LOS ESPACIOS NO SON CONTENEDORES —<br>SON LIENZOS</p>
+            <p class="hero-tag">CREAMOS NUEVAS REALIDADES —<br>HISTORIAS QUE SE VIVEN</p>
             <div class="hero-actions">
                 <a href="#contacto" class="btn btn-black" data-magnetic>INICIAR UN PROYECTO</a>
-                <a href="#proyectos" class="btn btn-line" data-magnetic>VER CASOS ↓</a>
+                <a href="#proyectos" class="btn btn-line" data-magnetic>VER PROYECTOS ↓</a>
             </div>
         </div>
     </header>
@@ -57,115 +58,68 @@
     <!-- ===== Marquee ===== -->
     <div class="marquee" aria-hidden="true">
         <div class="marquee-track">
-            <span>ACTIVACIONES & LANZAMIENTOS — ARTE DIGITAL PERMANENTE — INTERVENCIONES URBANAS — ARTE + TECNOLOGÍA + NARRATIVA — </span>
-            <span>ACTIVACIONES & LANZAMIENTOS — ARTE DIGITAL PERMANENTE — INTERVENCIONES URBANAS — ARTE + TECNOLOGÍA + NARRATIVA — </span>
+            <span>MUSEOGRAFÍA INMERSIVA — INSTALACIONES INTERACTIVAS — NARRATIVA DIGITAL — DISEÑO AUDIOVISUAL — </span>
+            <span>MUSEOGRAFÍA INMERSIVA — INSTALACIONES INTERACTIVAS — NARRATIVA DIGITAL — DISEÑO AUDIOVISUAL — </span>
         </div>
     </div>
-
-    <!-- ===== El reto ===== -->
-    <section id="reto" class="section dark reto">
-        <div class="container">
-            <div class="section-head reveal">
-                <span class="section-index">(01) EL RETO DE HOY</span>
-                <h2>EL MUNDO ESTÁ SATURADO<br><span class="red">DE RUIDO.</span></h2>
-            </div>
-            <div class="stats stats-dark reveal">
-                <div class="stat">
-                    <strong><span data-count="10000">0</span>+</strong>
-                    <p>MENSAJES QUE UNA PERSONA RECIBE AL DÍA. LA MAYORÍA NUNCA SE REGISTRAN.</p>
-                </div>
-                <div class="stat">
-                    <strong>2.3<span class="stat-unit">seg</span></strong>
-                    <p>TIEMPO PROMEDIO DE ATENCIÓN A UN ANUNCIO DIGITAL.</p>
-                </div>
-                <div class="stat">
-                    <strong><span data-count="74">0</span>%</strong>
-                    <p>DE LAS PERSONAS IGNORAN POR COMPLETO LA PUBLICIDAD TRADICIONAL.</p>
-                </div>
-            </div>
-            <p class="reto-cierre reveal">LA SOLUCIÓN NO ES MÁS COMUNICACIÓN.<br><span class="red">ES CREAR UN LUGAR AL QUE LA GENTE QUIERA IR.</span></p>
-        </div>
-    </section>
-
-    <!-- ===== Filosofía ===== -->
-    <section id="filosofia" class="section filosofia">
-        <div class="container">
-            <span class="section-index reveal">(02) NUESTRA FILOSOFÍA</span>
-            <p class="manifesto reveal">LAS PERSONAS NO RECUERDAN ESPACIOS. RECUERDAN LO QUE <span class="outline">SINTIERON</span> EN ELLOS.</p>
-            <p class="filosofia-sub reveal">Lúdica Lab transforma espacios físicos en experiencias que la gente recuerda, fotografía y busca volver a vivir. Arte, tecnología y narrativa al servicio del lugar — y de quienes lo habitan.</p>
-            <div class="props reveal">
-                <div class="prop">
-                    <h3>ARTE + TECNOLOGÍA</h3>
-                    <p>Proyecciones generativas, sensores, hologramas e IA integrados al diseño del espacio — no como accesorio, sino como arquitectura.</p>
-                </div>
-                <div class="prop">
-                    <h3>PRESENCIA ORGÁNICA</h3>
-                    <p>Instalaciones que la gente fotografía y comparte sin que nadie se lo pida. El espacio se convierte en contenido.</p>
-                </div>
-                <div class="prop">
-                    <h3>IMPACTO MEDIBLE</h3>
-                    <p>Más tiempo de permanencia. Mayor retorno por visita. Métricas reales que justifican la inversión.</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- ===== Qué hacemos ===== -->
     <section id="hacemos" class="section dark hacemos">
         <div class="container">
             <div class="section-head reveal">
-                <span class="section-index">(03) LO QUE HACEMOS</span>
-                <h2>TRES FORMAS DE CONVERTIR<br>TU ESPACIO EN <span class="red">DESTINO.</span></h2>
+                <span class="section-index">(01) QUÉ HACEMOS</span>
+                <h2>EL ESPACIO YA NO SE VISITA.<br><span class="red">SE VIVE.</span></h2>
             </div>
-            <div class="exp-grid exp-grid-3">
+            <div class="exp-grid">
                 <article class="exp-item reveal">
                     <span class="exp-num">01</span>
-                    <h3>ACTIVACIONES & LANZAMIENTOS</h3>
-                    <p>Showrooms, pop-ups y experiencias inmersivas que convierten el lanzamiento de un producto, hotel o espacio en un universo propio. Más allá del evento: algo que se vuelve noticia.</p>
+                    <h3>MUSEOGRAFÍA INMERSIVA</h3>
+                    <p>Museos y exposiciones donde la historia se recorre y se siente: líneas de tiempo interactivas, hologramas, espacios animados y experiencias 360°.</p>
                 </article>
                 <article class="exp-item reveal">
                     <span class="exp-num">02</span>
-                    <h3>ARTE DIGITAL PERMANENTE</h3>
-                    <p>Instalaciones para lobbies, hoteles, desarrollos y recintos corporativos. El espacio deja de ser infraestructura y se convierte en destino — y en diferenciador de marca 24/7.</p>
+                    <h3>INSTALACIONES INTERACTIVAS</h3>
+                    <p>Motion tracking, animaciones generativas y murales digitales que reaccionan al público. El visitante no observa la obra: la transforma.</p>
                 </article>
                 <article class="exp-item reveal">
                     <span class="exp-num">03</span>
-                    <h3>INTERVENCIONES URBANAS</h3>
-                    <p>Murales, instalaciones públicas y experiencias en espacios de alto tráfico. Millones de impactos orgánicos, cobertura de medios y conversación social — sin pauta.</p>
+                    <h3>NARRATIVA DIGITAL & STORYTELLING</h3>
+                    <p>Guion, dirección creativa y lenguaje audiovisual que dan sentido a cada experiencia y dejan huella cultural duradera.</p>
+                </article>
+                <article class="exp-item reveal">
+                    <span class="exp-num">04</span>
+                    <h3>DISEÑO AUDIOVISUAL & ESPECTÁCULOS</h3>
+                    <p>Proyecciones 360°, iluminación escultórica, audio inmersivo, música y performance en vivo a gran escala.</p>
                 </article>
             </div>
         </div>
     </section>
 
-    <!-- ===== Resultados ===== -->
-    <section id="resultados" class="section resultados">
+    <!-- ===== El estudio ===== -->
+    <section id="estudio" class="section estudio">
         <div class="container">
-            <div class="section-head reveal">
-                <span class="section-index">(04) POR QUÉ FUNCIONA</span>
-                <h2>RESULTADOS QUE SE MIDEN.<br>Y QUE SE <span class="outline">SIENTEN.</span></h2>
-            </div>
+            <span class="section-index reveal">(02) EL ESTUDIO</span>
+            <p class="manifesto reveal">EN LÚDICA DISEÑAMOS EXPERIENCIAS INMERSIVAS TRANSFORMADORAS QUE FUSIONAN ARTE, CREATIVIDAD Y TECNOLOGÍA PARA CONTAR HISTORIAS CON IMPACTO DURADERO. CONVERTIMOS ESPACIOS CONVENCIONALES EN ENTORNOS VIVOS QUE <span class="outline">DESPIERTAN EMOCIONES</span> E INSPIRAN CONEXIÓN CULTURAL.</p>
+            <p class="estudio-firma reveal">— FUNDADO POR ALEJANDRO STRAUSS & MYKAELA PLOTKIN</p>
+            <p class="clientes reveal">COLABORAMOS CON → MUSEOS · INSTITUCIONES CULTURALES · GOBIERNOS · HOTELES · MARCAS GLOBALES · ORGANIZACIONES DEPORTIVAS</p>
             <div class="stats reveal">
                 <div class="stat">
+                    <strong><span data-count="20">0</span>+</strong>
+                    <p>AÑOS DE NARRATIVA AUDIOVISUAL</p>
+                </div>
+                <div class="stat">
+                    <strong><span data-count="8">0</span></strong>
+                    <p>AÑOS DEDICADOS A LO INMERSIVO</p>
+                </div>
+                <div class="stat">
                     <strong>+<span data-count="6">0</span>M</strong>
-                    <p>PERSONAS IMPACTADAS EN 60 DÍAS</p>
+                    <p>PERSONAS IMPACTADAS EN UNA SOLA INSTALACIÓN</p>
                 </div>
                 <div class="stat">
-                    <strong>+<span data-count="40">0</span>K<span class="stat-unit">/día</span></strong>
-                    <p>PERSONAS EN INSTALACIÓN PERMANENTE</p>
-                </div>
-                <div class="stat">
-                    <strong><span data-count="3">0</span>x</strong>
-                    <p>MÁS TIEMPO DE PERMANENCIA QUE EN ESPACIOS CONVENCIONALES</p>
-                </div>
-                <div class="stat">
-                    <strong>100%</strong>
-                    <p>EARNED MEDIA: LA GENTE DOCUMENTA Y COMPARTE</p>
+                    <strong><span data-count="2">0</span></strong>
+                    <p>PAÍSES CON OBRAS PRESENTADAS</p>
                 </div>
             </div>
-            <ul class="resultados-claves reveal">
-                <li>→ CONEXIÓN EMOCIONAL: EL LUGAR QUEDA ASOCIADO A UN MOMENTO IMBORRABLE.</li>
-                <li>→ ESCALABLE: ACTIVACIONES PUNTUALES O INSTALACIONES PERMANENTES. PRESUPUESTOS ADAPTABLES.</li>
-            </ul>
         </div>
     </section>
 
@@ -173,16 +127,28 @@
     <section id="proyectos" class="section dark proyectos">
         <div class="container">
             <div class="section-head reveal">
-                <span class="section-index">(05) PROYECTOS DESTACADOS</span>
-                <h2>CASOS QUE PRUEBAN<br><span class="red">EL CONCEPTO.</span></h2>
+                <span class="section-index">(03) PROYECTOS</span>
+                <h2>PROYECTOS <span class="red">SELECCIONADOS</span></h2>
             </div>
         </div>
         <div class="stack">
             <article class="panel">
+                <div class="panel-media" style="background-image: url('assets/juarez.jpg')"></div>
+                <div class="panel-card">
+                    <div class="panel-meta"><span>P.01</span><span>MUSEOGRAFÍA / GOBIERNO — CIUDAD JUÁREZ</span></div>
+                    <h3>MUSEO IDENTIDADES JUÁREZ</h3>
+                    <p>Dirección creativa y producción total del museo. Historia, cultura y tecnología inmersiva integradas: hologramas, instalaciones interactivas y experiencias 360°. Desde su apertura, ya es el destino cultural de Ciudad Juárez.</p>
+                    <ul class="panel-stats">
+                        <li><strong>360°</strong> experiencias digitales</li>
+                        <li><strong>Permanente</strong> instalación total</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="panel">
                 <div class="panel-media" style="background-image: url('assets/metro.jpg')"></div>
                 <div class="panel-card">
-                    <div class="panel-meta"><span>P.01</span><span>INSTALACIÓN INTERACTIVA — METRO CDMX</span></div>
-                    <h3>METRO BELLAS ARTES</h3>
+                    <div class="panel-meta"><span>P.02</span><span>INSTALACIÓN / ESPACIO PÚBLICO — METRO CDMX</span></div>
+                    <h3>GALERÍA METRO BELLAS ARTES</h3>
                     <p>Sensores de movimiento y arte generativo convirtieron el pasillo más transitado de la ciudad en un lienzo digital vivo, por el 50 aniversario del Metro CDMX. La estación pasó de ser infraestructura a ser destino.</p>
                     <ul class="panel-stats">
                         <li><strong>+6M</strong> personas impactadas</li>
@@ -194,7 +160,7 @@
             <article class="panel">
                 <div class="panel-media" style="background-image: url('assets/eternidad.jpg')"></div>
                 <div class="panel-card">
-                    <div class="panel-meta"><span>P.02</span><span>RECORRIDO NOCTURNO — DÍA DE MUERTOS</span></div>
+                    <div class="panel-meta"><span>P.03</span><span>RECORRIDO NOCTURNO — DÍA DE MUERTOS</span></div>
                     <h3>CELEBRANDO LA ETERNIDAD</h3>
                     <p>El Bosque de Chapultepec — el parque más visitado de América Latina — transformado en experiencia inmersiva nocturna. Tecnología, tradición y territorio. Evento gratuito con capacidad desbordada cada noche.</p>
                     <ul class="panel-stats">
@@ -204,62 +170,113 @@
                 </div>
             </article>
             <article class="panel">
-                <div class="panel-media" style="background-image: url('assets/juarez.jpg')"></div>
-                <div class="panel-card">
-                    <div class="panel-meta"><span>P.03</span><span>MUSEO INMERSIVO — CIUDAD JUÁREZ</span></div>
-                    <h3>MUSEO IDENTIDADES JUÁREZ</h3>
-                    <p>Dirección creativa y producción total del museo. Historia, cultura y tecnología inmersiva integradas: hologramas, instalaciones interactivas y experiencias 360°. Desde su apertura, ya es el destino cultural de Ciudad Juárez.</p>
-                    <ul class="panel-stats">
-                        <li><strong>360°</strong> experiencias digitales</li>
-                        <li><strong>Permanente</strong> instalación total</li>
-                    </ul>
-                </div>
-            </article>
-            <article class="panel">
-                <div class="panel-media" style="background-image: url('assets/friedeberg.jpg')"></div>
-                <div class="panel-card">
-                    <div class="panel-meta"><span>P.04</span><span>EXPERIENCIA ARTÍSTICA — PUEBLA & DENVER EE.UU.</span></div>
-                    <h3>FRIEDEBERG: HIPNOTEROMAGIA</h3>
-                    <p>Experiencia inmersiva basada en la obra de Pedro Friedeberg. Proyecciones 360°, luz escultórica, música en vivo y audio inmersivo. Presentada en el Museo Internacional del Barroco y la Bienal Latinoamericana de Denver.</p>
-                    <ul class="panel-stats">
-                        <li><strong>2 países</strong> México y EE.UU.</li>
-                        <li><strong>360°</strong> proyección total</li>
-                    </ul>
-                </div>
-            </article>
-            <article class="panel">
-                <div class="panel-media" style="background-image: url('assets/xcel.jpg')"></div>
-                <div class="panel-card">
-                    <div class="panel-meta"><span>P.05</span><span>CONTENIDO INMERSIVO — CELEBRITY CRUISES / ROYAL CARIBBEAN</span></div>
-                    <h3>CELEBRITY XCEL</h3>
-                    <p>Contenidos inmersivos para los espacios LED del Celebrity Xcel. Narrativas culturales diseñadas para las rutas Caribe y Mediterráneo, en sincronía con los shows temáticos en vivo a bordo: arquitectura digital y escena en una experiencia total.</p>
-                    <ul class="panel-stats">
-                        <li><strong>2025/26</strong> lanzamiento</li>
-                        <li><strong>Royal Caribbean</strong> escala internacional</li>
-                    </ul>
-                </div>
-            </article>
-            <article class="panel">
                 <div class="panel-media" style="background-image: url('assets/santaursula.jpg')"></div>
                 <div class="panel-card">
-                    <div class="panel-meta"><span>P.06</span><span>INTERVENCIÓN URBANA — CALLE LAS FLORES, CDMX</span></div>
+                    <div class="panel-meta"><span>P.04</span><span>INTERVENCIÓN URBANA — CDMX / FIFA 2026</span></div>
                     <h3>SANTA ÚRSULA COAPA</h3>
-                    <p>Recorrido muralístico de más de 30 intervenciones permanentes en el entorno del Estadio Banorte, realizado de la mano de vecinos, familias y cronistas del barrio. Memoria del territorio e identidad comunitaria en vísperas del Mundial FIFA 2026.</p>
+                    <p>Recorrido muralístico de más de 30 intervenciones permanentes en el entorno del Estadio Banorte, de la mano de vecinos, familias y cronistas del barrio. Memoria del territorio en vísperas del Mundial FIFA 2026.</p>
                     <ul class="panel-stats">
                         <li><strong>+30</strong> intervenciones permanentes</li>
                         <li><strong>Gobierno CDMX</strong> Sec. Turismo</li>
                     </ul>
                 </div>
             </article>
+            <article class="panel">
+                <div class="panel-media" style="background-image: url('https://d8j0ntlcm91z4.cloudfront.net/user_2waRpaIT1cb9YFARiS69iyJ9eGH/hf_20260701_224510_29b0c573-ab64-4713-aa11-b6a43d536d2d.png')"></div>
+                <div class="panel-card">
+                    <div class="panel-meta"><span>P.05</span><span>EVENTO GLOBAL / FIFA 2026</span></div>
+                    <h3>PORTAL 360°</h3>
+                    <p>Concepto y dirección de una escultura mediática esférica a gran escala para la Copa Mundial FIFA 2026: piel de LED 360° y sonido espacial que traducen señales en tiempo real en luz y movimiento generativos.</p>
+                    <ul class="panel-stats">
+                        <li><strong>LED 360°</strong> piel generativa</li>
+                        <li><strong>2026</strong> Copa Mundial FIFA</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="panel">
+                <div class="panel-media" style="background-image: url('https://d8j0ntlcm91z4.cloudfront.net/user_2waRpaIT1cb9YFARiS69iyJ9eGH/hf_20260701_224508_984fa0ca-79fa-42e0-bbc1-81e6c04218e1.png')"></div>
+                <div class="panel-card">
+                    <div class="panel-meta"><span>P.06</span><span>MUSEOGRAFÍA / DEPORTE</span></div>
+                    <h3>MUFU — MUSEO DEL FUTBOL</h3>
+                    <p>Patrimonio deportivo y tecnología de punta: zonas con hologramas, jugadas destacadas en 360°, retos tipo videojuego, proyecciones a gran escala, audio inmersivo y un sport bar temático. La pasión del futbol, convertida en experiencia.</p>
+                    <ul class="panel-stats">
+                        <li><strong>Hologramas</strong> y jugadas 360°</li>
+                        <li><strong>Sport bar</strong> temático</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="panel">
+                <div class="panel-media" style="background-image: url('https://d8j0ntlcm91z4.cloudfront.net/user_2waRpaIT1cb9YFARiS69iyJ9eGH/hf_20260701_224254_dd40c387-3d15-41c5-b148-743b9c4b3a7a.png')"></div>
+                <div class="panel-card">
+                    <div class="panel-meta"><span>P.07</span><span>HOSPITALIDAD / ARTE INMERSIVO — ZACUALPAN</span></div>
+                    <h3>HOTEL CASA DE LOS ÁRBOLES</h3>
+                    <p>Experiencia inmersiva permanente en un hotel boutique de Zacualpan de Amilpas: proyecciones sobre la naturaleza, luz escultórica y ambientes sensoriales que convierten la estancia en un viaje.</p>
+                    <ul class="panel-stats">
+                        <li><strong>Permanente</strong> experiencia hotelera</li>
+                        <li><strong>Naturaleza</strong> + projection mapping</li>
+                    </ul>
+                </div>
+            </article>
         </div>
     </section>
 
-    <!-- ===== Equipo ===== -->
-    <section id="equipo" class="section equipo">
+    <!-- ===== Marquee 2 ===== -->
+    <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+            <span>ARTE ✦ NARRATIVA ✦ TECNOLOGÍA ✦ LÚDICA LAB ✦ ARTE ✦ NARRATIVA ✦ TECNOLOGÍA ✦ LÚDICA LAB ✦ </span>
+            <span>ARTE ✦ NARRATIVA ✦ TECNOLOGÍA ✦ LÚDICA LAB ✦ ARTE ✦ NARRATIVA ✦ TECNOLOGÍA ✦ LÚDICA LAB ✦ </span>
+        </div>
+    </div>
+
+    <!-- ===== Obras en escena ===== -->
+    <section id="obras" class="section obras">
         <div class="container">
             <div class="section-head reveal">
-                <span class="section-index">(06) EL EQUIPO FUNDADOR</span>
-                <h2>DOS CABEZAS,<br>UNA <span class="outline">OBSESIÓN.</span></h2>
+                <span class="section-index">(04) OBRAS EN ESCENA</span>
+                <h2>ARTE INMERSIVO<br>EN VIVO <span class="arrow-h">⟶</span></h2>
+                <p class="section-sub">PROYECCIÓN 360° / ILUMINACIÓN ESCULTÓRICA / AUDIO INMERSIVO / MÚSICA EN VIVO / DANZA — DESLIZA →</p>
+            </div>
+        </div>
+        <figure class="obras-banner reveal">
+            <div class="obras-banner-img" style="background-image: url('https://d8j0ntlcm91z4.cloudfront.net/user_2waRpaIT1cb9YFARiS69iyJ9eGH/hf_20260701_224257_7fbd57a3-d069-48e8-8ace-9537aec9a6e4.png')"></div>
+            <figcaption>PROYECCIÓN 360° / MÚSICA EN VIVO / DANZA</figcaption>
+        </figure>
+        <div class="obras-scroll" id="obrasScroll">
+            <article class="obra" style="background-image: url('assets/friedeberg.jpg')">
+                <span class="obra-num">O.01</span>
+                <h3>FRIEDEBERG: HIPNOTEROMAGIA</h3>
+                <p>El universo surrealista de Pedro Friedeberg, habitable. Presentada en el Museo Internacional del Barroco (Puebla) y la Bienal Latinoamericana de Denver (EE. UU.).</p>
+            </article>
+            <article class="obra">
+                <span class="obra-num">O.02</span>
+                <h3>DELIRIO</h3>
+                <p>Espectáculo audiovisual con música en vivo, proyección y performance.</p>
+            </article>
+            <article class="obra">
+                <span class="obra-num">O.03</span>
+                <h3>LAS 4 ESTACIONES</h3>
+                <p>Música, luz escultórica y danza en una experiencia sensorial completa.</p>
+            </article>
+            <article class="obra">
+                <span class="obra-num">O.04</span>
+                <h3>PAKAL: EL INFRAMUNDO MAYA</h3>
+                <p>Mitología y patrimonio en experiencia 360° con audio inmersivo.</p>
+            </article>
+            <article class="obra">
+                <span class="obra-num">O.05</span>
+                <h3>BACUBIRITO</h3>
+                <p>Narrativa histórica inmersiva alrededor del gran meteorito de Sinaloa.</p>
+            </article>
+        </div>
+        <p class="escenarios container reveal">PRESENTADAS EN EL <strong>MUSEO INTERNACIONAL DEL BARROCO</strong> (PUEBLA), EL <strong>HOTEL CASA DE LOS ÁRBOLES</strong> (ZACUALPAN) Y LA <strong>BIENAL LATINOAMERICANA DE DENVER</strong> (EE. UU.).</p>
+    </section>
+
+    <!-- ===== Equipo ===== -->
+    <section id="equipo" class="section dark equipo">
+        <div class="container">
+            <div class="section-head reveal">
+                <span class="section-index">(05) EL EQUIPO FUNDADOR</span>
+                <h2>DOS CABEZAS,<br>UNA <span class="red">OBSESIÓN.</span></h2>
             </div>
             <div class="equipo-grid">
                 <article class="fundador reveal">
@@ -286,48 +303,10 @@
         </div>
     </section>
 
-    <!-- ===== Modelo de alianza ===== -->
-    <section id="alianza" class="section dark alianza">
-        <div class="container">
-            <div class="section-head reveal">
-                <span class="section-index">(07) MODELO DE ALIANZA</span>
-                <h2>UN MODELO PARA<br>TRABAJAR <span class="red">JUNTOS.</span></h2>
-            </div>
-            <div class="alianza-grid">
-                <div class="alianza-col reveal">
-                    <h3>TÚ APORTAS</h3>
-                    <ul>
-                        <li>— La visión del espacio o la marca</li>
-                        <li>— El conocimiento de tu cliente o usuario</li>
-                        <li>— El brief estratégico</li>
-                        <li>— El posicionamiento</li>
-                    </ul>
-                </div>
-                <div class="alianza-col alianza-col-red reveal">
-                    <h3>LÚDICA APORTA</h3>
-                    <ul>
-                        <li>— Dirección creativa de experiencia</li>
-                        <li>— Diseño y arquitectura inmersiva</li>
-                        <li>— Producción técnica completa</li>
-                        <li>— Arte generativo e IA aplicada</li>
-                    </ul>
-                </div>
-                <div class="alianza-col reveal">
-                    <h3>JUNTOS ENTREGAMOS</h3>
-                    <ul>
-                        <li>— Arte + tecnología + producción en un solo interlocutor</li>
-                        <li>— Activaciones puntuales o instalaciones permanentes</li>
-                        <li>— Un diferenciador real en tu portafolio o espacio</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- ===== Contacto ===== -->
     <section id="contacto" class="section contacto">
         <div class="container">
-            <span class="section-index reveal">(08) EL SIGUIENTE PASO</span>
+            <span class="section-index reveal">(06) EL SIGUIENTE PASO</span>
             <h2 class="contacto-title reveal">¿TIENES UN ESPACIO, UNA MARCA<br>O UN PROYECTO QUE <span class="outline">MERECE MÁS?</span></h2>
             <p class="contacto-sub reveal">Nos interesa entender el lugar — o la marca — antes de proponer cualquier solución. Así es como nacen las mejores experiencias.</p>
             <div class="contacto-grid">
@@ -367,7 +346,7 @@
         <div class="footer-giant" aria-hidden="true">LÚDICA LAB</div>
         <div class="container footer-content">
             <img src="assets/logo.png" alt="Lúdica Lab" class="logo-mark-footer">
-            <p class="footer-tag">ARQUITECTURA DE EXPERIENCIAS INMERSIVAS</p>
+            <p class="footer-tag">HISTORIAS QUE SE VIVEN</p>
             <p class="footer-copy">© 2026 LÚDICA LAB — CDMX · LAB@LUDICALAB.COM · +52 55 5944 8272</p>
         </div>
     </footer>
