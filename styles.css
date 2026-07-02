@@ -1286,7 +1286,7 @@ h2 {
 
     .nav-links .nav-cta { margin-top: 10px; }
 
-    .fi-tl, .fi-tr { top: 88px; }
+    .fi-tl, .fi-tr { display: none; }
 
     .panel {
         top: 66px;
