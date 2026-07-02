@@ -4,6 +4,22 @@
    en mayúsculas, isotipo de puntos conectados.
    ============================================ */
 
+@font-face {
+    font-family: 'Space Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('assets/fonts/space-mono-latin-400-normal.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Space Mono';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('assets/fonts/space-mono-latin-700-normal.woff2') format('woff2');
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -1980,16 +1996,33 @@ button, input, textarea, select {
     padding: 130px 0;
 }
 
-.footer-logo-big {
-    width: min(52vw, 260px);
+.footer-logo-small {
+    width: 58px;
     aspect-ratio: 330 / 400;
-    margin: 10px auto 44px;
+    margin: 0 auto 6px;
     background-color: var(--red);
     -webkit-mask: url('assets/logo.png') center / contain no-repeat;
     mask: url('assets/logo.png') center / contain no-repeat;
     transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
 }
 
-.footer-logo-big:hover {
-    transform: scale(1.05) rotate(-2deg);
+.footer-logo-small:hover {
+    transform: scale(1.12) rotate(-3deg);
+}
+
+/* ===== Móvil: robustez ===== */
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+a, button, .terr-panel, .stat, .obra {
+    touch-action: manipulation;
+}
+
+@supports (min-height: 88svh) {
+    .panel { min-height: 88svh; }
+
+    @media (max-width: 768px) {
+        .panel { min-height: 82svh; }
+    }
 }

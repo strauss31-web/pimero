@@ -521,6 +521,12 @@ if (playCanvas) {
 
     playCanvas.addEventListener('mouseleave', () => { pointer.x = null; });
     playCanvas.addEventListener('click', e => { const { x, y } = pos(e); blossom(x, y); });
+    playCanvas.addEventListener('touchstart', e => {
+        const { x, y } = pos(e);
+        pointer.x = x; pointer.y = y;
+        blossom(x, y);
+    }, { passive: true });
+
     playCanvas.addEventListener('touchmove', e => {
         e.preventDefault();
         const { x, y } = pos(e);
