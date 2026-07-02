@@ -414,39 +414,73 @@ canvas.parentElement.addEventListener('click', e => {
     while (particles.length > 150) particles.shift();
 });
 
-// ===== Zona de juego: pintar con luz =====
+// ===== Zona de juego: jardín de luz (flow field) =====
 const playCanvas = document.getElementById('playCanvas');
 
 if (playCanvas) {
     const pctx = playCanvas.getContext('2d');
     const playHint = document.getElementById('playHint');
-    const sparks = [];
-    const COLORS = ['255, 0, 49', '243, 239, 231', '255, 122, 143'];
+    const PALETTE = [
+        [255, 0, 49],    // rojo Lúdica
+        [255, 122, 143], // rosa
+        [255, 177, 122], // ámbar
+        [243, 239, 231]  // hueso
+    ];
+    const streams = [];
+    const blossoms = [];
+    const pointer = { x: null, y: null, still: 0 };
     let played = false;
+    let tt = 0;
 
     function resizePlay() {
         playCanvas.width = playCanvas.clientWidth;
         playCanvas.height = playCanvas.clientHeight;
-        pctx.fillStyle = '#111111';
+        pctx.fillStyle = '#0d0d0d';
         pctx.fillRect(0, 0, playCanvas.width, playCanvas.height);
+        seedAmbient();
     }
-    resizePlay();
-    window.addEventListener('resize', resizePlay);
 
-    function spawnSparks(x, y, n, burst) {
+    // Campo de flujo: curvas suaves superpuestas (sin librerías)
+    function flowAngle(x, y, t) {
+        return (Math.sin(x * 0.004 + t * 0.4) + Math.cos(y * 0.0036 - t * 0.27)
+             + Math.sin((x + y) * 0.0021 + t * 0.16)) * 1.7;
+    }
+
+    function makeStream(x, y, boost) {
+        const c = PALETTE[Math.floor(Math.random() * PALETTE.length)];
+        return {
+            x, y,
+            px: x, py: y,
+            speed: (boost ? 1.7 : 0.85) + Math.random() * 1.0,
+            life: 1,
+            decay: 0.0035 + Math.random() * 0.004,
+            w: Math.random() * 1.8 + 0.7,
+            c
+        };
+    }
+
+    function seedAmbient() {
+        streams.length = 0;
+        const n = Math.min(Math.floor(playCanvas.width / 26), 60);
         for (let i = 0; i < n; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const speed = burst ? Math.random() * 5 + 1.5 : Math.random() * 1.1;
-            sparks.push({
-                x, y,
-                vx: Math.cos(angle) * speed,
-                vy: Math.sin(angle) * speed,
-                life: 1,
-                decay: burst ? 0.012 : 0.02,
-                r: Math.random() * 2.6 + 1,
-                color: COLORS[Math.floor(Math.random() * COLORS.length)]
-            });
+            streams.push(makeStream(Math.random() * playCanvas.width, Math.random() * playCanvas.height, false));
         }
+    }
+
+    function blossom(x, y) {
+        const c = PALETTE[Math.floor(Math.random() * (PALETTE.length - 1))];
+        blossoms.push({ x, y, r: 4, max: 90 + Math.random() * 70, life: 1, c });
+        for (let i = 0; i < 26; i++) {
+            const s = makeStream(x, y, true);
+            const a = (i / 26) * Math.PI * 2;
+            s.px = x - Math.cos(a) * 2;
+            s.py = y - Math.sin(a) * 2;
+            streams.push(s);
+        }
+        markPlayed();
+    }
+
+    function markPlayed() {
         if (!played) {
             played = true;
             playHint.classList.add('hidden');
@@ -455,55 +489,115 @@ if (playCanvas) {
 
     function pos(e) {
         const rect = playCanvas.getBoundingClientRect();
-        const point = e.touches ? e.touches[0] : e;
-        return { x: point.clientX - rect.left, y: point.clientY - rect.top };
+        const pt = e.touches ? e.touches[0] : e;
+        return { x: pt.clientX - rect.left, y: pt.clientY - rect.top };
     }
 
     playCanvas.addEventListener('mousemove', e => {
         const { x, y } = pos(e);
-        spawnSparks(x, y, 3, false);
+        pointer.x = x; pointer.y = y; pointer.still = 0;
+        streams.push(makeStream(x + (Math.random() - 0.5) * 30, y + (Math.random() - 0.5) * 30, false));
+        markPlayed();
     });
 
-    playCanvas.addEventListener('click', e => {
-        const { x, y } = pos(e);
-        spawnSparks(x, y, 46, true);
-    });
-
+    playCanvas.addEventListener('mouseleave', () => { pointer.x = null; });
+    playCanvas.addEventListener('click', e => { const { x, y } = pos(e); blossom(x, y); });
     playCanvas.addEventListener('touchmove', e => {
         e.preventDefault();
         const { x, y } = pos(e);
-        spawnSparks(x, y, 3, false);
+        pointer.x = x; pointer.y = y;
+        streams.push(makeStream(x, y, false));
+        markPlayed();
     }, { passive: false });
+    playCanvas.addEventListener('touchend', () => { pointer.x = null; });
 
     document.getElementById('playClear').addEventListener('click', () => {
-        sparks.length = 0;
-        pctx.fillStyle = '#111111';
+        blossoms.length = 0;
+        pctx.fillStyle = '#0d0d0d';
         pctx.fillRect(0, 0, playCanvas.width, playCanvas.height);
+        seedAmbient();
     });
 
-    (function drawSparks() {
-        // Velo que deja estelas
-        pctx.fillStyle = 'rgba(17, 17, 17, 0.085)';
+    resizePlay();
+    window.addEventListener('resize', resizePlay);
+
+    (function drawGarden() {
+        tt += 0.008;
+
+        // Velo suave: las estelas persisten como tinta
+        pctx.globalCompositeOperation = 'source-over';
+        pctx.fillStyle = 'rgba(13, 13, 13, 0.03)';
         pctx.fillRect(0, 0, playCanvas.width, playCanvas.height);
 
-        for (let i = sparks.length - 1; i >= 0; i--) {
-            const s = sparks[i];
-            s.x += s.vx;
-            s.y += s.vy;
-            s.vx *= 0.985;
-            s.vy *= 0.985;
-            s.vy += 0.012;
+        // Si el cursor se detiene, florece solo
+        if (pointer.x !== null) {
+            pointer.still++;
+            if (pointer.still === 55) blossom(pointer.x, pointer.y);
+        }
+
+        pctx.globalCompositeOperation = 'lighter';
+
+        // Corrientes que siguen el campo de flujo
+        for (let i = streams.length - 1; i >= 0; i--) {
+            const s = streams[i];
+            const a = flowAngle(s.x, s.y, tt);
+            s.px = s.x; s.py = s.y;
+            s.x += Math.cos(a) * s.speed;
+            s.y += Math.sin(a) * s.speed;
+
+            // Atracción sutil al cursor
+            if (pointer.x !== null) {
+                s.x += (pointer.x - s.x) * 0.0016;
+                s.y += (pointer.y - s.y) * 0.0016;
+            }
+
             s.life -= s.decay;
-            if (s.life <= 0) {
-                sparks.splice(i, 1);
+            if (s.life <= 0 || s.x < -30 || s.x > playCanvas.width + 30 || s.y < -30 || s.y > playCanvas.height + 30) {
+                streams.splice(i, 1);
                 continue;
             }
+
+            const alpha = 0.8 * s.life;
+            pctx.strokeStyle = `rgba(${s.c[0]}, ${s.c[1]}, ${s.c[2]}, ${alpha})`;
+            pctx.lineWidth = s.w * 1.6 * s.life + 0.4;
+            pctx.lineCap = 'round';
             pctx.beginPath();
-            pctx.arc(s.x, s.y, s.r * s.life, 0, Math.PI * 2);
-            pctx.fillStyle = `rgba(${s.color}, ${s.life})`;
-            pctx.fill();
+            pctx.moveTo(s.px, s.py);
+            pctx.lineTo(s.x, s.y);
+            pctx.stroke();
         }
-        requestAnimationFrame(drawSparks);
+
+        // Mantener densidad ambiental
+        if (streams.length < 40 && Math.random() < 0.3) {
+            streams.push(makeStream(Math.random() * playCanvas.width, Math.random() * playCanvas.height, false));
+        }
+        while (streams.length > 240) streams.shift();
+
+        // Flores: anillos que se abren y desvanecen
+        for (let i = blossoms.length - 1; i >= 0; i--) {
+            const b = blossoms[i];
+            b.r += (b.max - b.r) * 0.06;
+            b.life -= 0.012;
+            if (b.life <= 0) { blossoms.splice(i, 1); continue; }
+            const petals = 12;
+            for (let k = 0; k < petals; k++) {
+                const ang = (k / petals) * Math.PI * 2 + b.r * 0.01;
+                const px = b.x + Math.cos(ang) * b.r;
+                const py = b.y + Math.sin(ang) * b.r;
+                pctx.beginPath();
+                pctx.arc(px, py, 2.4 * b.life + 0.4, 0, Math.PI * 2);
+                pctx.fillStyle = `rgba(${b.c[0]}, ${b.c[1]}, ${b.c[2]}, ${0.55 * b.life})`;
+                pctx.fill();
+            }
+            pctx.beginPath();
+            pctx.arc(b.x, b.y, b.r * 0.55, 0, Math.PI * 2);
+            pctx.strokeStyle = `rgba(${b.c[0]}, ${b.c[1]}, ${b.c[2]}, ${0.16 * b.life})`;
+            pctx.lineWidth = 1;
+            pctx.stroke();
+        }
+
+        pctx.globalCompositeOperation = 'source-over';
+        requestAnimationFrame(drawGarden);
     })();
 }
 
@@ -551,3 +645,196 @@ if (finePointer && !reduceMotion) {
         });
     }
 }
+
+// ===== Linterna: revela el color en los paneles de proyecto =====
+if (finePointer && !reduceMotion) {
+    document.querySelectorAll('.panel').forEach(panel => {
+        const media = panel.querySelector('.panel-media');
+        if (!media) return;
+        const lens = document.createElement('div');
+        lens.className = 'panel-lens';
+        lens.style.backgroundImage = media.style.backgroundImage;
+        media.after(lens);
+
+        panel.addEventListener('mousemove', e => {
+            const rect = panel.getBoundingClientRect();
+            lens.style.clipPath = `circle(150px at ${e.clientX - rect.left}px ${e.clientY - rect.top}px)`;
+        });
+        panel.addEventListener('mouseleave', () => {
+            lens.style.clipPath = 'circle(0px at 50% 50%)';
+        });
+    });
+}
+
+// ===== Números de servicio se descifran al pasar el cursor =====
+if (!reduceMotion) {
+    document.querySelectorAll('.exp-num, .terr-num, .obra-num').forEach(el => {
+        el.dataset.text = el.textContent;
+        el.parentElement.addEventListener('mouseenter', () => scramble(el));
+    });
+}
+
+// ===== Palabras del texto de colaboración reaccionan al cursor =====
+const colab = document.getElementById('colabTexto');
+if (colab) {
+    colab.innerHTML = colab.textContent.split(' ').map(w => `<span class="palabra">${w}</span>`).join(' ');
+}
+
+// ===== Tags de fundadores: arrástralas y regresan =====
+if (finePointer) {
+    document.querySelectorAll('.fundador-tags li').forEach(tag => {
+        let sx = 0, sy = 0, dragging = false;
+        tag.addEventListener('pointerdown', e => {
+            dragging = true;
+            sx = e.clientX; sy = e.clientY;
+            tag.classList.add('dragging');
+            tag.setPointerCapture(e.pointerId);
+        });
+        tag.addEventListener('pointermove', e => {
+            if (!dragging) return;
+            tag.style.transform = `translate(${e.clientX - sx}px, ${e.clientY - sy}px) rotate(${(e.clientX - sx) * 0.06}deg)`;
+        });
+        function drop() {
+            if (!dragging) return;
+            dragging = false;
+            tag.classList.remove('dragging');
+            tag.style.transform = '';
+        }
+        tag.addEventListener('pointerup', drop);
+        tag.addEventListener('pointercancel', drop);
+    });
+}
+
+// ===== Casos de estudio (modal) =====
+const CASES = [
+    { img: 'https://drive.google.com/thumbnail?id=1PuqDrJ-brJzuAMRraxIRa25a0S8JLocO&sz=w1600', video: '1egLOpbLTUqWmM3r0wORu764sRLgxSxMV' },
+    { img: 'assets/metro.jpg', video: '1wtI5ySIGjAqFdkV1LRULcKTN1oY6Dlrc' },
+    { img: 'assets/eternidad.jpg', video: null },
+    { img: 'assets/santaursula.jpg', video: null },
+    { img: 'https://d8j0ntlcm91z4.cloudfront.net/user_2waRpaIT1cb9YFARiS69iyJ9eGH/hf_20260701_224510_29b0c573-ab64-4713-aa11-b6a43d536d2d.png', video: null },
+    { img: 'https://d8j0ntlcm91z4.cloudfront.net/user_2waRpaIT1cb9YFARiS69iyJ9eGH/hf_20260701_224508_984fa0ca-79fa-42e0-bbc1-81e6c04218e1.png', video: '1rAEiKP5NdPb3zq8iVY1zOqLGcnowdw4g' }
+];
+
+const caseModal = document.getElementById('caseModal');
+if (caseModal) {
+    const caseMedia = document.getElementById('caseMedia');
+    const caseTitle = document.getElementById('caseTitle');
+    const caseMeta = document.getElementById('caseMeta');
+    const caseText = document.getElementById('caseText');
+    const caseStats = document.getElementById('caseStats');
+    const caseVideoBtn = document.getElementById('caseVideoBtn');
+    let currentVideo = null;
+
+    document.querySelectorAll('.ver-caso').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const i = parseInt(btn.dataset.case, 10);
+            const card = btn.closest('.panel-card');
+            const data = CASES[i] || {};
+            caseMeta.textContent = Array.from(card.querySelectorAll('.panel-meta span')).map(s => s.textContent.trim()).join(' · ');
+            caseTitle.textContent = card.querySelector('h3').textContent;
+            caseText.textContent = card.querySelector('p').textContent;
+            caseStats.innerHTML = card.querySelector('.panel-stats').innerHTML;
+            caseMedia.innerHTML = '';
+            caseMedia.style.backgroundImage = `url('${data.img || ''}')`;
+            currentVideo = data.video;
+            caseVideoBtn.hidden = !currentVideo;
+            caseModal.hidden = false;
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    caseVideoBtn.addEventListener('click', () => {
+        caseMedia.style.backgroundImage = 'none';
+        caseMedia.innerHTML = `<iframe src="https://drive.google.com/file/d/${currentVideo}/preview" allow="autoplay; fullscreen" allowfullscreen title="Video del caso"></iframe>`;
+        caseVideoBtn.hidden = true;
+    });
+
+    function closeCase() {
+        caseModal.hidden = true;
+        caseMedia.innerHTML = '';
+        document.body.style.overflow = '';
+    }
+
+    caseModal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeCase));
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && !caseModal.hidden) closeCase();
+    });
+}
+
+// ===== Stay Curious: constelación al hacer clic en el punto =====
+const curiousCanvas = document.getElementById('curiousCanvas');
+const curiousDot = document.getElementById('curiousDot');
+
+if (curiousCanvas && curiousDot) {
+    const cctx = curiousCanvas.getContext('2d');
+    const dots = [];
+
+    function resizeCurious() {
+        curiousCanvas.width = curiousCanvas.clientWidth;
+        curiousCanvas.height = curiousCanvas.clientHeight;
+    }
+    resizeCurious();
+    window.addEventListener('resize', resizeCurious);
+
+    curiousDot.addEventListener('click', () => {
+        const rect = curiousCanvas.getBoundingClientRect();
+        const dr = curiousDot.getBoundingClientRect();
+        const x = dr.left + dr.width / 2 - rect.left;
+        const y = dr.top + dr.height / 2 - rect.top;
+        for (let i = 0; i < 26; i++) {
+            const a = Math.random() * Math.PI * 2;
+            const sp = Math.random() * 3.4 + 0.8;
+            dots.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 1, r: Math.random() * 3.4 + 1.6 });
+        }
+    });
+
+    (function drawCurious() {
+        cctx.clearRect(0, 0, curiousCanvas.width, curiousCanvas.height);
+        cctx.strokeStyle = 'rgba(255, 0, 49, 0.28)';
+        cctx.lineWidth = 1.4;
+        for (let i = 0; i < dots.length; i++) {
+            for (let j = i + 1; j < dots.length; j++) {
+                const a = dots[i], b = dots[j];
+                const d = Math.hypot(a.x - b.x, a.y - b.y);
+                if (d < 130) {
+                    cctx.globalAlpha = Math.min(a.life, b.life) * (1 - d / 130);
+                    cctx.beginPath();
+                    cctx.moveTo(a.x, a.y);
+                    cctx.lineTo(b.x, b.y);
+                    cctx.stroke();
+                }
+            }
+        }
+        cctx.globalAlpha = 1;
+        for (let i = dots.length - 1; i >= 0; i--) {
+            const d = dots[i];
+            d.x += d.vx; d.y += d.vy;
+            d.vx *= 0.992; d.vy *= 0.992;
+            d.life -= 0.006;
+            if (d.life <= 0) { dots.splice(i, 1); continue; }
+            cctx.beginPath();
+            cctx.arc(d.x, d.y, d.r * d.life, 0, Math.PI * 2);
+            cctx.fillStyle = `rgba(255, 0, 49, ${0.9 * d.life})`;
+            cctx.fill();
+        }
+        requestAnimationFrame(drawCurious);
+    })();
+}
+
+// ===== Punto escondido: premio a la curiosidad =====
+const hiddenDot = document.getElementById('hiddenDot');
+if (hiddenDot) {
+    hiddenDot.addEventListener('click', () => {
+        const flash = document.createElement('div');
+        flash.className = 'egg-flash';
+        flash.innerHTML = '<strong>ENCONTRASTE EL PUNTO<span>.</span></strong><small>STAY CURIOUS — ASÍ SE DISEÑAN NUESTRAS EXPERIENCIAS</small><small>( CLIC PARA VOLVER )</small>';
+        document.body.appendChild(flash);
+        flash.addEventListener('click', () => flash.remove());
+        setTimeout(() => flash.remove(), 6000);
+    });
+}
+
+// ===== La pestaña también es curiosa =====
+document.addEventListener('visibilitychange', () => {
+    document.title = document.hidden ? 'STAY CURIOUS. — LÚDICA LAB' : 'LÚDICA LAB — Experiencias Inmersivas';
+});
