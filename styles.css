@@ -1288,6 +1288,8 @@ h2 {
 
     .fi-tl, .fi-tr { display: none; }
 
+    .fi-bl { max-width: 52%; }
+
     .panel {
         top: 66px;
         min-height: 82vh;
