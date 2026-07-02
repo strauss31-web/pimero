@@ -1,68 +1,39 @@
-# Lúdica — Experiencias inmersivas
+# Lúdica Lab — Sitio web
 
-Sitio web para Lúdica (ludicalab.com), estudio de experiencias inmersivas para museos, marcas, hoteles y espacios culturales: museografía inmersiva, instalaciones interactivas, narrativa digital y diseño audiovisual. Construido con HTML, CSS y JavaScript puros — sin dependencias ni proceso de build.
+Sitio oficial de **Lúdica Lab** (ludicalab.com), estudio de experiencias inmersivas para museos, marcas, hoteles y espacios culturales. HTML, CSS y JavaScript puros — sin dependencias ni build.
 
-La página misma está diseñada para sentirse inmersiva: fondo de partículas que reacciona al cursor, cursor personalizado con estela de luz, botones magnéticos, tarjetas con efecto 3D y textura de ruido cinematográfica.
+Identidad: rojo #FF0031, tipografía monoespaciada (Space Mono) en mayúsculas y el isotipo de puntos conectados, que inspira la constelación interactiva del hero.
 
 ## Secciones
 
-1. **Inicio** — Hero con constelación de puntos interactiva (el isotipo, vivo)
-2. **El reto** — Estadísticas de saturación publicitaria
-3. **Filosofía** — "Las personas no recuerdan espacios. Recuerdan lo que sintieron en ellos."
-4. **Qué hacemos** — Activaciones & lanzamientos, arte digital permanente, intervenciones urbanas
-5. **Resultados** — Métricas reales (+6M personas, +40K/día, 3x permanencia)
-6. **Casos** — 6 proyectos con fotos reales (Metro Bellas Artes, Celebrando la Eternidad, Museo Identidades Juárez, Friedeberg, Celebrity Xcel, Santa Úrsula Coapa)
-7. **Equipo** — Fundadores: Alejandro Strauss y Mykaela Plotkin
-8. **Alianza** — Modelo de trabajo conjunto
-9. **Contacto** — Datos reales y formulario con validación
+1. **Hero** — Constelación de puntos interactiva (clic para sembrar nuevos puntos) y parallax con el mouse
+2. **(01) Qué hacemos** — Museografía inmersiva, instalaciones interactivas, narrativa digital, diseño audiovisual
+3. **(02) El estudio** — Manifiesto, colaboradores y estadísticas animadas
+4. **(03) Territorios** — Galería expandible de 6 territorios (hover/tap)
+5. **(04) Proyectos** — Paneles apilados con scroll: MIJ, Metro Bellas Artes, Celebrando la Eternidad, Santa Úrsula, Portal 360°, MUFU
+6. **(05) Obras en escena** — Espectáculos con scroll horizontal
+7. **(06) En movimiento** — Videoteca: reproductor grande + filmstrip (clips servidos desde Google Drive)
+8. **(07) Zona de juego** — Lienzo generativo: pinta con luz, clic = explosión
+9. **(08) Equipo** — Fundadores
+10. **(09) Contacto** — Formulario conectado a lab@ludicalab.com vía FormSubmit
 
-Las fotos y el logo (en `assets/`) provienen del sales deck oficial de Lúdica Lab.
+## Interacciones
 
-## Estructura
+Cursor personalizado con halo, botones magnéticos, texto descifrado en índices, spotlight en tarjetas, tilt 3D, marquees pausables, letras del footer que huyen del cursor. Todo respeta `prefers-reduced-motion` y se degrada en táctil.
 
-```
-pimero/
-├── index.html      # Página principal
-├── styles.css      # Estilos
-├── script.js       # Partículas, cursor, animaciones y formulario
-└── README.md       # Este archivo
-```
+## Notas de operación
 
-## Cómo verla
+- **Formulario**: la primera vez que alguien envíe, FormSubmit manda un correo de activación a lab@ludicalab.com — hay que confirmarlo una vez.
+- **Videos e imagen del MIJ**: se sirven desde Google Drive; los archivos deben estar compartidos como "cualquiera con el enlace".
+- **Imágenes**: las fotos reales viven en `assets/` (provienen del sales deck). Las imágenes conceptuales de Territorios están enlazadas desde CDN.
 
-Abre `index.html` en tu navegador, o sirve la carpeta con cualquier servidor estático:
+## Ver en local
 
 ```bash
 python3 -m http.server 8000
-# luego visita http://localhost:8000
+# http://localhost:8000
 ```
 
 ## Personalización
 
-### Colores
-Edita las variables al inicio de `styles.css`:
-
-```css
-:root {
-    --bg: #050508;        /* Fondo principal */
-    --violet: #8b5cf6;    /* Acento principal */
-    --cyan: #22d3ee;      /* Acento secundario */
-    --magenta: #e879f9;   /* Acento terciario */
-}
-```
-
-### Contenido
-Todo el texto está en `index.html`: experiencias, proyectos, estadísticas (atributo `data-count`), testimonios y datos de contacto. Reemplaza los ejemplos por tus casos reales.
-
-### Formulario de contacto
-El formulario valida y confirma en pantalla, pero no envía correos por sí solo. Para recibir mensajes, conecta un servicio como [Formspree](https://formspree.io) o un backend propio en el handler de `script.js`.
-
-## Características
-
-- ✅ Campo de partículas en canvas que reacciona al movimiento del cursor
-- ✅ Cursor personalizado con halo de luz (solo escritorio)
-- ✅ Botones magnéticos y tarjetas con tilt 3D
-- ✅ Cintas marquee animadas y contadores de estadísticas
-- ✅ Responsive con menú hamburguesa
-- ✅ Respeta `prefers-reduced-motion` (desactiva animaciones si el usuario lo pide)
-- ✅ Sin dependencias externas (solo las fuentes Syne e Inter de Google Fonts)
+Colores en las variables de `styles.css` (`--red`, `--black`, `--bone`). Textos en `index.html`. Juegos y efectos en `script.js`.

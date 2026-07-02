@@ -129,7 +129,7 @@ if (finePointer && !reduceMotion) {
         requestAnimationFrame(followGlow);
     })();
 
-    document.querySelectorAll('a, button, .exp-item, .prop, .fundador').forEach(el => {
+    document.querySelectorAll('a, button, .exp-item, .prop, .fundador, .terr-panel').forEach(el => {
         el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
         el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
     });
