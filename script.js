@@ -2,6 +2,27 @@
 // LÚDICA LAB — Interactividad
 // ============================================
 
+const LANG = window.PAGE_LANG || 'es';
+const MSG = LANG === 'en' ? {
+    fill: 'PLEASE FILL IN ALL FIELDS.',
+    mail: 'PLEASE CHECK YOUR EMAIL ADDRESS.',
+    sending: 'SENDING...',
+    ok: n => `RECEIVED, ${n}. WE WILL BE IN TOUCH SOON.`,
+    fail: 'COULD NOT SEND. WRITE US AT LAB@LUDICALAB.COM',
+    egg: '<strong>YOU FOUND THE DOT<span>.</span></strong><small>STAY CURIOUS — THIS IS HOW WE DESIGN OUR EXPERIENCES</small><small>( CLICK TO GO BACK )</small>',
+    tabAway: 'STAY CURIOUS. — LÚDICA LAB',
+    tabBack: 'LÚDICA LAB — Immersive Experiences'
+} : {
+    fill: 'COMPLETA TODOS LOS CAMPOS.',
+    mail: 'REVISA TU CORREO ELECTRÓNICO.',
+    sending: 'ENVIANDO...',
+    ok: n => `RECIBIDO, ${n}. TE CONTACTAREMOS PRONTO.`,
+    fail: 'NO SE PUDO ENVIAR. ESCRÍBENOS A LAB@LUDICALAB.COM',
+    egg: '<strong>ENCONTRASTE EL PUNTO<span>.</span></strong><small>STAY CURIOUS — ASÍ SE DISEÑAN NUESTRAS EXPERIENCIAS</small><small>( CLIC PARA VOLVER )</small>',
+    tabAway: 'STAY CURIOUS. — LÚDICA LAB',
+    tabBack: 'LÚDICA LAB — Experiencias Inmersivas'
+};
+
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
@@ -316,18 +337,18 @@ contactForm.addEventListener('submit', event => {
     const mensaje = contactForm.mensaje.value.trim();
 
     if (!nombre || !email || !mensaje) {
-        formStatus.textContent = 'COMPLETA TODOS LOS CAMPOS.';
+        formStatus.textContent = MSG.fill;
         formStatus.className = 'form-status error';
         return;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        formStatus.textContent = 'REVISA TU CORREO ELECTRÓNICO.';
+        formStatus.textContent = MSG.mail;
         formStatus.className = 'form-status error';
         return;
     }
 
-    formStatus.textContent = 'ENVIANDO...';
+    formStatus.textContent = MSG.sending;
     formStatus.className = 'form-status';
 
     fetch('https://formsubmit.co/ajax/lab@ludicalab.com', {
@@ -341,11 +362,11 @@ contactForm.addEventListener('submit', event => {
         })
     }).then(r => {
         if (!r.ok) throw new Error('http ' + r.status);
-        formStatus.textContent = `RECIBIDO, ${nombre.toUpperCase()}. TE CONTACTAREMOS PRONTO.`;
+        formStatus.textContent = MSG.ok(nombre.toUpperCase());
         formStatus.className = 'form-status ok';
         contactForm.reset();
     }).catch(() => {
-        formStatus.textContent = 'NO SE PUDO ENVIAR. ESCRÍBENOS A LAB@LUDICALAB.COM';
+        formStatus.textContent = MSG.fail;
         formStatus.className = 'form-status error';
     });
 });
@@ -827,7 +848,7 @@ if (hiddenDot) {
     hiddenDot.addEventListener('click', () => {
         const flash = document.createElement('div');
         flash.className = 'egg-flash';
-        flash.innerHTML = '<strong>ENCONTRASTE EL PUNTO<span>.</span></strong><small>STAY CURIOUS — ASÍ SE DISEÑAN NUESTRAS EXPERIENCIAS</small><small>( CLIC PARA VOLVER )</small>';
+        flash.innerHTML = MSG.egg;
         document.body.appendChild(flash);
         flash.addEventListener('click', () => flash.remove());
         setTimeout(() => flash.remove(), 6000);
@@ -836,7 +857,7 @@ if (hiddenDot) {
 
 // ===== La pestaña también es curiosa =====
 document.addEventListener('visibilitychange', () => {
-    document.title = document.hidden ? 'STAY CURIOUS. — LÚDICA LAB' : 'LÚDICA LAB — Experiencias Inmersivas';
+    document.title = document.hidden ? MSG.tabAway : MSG.tabBack;
 });
 
 // ===== Estadísticas jugables: clic para recontarlas =====

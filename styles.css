@@ -1938,3 +1938,22 @@ h2 {
 }
 
 .stat.stat-pop strong { color: inherit; }
+
+/* Encuadre especial: el mural de Santa Ursula como protagonista */
+.panel-media-mural {
+    background-size: 175%;
+    background-position: 30% 32%;
+}
+
+/* ===== Toggle de idioma ===== */
+.lang-toggle {
+    border: 2px solid var(--black);
+    padding: 9px 13px !important;
+    letter-spacing: 0.08em;
+}
+
+.lang-toggle:hover {
+    opacity: 1 !important;
+    background: var(--black);
+    color: var(--red) !important;
+}
