@@ -349,3 +349,205 @@ contactForm.addEventListener('submit', event => {
         formStatus.className = 'form-status error';
     });
 });
+
+// ===== Videoteca: showcase + filmstrip =====
+const videoStage = document.getElementById('videoStage');
+const videoStrip = document.getElementById('videoStrip');
+
+if (videoStage && videoStrip) {
+    let playing = false;
+
+    function coverHTML(id, label) {
+        return `
+        <button class="video-cover" aria-label="Reproducir video"
+                style="background-image: url('https://drive.google.com/thumbnail?id=${id}&sz=w1280')">
+            <span class="video-play">▶</span>
+            <span class="video-now">${label}</span>
+        </button>`;
+    }
+
+    function playVideo(id) {
+        playing = true;
+        videoStage.innerHTML = `<iframe src="https://drive.google.com/file/d/${id}/preview" allow="autoplay; fullscreen" allowfullscreen title="Video Lúdica Lab"></iframe>`;
+    }
+
+    function chipLabel(chip) {
+        return chip.querySelector('.chip-num').textContent + ' — ' + chip.dataset.title;
+    }
+
+    videoStage.addEventListener('click', e => {
+        const cover = e.target.closest('.video-cover');
+        if (cover) {
+            const active = videoStrip.querySelector('.video-chip.active');
+            playVideo(active.dataset.id);
+        }
+    });
+
+    videoStrip.querySelectorAll('.video-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            videoStrip.querySelectorAll('.video-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            if (playing) {
+                playVideo(chip.dataset.id);
+            } else {
+                videoStage.innerHTML = coverHTML(chip.dataset.id, chipLabel(chip));
+            }
+        });
+    });
+}
+
+// ===== Hero jugable: clic siembra constelación =====
+canvas.parentElement.addEventListener('click', e => {
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    for (let i = 0; i < 7; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 2.4 + 0.6;
+        particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            r: Math.random() * 3.2 + 1.4
+        });
+    }
+    while (particles.length > 150) particles.shift();
+});
+
+// ===== Zona de juego: pintar con luz =====
+const playCanvas = document.getElementById('playCanvas');
+
+if (playCanvas) {
+    const pctx = playCanvas.getContext('2d');
+    const playHint = document.getElementById('playHint');
+    const sparks = [];
+    const COLORS = ['255, 0, 49', '243, 239, 231', '255, 122, 143'];
+    let played = false;
+
+    function resizePlay() {
+        playCanvas.width = playCanvas.clientWidth;
+        playCanvas.height = playCanvas.clientHeight;
+        pctx.fillStyle = '#111111';
+        pctx.fillRect(0, 0, playCanvas.width, playCanvas.height);
+    }
+    resizePlay();
+    window.addEventListener('resize', resizePlay);
+
+    function spawnSparks(x, y, n, burst) {
+        for (let i = 0; i < n; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = burst ? Math.random() * 5 + 1.5 : Math.random() * 1.1;
+            sparks.push({
+                x, y,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                life: 1,
+                decay: burst ? 0.012 : 0.02,
+                r: Math.random() * 2.6 + 1,
+                color: COLORS[Math.floor(Math.random() * COLORS.length)]
+            });
+        }
+        if (!played) {
+            played = true;
+            playHint.classList.add('hidden');
+        }
+    }
+
+    function pos(e) {
+        const rect = playCanvas.getBoundingClientRect();
+        const point = e.touches ? e.touches[0] : e;
+        return { x: point.clientX - rect.left, y: point.clientY - rect.top };
+    }
+
+    playCanvas.addEventListener('mousemove', e => {
+        const { x, y } = pos(e);
+        spawnSparks(x, y, 3, false);
+    });
+
+    playCanvas.addEventListener('click', e => {
+        const { x, y } = pos(e);
+        spawnSparks(x, y, 46, true);
+    });
+
+    playCanvas.addEventListener('touchmove', e => {
+        e.preventDefault();
+        const { x, y } = pos(e);
+        spawnSparks(x, y, 3, false);
+    }, { passive: false });
+
+    document.getElementById('playClear').addEventListener('click', () => {
+        sparks.length = 0;
+        pctx.fillStyle = '#111111';
+        pctx.fillRect(0, 0, playCanvas.width, playCanvas.height);
+    });
+
+    (function drawSparks() {
+        // Velo que deja estelas
+        pctx.fillStyle = 'rgba(17, 17, 17, 0.085)';
+        pctx.fillRect(0, 0, playCanvas.width, playCanvas.height);
+
+        for (let i = sparks.length - 1; i >= 0; i--) {
+            const s = sparks[i];
+            s.x += s.vx;
+            s.y += s.vy;
+            s.vx *= 0.985;
+            s.vy *= 0.985;
+            s.vy += 0.012;
+            s.life -= s.decay;
+            if (s.life <= 0) {
+                sparks.splice(i, 1);
+                continue;
+            }
+            pctx.beginPath();
+            pctx.arc(s.x, s.y, s.r * s.life, 0, Math.PI * 2);
+            pctx.fillStyle = `rgba(${s.color}, ${s.life})`;
+            pctx.fill();
+        }
+        requestAnimationFrame(drawSparks);
+    })();
+}
+
+// ===== Juego del footer: letras que huyen del cursor =====
+if (finePointer && !reduceMotion) {
+    const giant = document.querySelector('.footer-giant');
+    if (giant) {
+        const text = giant.textContent;
+        giant.textContent = '';
+        text.split('').forEach(ch => {
+            const span = document.createElement('span');
+            span.className = 'giant-letter';
+            span.textContent = ch === ' ' ? '\u00A0' : ch;
+            giant.appendChild(span);
+        });
+        const letters = giant.querySelectorAll('.giant-letter');
+
+        giant.addEventListener('mousemove', e => {
+            letters.forEach(letter => {
+                const rect = letter.getBoundingClientRect();
+                const lx = rect.left + rect.width / 2;
+                const ly = rect.top + rect.height / 2;
+                const dx = lx - e.clientX;
+                const dy = ly - e.clientY;
+                const dist = Math.hypot(dx, dy);
+                if (dist < 180 && dist > 0.01) {
+                    const force = (180 - dist) / 180;
+                    letter.style.transform = `translate(${(dx / dist) * force * 46}px, ${(dy / dist) * force * 46}px) rotate(${(dx / dist) * force * 9}deg)`;
+                    letter.style.color = 'rgba(255, 0, 49, 0.95)';
+                    letter.style.webkitTextStroke = '0px';
+                } else {
+                    letter.style.transform = '';
+                    letter.style.color = '';
+                    letter.style.webkitTextStroke = '';
+                }
+            });
+        });
+
+        giant.addEventListener('mouseleave', () => {
+            letters.forEach(letter => {
+                letter.style.transform = '';
+                letter.style.color = '';
+                letter.style.webkitTextStroke = '';
+            });
+        });
+    }
+}
