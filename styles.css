@@ -1907,3 +1907,34 @@ h2 {
     z-index: 5;
     position: relative;
 }
+
+/* ===== Juego en El Estudio ===== */
+.manifesto .outline {
+    transition: color 0.25s ease;
+    cursor: default;
+}
+
+.manifesto .outline:hover {
+    color: var(--red);
+    -webkit-text-stroke: 0;
+}
+
+.stat {
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.stat:active {
+    transform: scale(0.97);
+}
+
+.stat.stat-pop {
+    animation: statPop 0.5s ease;
+}
+
+@keyframes statPop {
+    0% { background: var(--black); color: var(--red); }
+    100% { background: transparent; }
+}
+
+.stat.stat-pop strong { color: inherit; }

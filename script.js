@@ -838,3 +838,16 @@ if (hiddenDot) {
 document.addEventListener('visibilitychange', () => {
     document.title = document.hidden ? 'STAY CURIOUS. — LÚDICA LAB' : 'LÚDICA LAB — Experiencias Inmersivas';
 });
+
+// ===== Estadísticas jugables: clic para recontarlas =====
+document.querySelectorAll('.stat').forEach(stat => {
+    const num = stat.querySelector('[data-count]');
+    if (!num) return;
+    stat.addEventListener('click', () => {
+        stat.classList.remove('stat-pop');
+        void stat.offsetWidth;
+        stat.classList.add('stat-pop');
+        num.textContent = '0';
+        animateCount(num);
+    });
+});
