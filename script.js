@@ -108,14 +108,26 @@ canvas.parentElement.addEventListener('mouseleave', () => {
     mouse.y = null;
 });
 
-// ===== Cursor personalizado =====
+// ===== Cursor personalizado con halo =====
 if (finePointer && !reduceMotion) {
     const cursor = document.getElementById('cursor');
+    const glow = document.getElementById('cursorGlow');
+    let cx = 0, cy = 0, gx = 0, gy = 0;
 
     window.addEventListener('mousemove', e => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
+        cx = e.clientX;
+        cy = e.clientY;
+        cursor.style.left = cx + 'px';
+        cursor.style.top = cy + 'px';
     });
+
+    (function followGlow() {
+        gx += (cx - gx) * 0.09;
+        gy += (cy - gy) * 0.09;
+        glow.style.left = gx + 'px';
+        glow.style.top = gy + 'px';
+        requestAnimationFrame(followGlow);
+    })();
 
     document.querySelectorAll('a, button, .exp-item, .prop, .fundador').forEach(el => {
         el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
@@ -206,6 +218,33 @@ const statObserver = new IntersectionObserver(entries => {
 
 document.querySelectorAll('[data-count]').forEach(el => statObserver.observe(el));
 
+// ===== Parallax del hero con el mouse =====
+if (finePointer && !reduceMotion) {
+    const heroBrand = document.querySelector('.hero-brand');
+    const heroTag = document.querySelector('.hero-tag');
+    document.querySelector('.hero').addEventListener('mousemove', e => {
+        const x = (e.clientX / window.innerWidth - 0.5);
+        const y = (e.clientY / window.innerHeight - 0.5);
+        heroBrand.style.transform = `translate(${x * -22}px, ${y * -14}px)`;
+        heroTag.style.transform = `translate(${x * -10}px, ${y * -6}px)`;
+    });
+}
+
+// ===== Tilt 3D en tarjetas =====
+if (finePointer && !reduceMotion) {
+    document.querySelectorAll('.video-item, .obra, .fundador').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            card.style.transform = `perspective(700px) rotateY(${x * 5}deg) rotateX(${-y * 5}deg)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
+    });
+}
+
 // ===== Territorios: toque en pantallas táctiles =====
 document.querySelectorAll('.terr-panel').forEach(panel => {
     panel.addEventListener('click', () => {
@@ -288,7 +327,25 @@ contactForm.addEventListener('submit', event => {
         return;
     }
 
-    formStatus.textContent = `RECIBIDO, ${nombre.toUpperCase()}. TE CONTACTAREMOS PRONTO.`;
-    formStatus.className = 'form-status ok';
-    contactForm.reset();
+    formStatus.textContent = 'ENVIANDO...';
+    formStatus.className = 'form-status';
+
+    fetch('https://formsubmit.co/ajax/lab@ludicalab.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+            _subject: 'Nuevo mensaje desde ludicalab.com',
+            nombre: nombre,
+            email: email,
+            mensaje: mensaje
+        })
+    }).then(r => {
+        if (!r.ok) throw new Error('http ' + r.status);
+        formStatus.textContent = `RECIBIDO, ${nombre.toUpperCase()}. TE CONTACTAREMOS PRONTO.`;
+        formStatus.className = 'form-status ok';
+        contactForm.reset();
+    }).catch(() => {
+        formStatus.textContent = 'NO SE PUDO ENVIAR. ESCRÍBENOS A LAB@LUDICALAB.COM';
+        formStatus.className = 'form-status error';
+    });
 });
