@@ -206,6 +206,63 @@ const statObserver = new IntersectionObserver(entries => {
 
 document.querySelectorAll('[data-count]').forEach(el => statObserver.observe(el));
 
+// ===== Territorios: toque en pantallas táctiles =====
+document.querySelectorAll('.terr-panel').forEach(panel => {
+    panel.addEventListener('click', () => {
+        const wasActive = panel.classList.contains('active');
+        document.querySelectorAll('.terr-panel.active').forEach(o => o.classList.remove('active'));
+        if (!wasActive) panel.classList.add('active');
+    });
+});
+
+// ===== Foco de luz que sigue el cursor en tarjetas =====
+if (finePointer && !reduceMotion) {
+    document.querySelectorAll('.exp-item, .fundador').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
+            card.style.setProperty('--my', (e.clientY - rect.top) + 'px');
+        });
+    });
+}
+
+// ===== Texto descifrado (efecto terminal) en índices de sección =====
+const GLYPHS = '█▓▒░<>/\\|=+*#';
+
+function scramble(el) {
+    const original = el.dataset.text;
+    let frame = 0;
+    const total = Math.max(14, original.length + 6);
+    (function tick() {
+        frame++;
+        const settled = Math.floor((frame / total) * original.length);
+        el.textContent = original.slice(0, settled) + original.slice(settled).split('').map(ch =>
+            ch === ' ' ? ' ' : GLYPHS[Math.floor(Math.random() * GLYPHS.length)]
+        ).join('');
+        if (settled < original.length) {
+            requestAnimationFrame(tick);
+        } else {
+            el.textContent = original;
+        }
+    })();
+}
+
+if (!reduceMotion) {
+    const scrambleObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                scramble(entry.target);
+                scrambleObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.6 });
+
+    document.querySelectorAll('.section-index, .hero-kicker, .fi').forEach(el => {
+        el.dataset.text = el.textContent;
+        scrambleObserver.observe(el);
+    });
+}
+
 // ===== Formulario de contacto =====
 // Valida y confirma en pantalla. Para recibir los mensajes por correo,
 // conecta un servicio como Formspree o un backend propio aquí.
