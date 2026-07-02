@@ -1,0 +1,38 @@
+name: Fetch external assets
+
+on:
+  push:
+    branches: [claude/company-website-whai60]
+    paths: ['assets-manifest.txt']
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download and convert to jpg
+        run: |
+          mkdir -p assets/img
+          ok=0; fail=0
+          while IFS='|' read -r name url; do
+            [ -z "$name" ] && continue
+            if curl -fsSL "$url" -o "/tmp/$name.png"; then
+              convert "/tmp/$name.png" -strip -resize '1600x1600>' -quality 84 "assets/img/$name.jpg"
+              echo "OK   $name"
+              ok=$((ok+1))
+            else
+              echo "FAIL $name  $url"
+              fail=$((fail+1))
+            fi
+          done < assets-manifest.txt
+          echo "downloaded=$ok failed=$fail"
+      - name: Commit fetched assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/img
+          git diff --cached --quiet || git commit -m "Self-host generated images inside the site"
+          git push
