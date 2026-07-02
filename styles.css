@@ -1038,12 +1038,6 @@ h2 {
 .contacto-title {
     font-size: clamp(1.5rem, 3.8vw, 2.8rem);
     max-width: 32ch;
-    margin-bottom: 20px;
-}
-
-.contacto-sub {
-    font-size: 0.95rem;
-    max-width: 60ch;
     margin-bottom: 60px;
 }
 
