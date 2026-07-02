@@ -741,7 +741,6 @@ const CASES = [
     { img: 'assets/metro.jpg', video: '1wtI5ySIGjAqFdkV1LRULcKTN1oY6Dlrc' },
     { img: 'assets/eternidad.jpg', video: null },
     { img: 'assets/santaursula.jpg', video: null },
-    { img: 'https://d8j0ntlcm91z4.cloudfront.net/user_2waRpaIT1cb9YFARiS69iyJ9eGH/hf_20260701_224510_29b0c573-ab64-4713-aa11-b6a43d536d2d.png', video: null },
     { img: 'https://d8j0ntlcm91z4.cloudfront.net/user_2waRpaIT1cb9YFARiS69iyJ9eGH/hf_20260701_224508_984fa0ca-79fa-42e0-bbc1-81e6c04218e1.png', video: '1rAEiKP5NdPb3zq8iVY1zOqLGcnowdw4g' }
 ];
 
@@ -881,3 +880,15 @@ document.querySelectorAll('.stat').forEach(stat => {
         animateCount(num);
     });
 });
+
+// ===== Videoteca desplegable =====
+const videosToggle = document.getElementById('videosToggle');
+const videosGallery = document.getElementById('videosGallery');
+if (videosToggle && videosGallery) {
+    videosToggle.addEventListener('click', () => {
+        const open = videosGallery.hidden;
+        videosGallery.hidden = !open;
+        videosToggle.textContent = open ? videosToggle.dataset.hide : videosToggle.dataset.show;
+        if (open) videosGallery.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+}

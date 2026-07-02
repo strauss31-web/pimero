@@ -1957,3 +1957,39 @@ h2 {
     background: var(--black);
     color: var(--red) !important;
 }
+
+/* ===== Ajustes finales ===== */
+button, input, textarea, select {
+    font-family: var(--font);
+}
+
+.videos-toggle {
+    display: block;
+    margin: 0 auto;
+}
+
+.videos-gallery[hidden] {
+    display: none;
+}
+
+.videos-gallery {
+    margin-top: 44px;
+}
+
+.curioso {
+    padding: 130px 0;
+}
+
+.footer-logo-big {
+    width: min(52vw, 260px);
+    aspect-ratio: 330 / 400;
+    margin: 10px auto 44px;
+    background-color: var(--red);
+    -webkit-mask: url('assets/logo.png') center / contain no-repeat;
+    mask: url('assets/logo.png') center / contain no-repeat;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.footer-logo-big:hover {
+    transform: scale(1.05) rotate(-2deg);
+}
