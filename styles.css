@@ -2020,3 +2020,34 @@ a, button, .terr-panel, .stat, .obra {
         .panel { min-height: 82svh; }
     }
 }
+
+/* ===== Proyectos en móvil: imagen arriba, tarjeta abajo (sin encimarse) ===== */
+@media (max-width: 768px) {
+    .panel {
+        display: block;
+        min-height: 0;
+    }
+
+    .panel-media {
+        position: relative;
+        inset: auto;
+        height: 48vh;
+        min-height: 300px;
+    }
+
+    .panel-media::after {
+        background: linear-gradient(200deg, transparent 62%, rgba(17, 17, 17, 0.5) 100%);
+    }
+
+    .panel-card {
+        max-width: none;
+        margin: 0;
+        border-left: none;
+        border-right: none;
+    }
+
+    .panel-media-mural {
+        background-size: cover;
+        background-position: center 38%;
+    }
+}
