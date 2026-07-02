@@ -3,6 +3,7 @@
 // ============================================
 
 const LANG = window.PAGE_LANG || 'es';
+const ASSET = LANG === 'en' ? '../' : '';
 const MSG = LANG === 'en' ? {
     fill: 'PLEASE FILL IN ALL FIELDS.',
     mail: 'PLEASE CHECK YOUR EMAIL ADDRESS.',
@@ -744,10 +745,10 @@ if (finePointer) {
 // ===== Casos de estudio (modal) =====
 const CASES = [
     { img: 'https://drive.google.com/thumbnail?id=1PuqDrJ-brJzuAMRraxIRa25a0S8JLocO&sz=w1600', video: '1egLOpbLTUqWmM3r0wORu764sRLgxSxMV' },
-    { img: 'assets/metro.jpg', video: '1wtI5ySIGjAqFdkV1LRULcKTN1oY6Dlrc' },
-    { img: 'assets/eternidad.jpg', video: null },
-    { img: 'assets/santaursula.jpg', video: null },
-    { img: 'https://d8j0ntlcm91z4.cloudfront.net/user_2waRpaIT1cb9YFARiS69iyJ9eGH/hf_20260701_224508_984fa0ca-79fa-42e0-bbc1-81e6c04218e1.png', video: '1rAEiKP5NdPb3zq8iVY1zOqLGcnowdw4g' }
+    { img: ASSET + 'assets/metro.jpg', video: '1wtI5ySIGjAqFdkV1LRULcKTN1oY6Dlrc' },
+    { img: ASSET + 'assets/eternidad.jpg', video: null },
+    { img: ASSET + 'assets/santaursula.jpg', video: null },
+    { img: ASSET + 'assets/img/proy-mufu.jpg', video: '1rAEiKP5NdPb3zq8iVY1zOqLGcnowdw4g' }
 ];
 
 const caseModal = document.getElementById('caseModal');
