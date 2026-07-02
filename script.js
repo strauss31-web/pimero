@@ -435,23 +435,18 @@ canvas.parentElement.addEventListener('click', e => {
     while (particles.length > 150) particles.shift();
 });
 
-// ===== Zona de juego: jardín de luz (flow field) =====
+// ===== Zona de juego: jardín de luz multicolor (flow field) =====
 const playCanvas = document.getElementById('playCanvas');
 
 if (playCanvas) {
     const pctx = playCanvas.getContext('2d');
     const playHint = document.getElementById('playHint');
-    const PALETTE = [
-        [255, 0, 49],    // rojo Lúdica
-        [255, 122, 143], // rosa
-        [255, 177, 122], // ámbar
-        [243, 239, 231]  // hueso
-    ];
     const streams = [];
     const blossoms = [];
     const pointer = { x: null, y: null, still: 0 };
     let played = false;
     let tt = 0;
+    let hueBase = 348; // arranca en el rojo Lúdica y recorre el espectro
 
     function resizePlay() {
         playCanvas.width = playCanvas.clientWidth;
@@ -461,41 +456,42 @@ if (playCanvas) {
         seedAmbient();
     }
 
-    // Campo de flujo: curvas suaves superpuestas (sin librerías)
     function flowAngle(x, y, t) {
         return (Math.sin(x * 0.004 + t * 0.4) + Math.cos(y * 0.0036 - t * 0.27)
              + Math.sin((x + y) * 0.0021 + t * 0.16)) * 1.7;
     }
 
     function makeStream(x, y, boost) {
-        const c = PALETTE[Math.floor(Math.random() * PALETTE.length)];
         return {
             x, y,
             px: x, py: y,
             speed: (boost ? 1.7 : 0.85) + Math.random() * 1.0,
             life: 1,
             decay: 0.0035 + Math.random() * 0.004,
-            w: Math.random() * 1.8 + 0.7,
-            c
+            w: Math.random() * 2.0 + 0.8,
+            hue: hueBase + Math.random() * 70 - 15,
+            sat: 85 + Math.random() * 15
         };
     }
 
     function seedAmbient() {
         streams.length = 0;
-        const n = Math.min(Math.floor(playCanvas.width / 26), 60);
+        const n = Math.min(Math.floor(playCanvas.width / 24), 64);
         for (let i = 0; i < n; i++) {
             streams.push(makeStream(Math.random() * playCanvas.width, Math.random() * playCanvas.height, false));
         }
     }
 
     function blossom(x, y) {
-        const c = PALETTE[Math.floor(Math.random() * (PALETTE.length - 1))];
-        blossoms.push({ x, y, r: 4, max: 90 + Math.random() * 70, life: 1, c });
-        for (let i = 0; i < 26; i++) {
+        const h = hueBase + Math.random() * 50;
+        blossoms.push({ x, y, r: 4, max: 95 + Math.random() * 75, life: 1, hue: h });
+        blossoms.push({ x, y, r: 2, max: 55 + Math.random() * 40, life: 1, hue: h + 45 });
+        for (let i = 0; i < 30; i++) {
             const s = makeStream(x, y, true);
-            const a = (i / 26) * Math.PI * 2;
+            const a = (i / 30) * Math.PI * 2;
             s.px = x - Math.cos(a) * 2;
             s.py = y - Math.sin(a) * 2;
+            s.hue = h + Math.random() * 60 - 30;
             streams.push(s);
         }
         markPlayed();
@@ -517,7 +513,9 @@ if (playCanvas) {
     playCanvas.addEventListener('mousemove', e => {
         const { x, y } = pos(e);
         pointer.x = x; pointer.y = y; pointer.still = 0;
-        streams.push(makeStream(x + (Math.random() - 0.5) * 30, y + (Math.random() - 0.5) * 30, false));
+        for (let i = 0; i < 2; i++) {
+            streams.push(makeStream(x + (Math.random() - 0.5) * 34, y + (Math.random() - 0.5) * 34, false));
+        }
         markPlayed();
     });
 
@@ -544,21 +542,20 @@ if (playCanvas) {
 
     (function drawGarden() {
         tt += 0.008;
+        hueBase = (hueBase + 0.22) % 360; // el color del jardín gira lentamente
 
-        // Velo suave: las estelas persisten como tinta
         pctx.globalCompositeOperation = 'source-over';
         pctx.fillStyle = 'rgba(13, 13, 13, 0.03)';
         pctx.fillRect(0, 0, playCanvas.width, playCanvas.height);
 
-        // Si el cursor se detiene, florece solo
         if (pointer.x !== null) {
             pointer.still++;
             if (pointer.still === 55) blossom(pointer.x, pointer.y);
         }
 
         pctx.globalCompositeOperation = 'lighter';
+        pctx.lineCap = 'round';
 
-        // Corrientes que siguen el campo de flujo
         for (let i = streams.length - 1; i >= 0; i--) {
             const s = streams[i];
             const a = flowAngle(s.x, s.y, tt);
@@ -566,7 +563,6 @@ if (playCanvas) {
             s.x += Math.cos(a) * s.speed;
             s.y += Math.sin(a) * s.speed;
 
-            // Atracción sutil al cursor
             if (pointer.x !== null) {
                 s.x += (pointer.x - s.x) * 0.0016;
                 s.y += (pointer.y - s.y) * 0.0016;
@@ -578,42 +574,52 @@ if (playCanvas) {
                 continue;
             }
 
-            const alpha = 0.8 * s.life;
-            pctx.strokeStyle = `rgba(${s.c[0]}, ${s.c[1]}, ${s.c[2]}, ${alpha})`;
-            pctx.lineWidth = s.w * 1.6 * s.life + 0.4;
-            pctx.lineCap = 'round';
+            // Doble trazo: halo ancho + núcleo brillante (efecto neón)
+            const al = s.life;
+            pctx.strokeStyle = `hsla(${s.hue}, ${s.sat}%, 55%, ${0.22 * al})`;
+            pctx.lineWidth = s.w * 4.2 * al + 1;
+            pctx.beginPath();
+            pctx.moveTo(s.px, s.py);
+            pctx.lineTo(s.x, s.y);
+            pctx.stroke();
+
+            pctx.strokeStyle = `hsla(${s.hue}, ${s.sat}%, 72%, ${0.85 * al})`;
+            pctx.lineWidth = s.w * 1.4 * al + 0.4;
             pctx.beginPath();
             pctx.moveTo(s.px, s.py);
             pctx.lineTo(s.x, s.y);
             pctx.stroke();
         }
 
-        // Mantener densidad ambiental
-        if (streams.length < 40 && Math.random() < 0.3) {
+        if (streams.length < 44 && Math.random() < 0.35) {
             streams.push(makeStream(Math.random() * playCanvas.width, Math.random() * playCanvas.height, false));
         }
-        while (streams.length > 240) streams.shift();
+        while (streams.length > 260) streams.shift();
 
-        // Flores: anillos que se abren y desvanecen
         for (let i = blossoms.length - 1; i >= 0; i--) {
             const b = blossoms[i];
             b.r += (b.max - b.r) * 0.06;
-            b.life -= 0.012;
+            b.life -= 0.011;
             if (b.life <= 0) { blossoms.splice(i, 1); continue; }
-            const petals = 12;
+            const petals = 14;
             for (let k = 0; k < petals; k++) {
-                const ang = (k / petals) * Math.PI * 2 + b.r * 0.01;
+                const ang = (k / petals) * Math.PI * 2 + b.r * 0.012;
                 const px = b.x + Math.cos(ang) * b.r;
                 const py = b.y + Math.sin(ang) * b.r;
+                const ph = b.hue + k * 4;
                 pctx.beginPath();
-                pctx.arc(px, py, 2.4 * b.life + 0.4, 0, Math.PI * 2);
-                pctx.fillStyle = `rgba(${b.c[0]}, ${b.c[1]}, ${b.c[2]}, ${0.55 * b.life})`;
+                pctx.arc(px, py, 3.2 * b.life + 0.5, 0, Math.PI * 2);
+                pctx.fillStyle = `hsla(${ph}, 92%, 66%, ${0.7 * b.life})`;
+                pctx.fill();
+                pctx.beginPath();
+                pctx.arc(px, py, 7 * b.life + 1, 0, Math.PI * 2);
+                pctx.fillStyle = `hsla(${ph}, 92%, 60%, ${0.16 * b.life})`;
                 pctx.fill();
             }
             pctx.beginPath();
             pctx.arc(b.x, b.y, b.r * 0.55, 0, Math.PI * 2);
-            pctx.strokeStyle = `rgba(${b.c[0]}, ${b.c[1]}, ${b.c[2]}, ${0.16 * b.life})`;
-            pctx.lineWidth = 1;
+            pctx.strokeStyle = `hsla(${b.hue + 20}, 90%, 65%, ${0.2 * b.life})`;
+            pctx.lineWidth = 1.2;
             pctx.stroke();
         }
 
@@ -674,7 +680,10 @@ if (finePointer && !reduceMotion) {
         if (!media) return;
         const lens = document.createElement('div');
         lens.className = 'panel-lens';
-        lens.style.backgroundImage = media.style.backgroundImage;
+        const cs = getComputedStyle(media);
+        lens.style.backgroundImage = cs.backgroundImage;
+        lens.style.backgroundSize = cs.backgroundSize;
+        lens.style.backgroundPosition = cs.backgroundPosition;
         media.after(lens);
 
         panel.addEventListener('mousemove', e => {
