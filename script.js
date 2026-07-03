@@ -27,108 +27,178 @@ const MSG = LANG === 'en' ? {
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-// ===== Constelación de puntos del hero =====
-// Puntos negros conectados por líneas: el isotipo de Lúdica, vivo.
+// ===== Constelación 3D del hero =====
+// Nube de puntos negros conectados en un cubo 3D: el isotipo de Lúdica,
+// vivo y con profundidad. Rota con el mouse (desktop) o el giroscopio (móvil).
+// Al cargar, los puntos convergen desde el caos para formar la constelación.
 const canvas = document.getElementById('particleField');
 const ctx = canvas.getContext('2d');
-const mouse = { x: null, y: null };
-let particles = [];
+let nodes = [];
+let W = 0, H = 0, DPR = 1;
+let yaw = 0, pitch = 0, targetYaw = 0, targetPitch = 0;
+let intro = 0;                 // 0 → 1 progreso de la intro cinematográfica
+const introDur = reduceMotion ? 0 : 1500;
+let introStart = null;
+const LINK_DIST = 150;         // distancia 3D para dibujar una línea
 
 function resizeCanvas() {
     const rect = canvas.parentElement.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
-    const count = Math.min(Math.floor((canvas.width * canvas.height) / 20000), 90);
-    particles = Array.from({ length: count }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        r: Math.random() * 3.2 + 1.4
-    }));
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = rect.width;
+    H = rect.height;
+    canvas.width = W * DPR;
+    canvas.height = H * DPR;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+    const count = Math.min(Math.floor((W * H) / 17000), 80);
+    const spread = Math.min(W, H) * 0.42;
+    if (nodes.length !== count) {
+        nodes = Array.from({ length: count }, () => {
+            // Posición "hogar" dentro del cubo
+            const hx = (Math.random() - 0.5) * spread * 2;
+            const hy = (Math.random() - 0.5) * spread * 2;
+            const hz = (Math.random() - 0.5) * spread * 2;
+            // Posición inicial dispersa (para la convergencia de intro)
+            const ang = Math.random() * Math.PI * 2;
+            const far = spread * (2.2 + Math.random() * 1.6);
+            return {
+                hx, hy, hz,
+                sx: Math.cos(ang) * far,
+                sy: (Math.random() - 0.5) * far * 1.4,
+                sz: Math.sin(ang) * far,
+                x: 0, y: 0, z: 0,
+                vx: 0, vy: 0, vz: 0,
+                r: Math.random() * 2.6 + 1.5,
+                twk: Math.random() * Math.PI * 2   // fase de parpadeo
+            };
+        });
+    } else {
+        // Reescalar hogares al nuevo tamaño sin reiniciar la intro
+        for (const n of nodes) {
+            n.hx = Math.max(-spread, Math.min(spread, n.hx));
+            n.hy = Math.max(-spread, Math.min(spread, n.hy));
+        }
+    }
 }
 
-function drawParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+function project(x, y, z) {
+    // Rotación en Y (yaw) y X (pitch)
+    const cosY = Math.cos(yaw), sinY = Math.sin(yaw);
+    let X = x * cosY - z * sinY;
+    let Z = x * sinY + z * cosY;
+    const cosX = Math.cos(pitch), sinX = Math.sin(pitch);
+    let Y = y * cosX - Z * sinX;
+    Z = y * sinX + Z * cosX;
+    // Perspectiva
+    const focal = 620;
+    const scale = focal / (focal + Z);
+    return { px: W / 2 + X * scale, py: H / 2 + Y * scale, scale, Z };
+}
 
-    for (const p of particles) {
-        // Repulsión suave alrededor del cursor
-        if (mouse.x !== null) {
-            const dx = p.x - mouse.x;
-            const dy = p.y - mouse.y;
-            const dist = Math.hypot(dx, dy);
-            if (dist < 150 && dist > 0.01) {
-                const force = (150 - dist) / 150;
-                p.vx += (dx / dist) * force * 0.35;
-                p.vy += (dy / dist) * force * 0.35;
-            }
-        }
+function drawScene() {
+    ctx.clearRect(0, 0, W, H);
 
-        p.vx *= 0.985;
-        p.vy *= 0.985;
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
+    // Actualizar posiciones (convergencia de intro + deriva suave)
+    const t = performance.now() * 0.0004;
+    for (const n of nodes) {
+        // Objetivo actual: mezcla entre disperso (intro=0) y hogar (intro=1)
+        const driftX = Math.sin(t + n.twk) * 10;
+        const driftY = Math.cos(t * 0.8 + n.twk) * 10;
+        const tx = n.sx + (n.hx + driftX - n.sx) * intro;
+        const ty = n.sy + (n.hy + driftY - n.sy) * intro;
+        const tz = n.sz + (n.hz - n.sz) * intro;
+        // Suavizado tipo resorte
+        n.vx += (tx - n.x) * 0.08; n.vx *= 0.82; n.x += n.vx;
+        n.vy += (ty - n.y) * 0.08; n.vy *= 0.82; n.y += n.vy;
+        n.vz += (tz - n.z) * 0.08; n.vz *= 0.82; n.z += n.vz;
+        const p = project(n.x, n.y, n.z);
+        n.px = p.px; n.py = p.py; n.pscale = p.scale; n.pz = p.Z;
     }
 
-    // Líneas entre puntos cercanos (como el isotipo)
-    ctx.strokeStyle = 'rgba(17, 17, 17, 0.35)';
-    ctx.lineWidth = 1.5;
-    for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-            const a = particles[i];
-            const b = particles[j];
-            const dist = Math.hypot(a.x - b.x, a.y - b.y);
-            if (dist < 130) {
-                ctx.globalAlpha = 1 - dist / 130;
+    // Líneas entre puntos cercanos en 3D
+    ctx.lineWidth = 1.3;
+    for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+            const a = nodes[i], b = nodes[j];
+            const dx = a.x - b.x, dy = a.y - b.y, dz = a.z - b.z;
+            const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            if (dist < LINK_DIST) {
+                const alpha = (1 - dist / LINK_DIST) * 0.35 * intro;
+                ctx.strokeStyle = 'rgba(17, 17, 17, ' + alpha.toFixed(3) + ')';
                 ctx.beginPath();
-                ctx.moveTo(a.x, a.y);
-                ctx.lineTo(b.x, b.y);
+                ctx.moveTo(a.px, a.py);
+                ctx.lineTo(b.px, b.py);
                 ctx.stroke();
             }
         }
     }
-    ctx.globalAlpha = 1;
 
-    ctx.fillStyle = 'rgba(17, 17, 17, 0.9)';
-    for (const p of particles) {
+    // Puntos, ordenados por profundidad (los del fondo primero)
+    const order = nodes.slice().sort((a, b) => b.pz - a.pz);
+    for (const n of order) {
+        const depth = 0.45 + 0.55 * n.pscale;         // más cerca = más opaco
+        const twinkle = 0.85 + 0.15 * Math.sin(t * 4 + n.twk);
+        ctx.fillStyle = 'rgba(17, 17, 17, ' + (depth * twinkle).toFixed(3) + ')';
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.arc(n.px, n.py, Math.max(0.6, n.r * n.pscale), 0, Math.PI * 2);
         ctx.fill();
     }
+}
 
-    requestAnimationFrame(drawParticles);
+function loop(now) {
+    if (introStart === null) introStart = now;
+    intro = introDur ? Math.min(1, (now - introStart) / introDur) : 1;
+    intro = 1 - Math.pow(1 - intro, 3);           // ease-out cúbico
+    yaw += (targetYaw - yaw) * 0.06;
+    pitch += (targetPitch - pitch) * 0.06;
+    drawScene();
+    requestAnimationFrame(loop);
 }
 
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
-if (!reduceMotion) {
-    drawParticles();
+if (reduceMotion) {
+    intro = 1;
+    // Colocar en hogar y pintar un fotograma estático
+    for (const n of nodes) { n.x = n.hx; n.y = n.hy; n.z = n.hz; }
+    drawScene();
 } else {
-    // Sin animación: un fotograma estático
-    ctx.fillStyle = 'rgba(17, 17, 17, 0.9)';
-    for (const p of particles) {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
-    }
+    requestAnimationFrame(loop);
 }
 
+// Rotación con el mouse (desktop)
 canvas.parentElement.addEventListener('mousemove', e => {
     const rect = canvas.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left;
-    mouse.y = e.clientY - rect.top;
+    const nx = (e.clientX - rect.left) / rect.width - 0.5;
+    const ny = (e.clientY - rect.top) / rect.height - 0.5;
+    targetYaw = nx * 0.9;
+    targetPitch = ny * 0.6;
+});
+canvas.parentElement.addEventListener('mouseleave', () => {
+    targetYaw = 0;
+    targetPitch = 0;
 });
 
-canvas.parentElement.addEventListener('mouseleave', () => {
-    mouse.x = null;
-    mouse.y = null;
-});
+// Rotación con el giroscopio (móvil) — se activa tras el primer toque por permisos iOS
+function enableGyro() {
+    if (!window.DeviceOrientationEvent) return;
+    const attach = () => window.addEventListener('deviceorientation', e => {
+        if (e.gamma == null) return;
+        targetYaw = Math.max(-1, Math.min(1, e.gamma / 45)) * 0.8;
+        targetPitch = Math.max(-1, Math.min(1, (e.beta - 45) / 45)) * 0.5;
+    });
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission().then(s => { if (s === 'granted') attach(); }).catch(() => {});
+    } else {
+        attach();
+    }
+}
+if (!finePointer && !reduceMotion) {
+    window.addEventListener('touchstart', enableGyro, { once: true });
+}
 
 // ===== Cursor personalizado con halo =====
 if (finePointer && !reduceMotion) {
@@ -418,22 +488,23 @@ if (videoStage && videoStrip) {
     });
 }
 
-// ===== Hero jugable: clic siembra constelación =====
+// ===== Hero jugable: clic siembra nuevos nodos en la constelación 3D =====
 canvas.parentElement.addEventListener('click', e => {
     const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    for (let i = 0; i < 7; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 2.4 + 0.6;
-        particles.push({
-            x, y,
-            vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed,
-            r: Math.random() * 3.2 + 1.4
+    // Punto de clic → coordenadas centradas del plano del cubo
+    const cx = (e.clientX - rect.left) - W / 2;
+    const cy = (e.clientY - rect.top) - H / 2;
+    const spread = Math.min(W, H) * 0.42;
+    for (let i = 0; i < 5; i++) {
+        const jitter = () => (Math.random() - 0.5) * spread * 0.5;
+        nodes.push({
+            hx: cx + jitter(), hy: cy + jitter(), hz: (Math.random() - 0.5) * spread,
+            sx: cx, sy: cy, sz: 0,
+            x: cx, y: cy, z: 0, vx: 0, vy: 0, vz: 0,
+            r: Math.random() * 2.6 + 1.5, twk: Math.random() * Math.PI * 2
         });
     }
-    while (particles.length > 150) particles.shift();
+    while (nodes.length > 130) nodes.shift();
 });
 
 // ===== Zona de juego: jardín de luz multicolor (flow field) =====
