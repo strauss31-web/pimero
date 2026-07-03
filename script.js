@@ -515,7 +515,16 @@ if (playCanvas) {
     const playHint = document.getElementById('playHint');
     const streams = [];
     const blossoms = [];
-    const pointer = { x: null, y: null, still: 0 };
+    const pointer = { x: null, y: null, px: null, py: null, vx: 0, vy: 0, still: 0 };
+    function setPointer(x, y) {
+        if (pointer.x !== null) {
+            // Velocidad del puntero → arrastra la tinta como un fluido
+            pointer.vx = pointer.vx * 0.6 + (x - pointer.x) * 0.4;
+            pointer.vy = pointer.vy * 0.6 + (y - pointer.y) * 0.4;
+        }
+        pointer.px = pointer.x; pointer.py = pointer.y;
+        pointer.x = x; pointer.y = y; pointer.still = 0;
+    }
     let played = false;
     let tt = 0;
     let hueBase = 348; // arranca en el rojo Lúdica y recorre el espectro
@@ -584,7 +593,7 @@ if (playCanvas) {
 
     playCanvas.addEventListener('mousemove', e => {
         const { x, y } = pos(e);
-        pointer.x = x; pointer.y = y; pointer.still = 0;
+        setPointer(x, y);
         for (let i = 0; i < 2; i++) {
             streams.push(makeStream(x + (Math.random() - 0.5) * 34, y + (Math.random() - 0.5) * 34, false));
         }
@@ -602,7 +611,7 @@ if (playCanvas) {
     playCanvas.addEventListener('touchmove', e => {
         e.preventDefault();
         const { x, y } = pos(e);
-        pointer.x = x; pointer.y = y;
+        setPointer(x, y);
         streams.push(makeStream(x, y, false));
         markPlayed();
     }, { passive: false });
@@ -630,6 +639,9 @@ if (playCanvas) {
             pointer.still++;
             if (pointer.still === 55) blossom(pointer.x, pointer.y);
         }
+        // La velocidad del puntero se disipa como en un líquido viscoso
+        pointer.vx *= 0.9;
+        pointer.vy *= 0.9;
 
         pctx.globalCompositeOperation = 'lighter';
         pctx.lineCap = 'round';
@@ -644,6 +656,18 @@ if (playCanvas) {
             if (pointer.x !== null) {
                 s.x += (pointer.x - s.x) * 0.0016;
                 s.y += (pointer.y - s.y) * 0.0016;
+                // Advección: la tinta cercana es empujada por la velocidad del puntero
+                const pdx = s.x - pointer.x, pdy = s.y - pointer.y;
+                const pd = Math.hypot(pdx, pdy);
+                if (pd < 140) {
+                    const pull = (1 - pd / 140);
+                    s.x += pointer.vx * pull * 0.5;
+                    s.y += pointer.vy * pull * 0.5;
+                    // Componente de remolino (perpendicular a la velocidad)
+                    const swirl = pull * 0.12;
+                    s.x += -pointer.vy * swirl;
+                    s.y += pointer.vx * swirl;
+                }
             }
 
             s.life -= s.decay;
@@ -968,5 +992,107 @@ if (videosToggle && videosGallery) {
         videosGallery.hidden = !open;
         videosToggle.textContent = open ? videosToggle.dataset.hide : videosToggle.dataset.show;
         if (open) videosGallery.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+}
+
+// ===== Sonido inmersivo (sintetizado, apagado por defecto) =====
+// Ningún estudio inmersivo debería tener una página muda. Ambiente sutil +
+// micro-sonidos al interactuar. Todo se genera con Web Audio (sin archivos).
+(function immersiveSound() {
+    const SND = LANG === 'en'
+        ? { on: '♪ SOUND ON', off: '♪ SOUND OFF', aria: 'Toggle ambient sound' }
+        : { on: '♪ SONIDO', off: '♪ SILENCIO', aria: 'Activar sonido ambiente' };
+
+    const btn = document.createElement('button');
+    btn.className = 'sound-toggle';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', SND.aria);
+    btn.setAttribute('aria-pressed', 'false');
+    btn.textContent = SND.off;
+    document.body.appendChild(btn);
+
+    let ac = null, master = null, drone = null, enabled = false;
+
+    function ensureContext() {
+        if (ac) return;
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        ac = new AC();
+        master = ac.createGain();
+        master.gain.value = 0.0;
+        master.connect(ac.destination);
+        // Zumbido ambiente muy tenue (dos osciladores desafinados)
+        drone = ac.createGain();
+        drone.gain.value = 0.06;
+        drone.connect(master);
+        [55, 82.5].forEach((f, i) => {
+            const o = ac.createOscillator();
+            o.type = 'sine';
+            o.frequency.value = f;
+            const g = ac.createGain();
+            g.gain.value = i ? 0.25 : 0.4;
+            // Trémolo lento
+            const lfo = ac.createOscillator();
+            lfo.frequency.value = 0.07 + i * 0.03;
+            const lfoGain = ac.createGain();
+            lfoGain.gain.value = 0.12;
+            lfo.connect(lfoGain); lfoGain.connect(g.gain);
+            o.connect(g); g.connect(drone);
+            o.start(); lfo.start();
+        });
+    }
+
+    function blip(freq, dur, type, vol) {
+        if (!enabled || !ac) return;
+        const o = ac.createOscillator();
+        const g = ac.createGain();
+        o.type = type || 'sine';
+        o.frequency.value = freq;
+        g.gain.setValueAtTime(0, ac.currentTime);
+        g.gain.linearRampToValueAtTime(vol || 0.18, ac.currentTime + 0.008);
+        g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + (dur || 0.22));
+        o.connect(g); g.connect(master);
+        o.start();
+        o.stop(ac.currentTime + (dur || 0.22) + 0.05);
+    }
+
+    // API para que otras partes de la página disparen sonidos
+    window.__sfx = {
+        tap: () => blip(520 + Math.random() * 120, 0.16, 'triangle', 0.12),
+        drop: () => { blip(300, 0.4, 'sine', 0.2); setTimeout(() => blip(600, 0.25, 'sine', 0.1), 40); },
+        open: () => { blip(330, 0.2, 'sine', 0.14); setTimeout(() => blip(495, 0.3, 'sine', 0.12), 90); },
+        soft: () => blip(720, 0.1, 'sine', 0.08)
+    };
+
+    btn.addEventListener('click', () => {
+        ensureContext();
+        if (!ac) return;
+        if (ac.state === 'suspended') ac.resume();
+        enabled = !enabled;
+        btn.setAttribute('aria-pressed', String(enabled));
+        btn.textContent = enabled ? SND.on : SND.off;
+        btn.classList.toggle('active', enabled);
+        master.gain.linearRampToValueAtTime(enabled ? 0.5 : 0.0, ac.currentTime + 0.4);
+    });
+
+    // Enganches de interacción (silenciosos si el sonido está apagado)
+    document.addEventListener('click', e => {
+        const t = e.target.closest('.terr-panel, .video-chip, .btn, .nav-cta, .ver-caso, .stat');
+        if (t && window.__sfx) window.__sfx.tap();
+    });
+    const pc = document.getElementById('playCanvas');
+    if (pc) {
+        pc.addEventListener('click', () => window.__sfx && window.__sfx.drop());
+        pc.addEventListener('touchstart', () => window.__sfx && window.__sfx.drop(), { passive: true });
+    }
+    const vt = document.getElementById('videosToggle');
+    if (vt) vt.addEventListener('click', () => window.__sfx && window.__sfx.open());
+})();
+
+// ===== PWA: registrar service worker (instalable + carga instantánea) =====
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        const base = LANG === 'en' ? '../' : './';
+        navigator.serviceWorker.register(base + 'sw.js').catch(() => {});
     });
 }

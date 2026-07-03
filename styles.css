@@ -2072,3 +2072,29 @@ a, button, .terr-panel, .stat, .obra {
         background-position: center 38%;
     }
 }
+
+/* ===== Botón de sonido inmersivo ===== */
+.sound-toggle {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 250;
+    font-family: var(--font);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--bone);
+    background: rgba(17, 17, 17, 0.82);
+    border: 1.5px solid rgba(243, 239, 231, 0.35);
+    border-radius: 40px;
+    padding: 9px 15px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: transform 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+.sound-toggle:hover { transform: translateY(-2px); border-color: var(--red); }
+.sound-toggle.active { color: var(--red); border-color: var(--red); }
+@media (max-width: 768px) {
+    .sound-toggle { left: 14px; bottom: 14px; font-size: 0.62rem; padding: 8px 13px; }
+}
