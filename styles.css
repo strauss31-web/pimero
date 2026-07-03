@@ -1231,6 +1231,24 @@ h2 {
     opacity: 0.6;
 }
 
+.footer-ig {
+    display: inline-block;
+    margin-top: 6px;
+    color: var(--bone);
+    text-decoration: none;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    padding: 11px 20px;
+    border: 2px solid rgba(243, 239, 231, 0.45);
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.footer-ig:hover {
+    border-color: var(--red);
+    color: var(--red);
+}
+
 /* ===== Animaciones de aparición ===== */
 .reveal {
     opacity: 0;
@@ -1525,6 +1543,12 @@ h2 {
 .play-clear:hover {
     border-color: var(--red);
     color: var(--red);
+}
+
+/* Botón de simetría del caleidoscopio (esquina opuesta al de limpiar) */
+.play-clear.play-sym {
+    right: auto;
+    left: 14px;
 }
 
 .play-cta {

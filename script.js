@@ -507,75 +507,38 @@ canvas.parentElement.addEventListener('click', e => {
     while (nodes.length > 130) nodes.shift();
 });
 
-// ===== Zona de juego: jardín de luz multicolor (flow field) =====
+// ===== Zona de juego: caleidoscopio vivo (pincel espejado) =====
 const playCanvas = document.getElementById('playCanvas');
 
 if (playCanvas) {
     const pctx = playCanvas.getContext('2d');
     const playHint = document.getElementById('playHint');
-    const streams = [];
-    const blossoms = [];
-    const pointer = { x: null, y: null, px: null, py: null, vx: 0, vy: 0, still: 0 };
-    function setPointer(x, y) {
-        if (pointer.x !== null) {
-            // Velocidad del puntero → arrastra la tinta como un fluido
-            pointer.vx = pointer.vx * 0.6 + (x - pointer.x) * 0.4;
-            pointer.vy = pointer.vy * 0.6 + (y - pointer.y) * 0.4;
-        }
-        pointer.px = pointer.x; pointer.py = pointer.y;
-        pointer.x = x; pointer.y = y; pointer.still = 0;
-    }
-    let played = false;
+    const playSymBtn = document.getElementById('playSym');
+    const SYMS = [6, 8, 12, 16];
+    const SYM_LABEL = LANG === 'en' ? 'MIRRORS' : 'ESPEJOS';
+    let symIdx = 1; // arranca con 8 espejos
+    let W = 0, H = 0, CX = 0, CY = 0;
+    let hueBase = 348; // rojo Lúdica; recorre el espectro lentamente
     let tt = 0;
-    let hueBase = 348; // arranca en el rojo Lúdica y recorre el espectro
+    let played = false;
+    let idle = 9999; // sin interacción → el pincel fantasma pinta solo
+    const last = { x: null, y: null };
+    const ghost = { x: null, y: null };
+    const sparks = [];
+
+    // Buffer para el bucle de retroalimentación: el mandala completo
+    // gira y respira mientras se desvanece poco a poco.
+    const buf = document.createElement('canvas');
+    const bctx = buf.getContext('2d');
 
     function resizePlay() {
-        playCanvas.width = playCanvas.clientWidth;
-        playCanvas.height = playCanvas.clientHeight;
+        W = playCanvas.width = playCanvas.clientWidth;
+        H = playCanvas.height = playCanvas.clientHeight;
+        CX = W / 2; CY = H / 2;
+        buf.width = W; buf.height = H;
         pctx.fillStyle = '#0d0d0d';
-        pctx.fillRect(0, 0, playCanvas.width, playCanvas.height);
-        seedAmbient();
-    }
-
-    function flowAngle(x, y, t) {
-        return (Math.sin(x * 0.004 + t * 0.4) + Math.cos(y * 0.0036 - t * 0.27)
-             + Math.sin((x + y) * 0.0021 + t * 0.16)) * 1.7;
-    }
-
-    function makeStream(x, y, boost) {
-        return {
-            x, y,
-            px: x, py: y,
-            speed: (boost ? 1.7 : 0.85) + Math.random() * 1.0,
-            life: 1,
-            decay: 0.0035 + Math.random() * 0.004,
-            w: Math.random() * 2.0 + 0.8,
-            hue: hueBase + Math.random() * 70 - 15,
-            sat: 85 + Math.random() * 15
-        };
-    }
-
-    function seedAmbient() {
-        streams.length = 0;
-        const n = Math.min(Math.floor(playCanvas.width / 24), 64);
-        for (let i = 0; i < n; i++) {
-            streams.push(makeStream(Math.random() * playCanvas.width, Math.random() * playCanvas.height, false));
-        }
-    }
-
-    function blossom(x, y) {
-        const h = hueBase + Math.random() * 50;
-        blossoms.push({ x, y, r: 4, max: 95 + Math.random() * 75, life: 1, hue: h });
-        blossoms.push({ x, y, r: 2, max: 55 + Math.random() * 40, life: 1, hue: h + 45 });
-        for (let i = 0; i < 30; i++) {
-            const s = makeStream(x, y, true);
-            const a = (i / 30) * Math.PI * 2;
-            s.px = x - Math.cos(a) * 2;
-            s.py = y - Math.sin(a) * 2;
-            s.hue = h + Math.random() * 60 - 30;
-            streams.push(s);
-        }
-        markPlayed();
+        pctx.fillRect(0, 0, W, H);
+        last.x = null; ghost.x = null;
     }
 
     function markPlayed() {
@@ -585,148 +548,168 @@ if (playCanvas) {
         }
     }
 
+    // Un segmento se replica en N rotaciones + su reflejo: caleidoscopio.
+    function brush(x0, y0, x1, y1, width, hue, alpha) {
+        const n = SYMS[symIdx];
+        const ax0 = x0 - CX, ay0 = y0 - CY, ax1 = x1 - CX, ay1 = y1 - CY;
+        pctx.globalCompositeOperation = 'lighter';
+        pctx.lineCap = 'round';
+        for (let k = 0; k < n; k++) {
+            const a = (k / n) * Math.PI * 2;
+            const ca = Math.cos(a), sa = Math.sin(a);
+            for (let m = 0; m < 2; m++) {
+                const y0m = m ? -ay0 : ay0, y1m = m ? -ay1 : ay1;
+                const rx0 = CX + ax0 * ca - y0m * sa, ry0 = CY + ax0 * sa + y0m * ca;
+                const rx1 = CX + ax1 * ca - y1m * sa, ry1 = CY + ax1 * sa + y1m * ca;
+                // Halo ancho + núcleo brillante (neón)
+                pctx.strokeStyle = `hsla(${hue}, 90%, 60%, ${0.16 * alpha})`;
+                pctx.lineWidth = width * 3.4;
+                pctx.beginPath(); pctx.moveTo(rx0, ry0); pctx.lineTo(rx1, ry1); pctx.stroke();
+                pctx.strokeStyle = `hsla(${hue}, 95%, 74%, ${0.8 * alpha})`;
+                pctx.lineWidth = width;
+                pctx.beginPath(); pctx.moveTo(rx0, ry0); pctx.lineTo(rx1, ry1); pctx.stroke();
+            }
+        }
+    }
+
+    // Un punto replicado en todos los espejos.
+    function dot(x, y, r, hue, alpha) {
+        const n = SYMS[symIdx];
+        const ax = x - CX, ay = y - CY;
+        pctx.fillStyle = `hsla(${hue}, 92%, 68%, ${alpha})`;
+        for (let k = 0; k < n; k++) {
+            const a = (k / n) * Math.PI * 2;
+            const ca = Math.cos(a), sa = Math.sin(a);
+            for (let m = 0; m < 2; m++) {
+                const ym = m ? -ay : ay;
+                pctx.beginPath();
+                pctx.arc(CX + ax * ca - ym * sa, CY + ax * sa + ym * ca, r, 0, Math.PI * 2);
+                pctx.fill();
+            }
+        }
+    }
+
+    function bloom(x, y) {
+        const h = hueBase + Math.random() * 40;
+        for (let i = 0; i < 26; i++) {
+            const a = (i / 26) * Math.PI * 2 + Math.random() * 0.3;
+            const sp = 1.2 + Math.random() * 3.4;
+            sparks.push({
+                x, y,
+                vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
+                life: 1, decay: 0.008 + Math.random() * 0.012,
+                r: 1 + Math.random() * 2.2,
+                hue: h + Math.random() * 50 - 25
+            });
+        }
+        while (sparks.length > 240) sparks.shift();
+        markPlayed();
+    }
+
     function pos(e) {
         const rect = playCanvas.getBoundingClientRect();
         const pt = e.touches ? e.touches[0] : e;
         return { x: pt.clientX - rect.left, y: pt.clientY - rect.top };
     }
 
-    playCanvas.addEventListener('mousemove', e => {
-        const { x, y } = pos(e);
-        setPointer(x, y);
-        for (let i = 0; i < 2; i++) {
-            streams.push(makeStream(x + (Math.random() - 0.5) * 34, y + (Math.random() - 0.5) * 34, false));
+    function strokeTo(x, y) {
+        if (last.x !== null) {
+            const speed = Math.hypot(x - last.x, y - last.y);
+            // Trazo lento = tinta gruesa; trazo rápido = línea fina
+            const w = Math.max(1.1, 7.5 - speed * 0.18);
+            const hue = hueBase + (x / W) * 60;
+            brush(last.x, last.y, x, y, w, hue, 0.9);
         }
+        last.x = x; last.y = y;
+        idle = 0;
         markPlayed();
-    });
+    }
 
-    playCanvas.addEventListener('mouseleave', () => { pointer.x = null; });
-    playCanvas.addEventListener('click', e => { const { x, y } = pos(e); blossom(x, y); });
+    playCanvas.addEventListener('mousemove', e => { const { x, y } = pos(e); strokeTo(x, y); });
+    playCanvas.addEventListener('mouseleave', () => { last.x = null; });
+    playCanvas.addEventListener('click', e => { const { x, y } = pos(e); bloom(x, y); idle = 0; });
     playCanvas.addEventListener('touchstart', e => {
         const { x, y } = pos(e);
-        pointer.x = x; pointer.y = y;
-        blossom(x, y);
+        last.x = x; last.y = y;
+        bloom(x, y);
+        idle = 0;
     }, { passive: true });
 
     playCanvas.addEventListener('touchmove', e => {
         e.preventDefault();
         const { x, y } = pos(e);
-        setPointer(x, y);
-        streams.push(makeStream(x, y, false));
-        markPlayed();
+        strokeTo(x, y);
     }, { passive: false });
-    playCanvas.addEventListener('touchend', () => { pointer.x = null; });
+    playCanvas.addEventListener('touchend', () => { last.x = null; });
 
     document.getElementById('playClear').addEventListener('click', () => {
-        blossoms.length = 0;
+        sparks.length = 0;
+        pctx.globalCompositeOperation = 'source-over';
         pctx.fillStyle = '#0d0d0d';
-        pctx.fillRect(0, 0, playCanvas.width, playCanvas.height);
-        seedAmbient();
+        pctx.fillRect(0, 0, W, H);
     });
+
+    if (playSymBtn) {
+        playSymBtn.addEventListener('click', () => {
+            symIdx = (symIdx + 1) % SYMS.length;
+            playSymBtn.textContent = SYM_LABEL + ': ' + SYMS[symIdx];
+            if (window.__sfx && window.__sfx.tap) window.__sfx.tap();
+        });
+    }
 
     resizePlay();
     window.addEventListener('resize', resizePlay);
 
-    (function drawGarden() {
+    (function drawKaleido() {
         tt += 0.008;
-        hueBase = (hueBase + 0.22) % 360; // el color del jardín gira lentamente
+        hueBase = (hueBase + 0.25) % 360;
 
-        pctx.globalCompositeOperation = 'source-over';
-        pctx.fillStyle = 'rgba(13, 13, 13, 0.03)';
-        pctx.fillRect(0, 0, playCanvas.width, playCanvas.height);
-
-        if (pointer.x !== null) {
-            pointer.still++;
-            if (pointer.still === 55) blossom(pointer.x, pointer.y);
-        }
-        // La velocidad del puntero se disipa como en un líquido viscoso
-        pointer.vx *= 0.9;
-        pointer.vy *= 0.9;
-
-        pctx.globalCompositeOperation = 'lighter';
-        pctx.lineCap = 'round';
-
-        for (let i = streams.length - 1; i >= 0; i--) {
-            const s = streams[i];
-            const a = flowAngle(s.x, s.y, tt);
-            s.px = s.x; s.py = s.y;
-            s.x += Math.cos(a) * s.speed;
-            s.y += Math.sin(a) * s.speed;
-
-            if (pointer.x !== null) {
-                s.x += (pointer.x - s.x) * 0.0016;
-                s.y += (pointer.y - s.y) * 0.0016;
-                // Advección: la tinta cercana es empujada por la velocidad del puntero
-                const pdx = s.x - pointer.x, pdy = s.y - pointer.y;
-                const pd = Math.hypot(pdx, pdy);
-                if (pd < 140) {
-                    const pull = (1 - pd / 140);
-                    s.x += pointer.vx * pull * 0.5;
-                    s.y += pointer.vy * pull * 0.5;
-                    // Componente de remolino (perpendicular a la velocidad)
-                    const swirl = pull * 0.12;
-                    s.x += -pointer.vy * swirl;
-                    s.y += pointer.vx * swirl;
-                }
+        if (W && H) {
+            // Retroalimentación: copia el lienzo, gíralo apenas y redibújalo
+            // desvaneciéndose — el mandala entero respira y rota.
+            bctx.clearRect(0, 0, W, H);
+            bctx.drawImage(playCanvas, 0, 0);
+            pctx.globalCompositeOperation = 'source-over';
+            pctx.fillStyle = '#0d0d0d';
+            pctx.fillRect(0, 0, W, H);
+            pctx.save();
+            pctx.globalAlpha = reduceMotion ? 0.985 : 0.994;
+            pctx.translate(CX, CY);
+            if (!reduceMotion) {
+                pctx.rotate(0.0014);
+                const s = 0.9985 + Math.sin(tt * 0.9) * 0.0008; // respiración
+                pctx.scale(s, s);
             }
+            pctx.drawImage(buf, -CX, -CY);
+            pctx.restore();
+            pctx.globalAlpha = 1;
 
-            s.life -= s.decay;
-            if (s.life <= 0 || s.x < -30 || s.x > playCanvas.width + 30 || s.y < -30 || s.y > playCanvas.height + 30) {
-                streams.splice(i, 1);
-                continue;
+            // Pincel fantasma: pinta solo mientras nadie interactúa
+            if (idle > 210 && !reduceMotion) {
+                const R = Math.min(W, H) * 0.36;
+                const gx = CX + Math.cos(tt * 1.1) * R * (0.55 + 0.45 * Math.sin(tt * 0.37));
+                const gy = CY + Math.sin(tt * 1.7) * R * (0.55 + 0.45 * Math.cos(tt * 0.29));
+                if (ghost.x !== null) brush(ghost.x, ghost.y, gx, gy, 1.6, hueBase, 0.45);
+                ghost.x = gx; ghost.y = gy;
+            } else {
+                ghost.x = null;
             }
+            idle++;
 
-            // Doble trazo: halo ancho + núcleo brillante (efecto neón)
-            const al = s.life;
-            pctx.strokeStyle = `hsla(${s.hue}, ${s.sat}%, 55%, ${0.22 * al})`;
-            pctx.lineWidth = s.w * 4.2 * al + 1;
-            pctx.beginPath();
-            pctx.moveTo(s.px, s.py);
-            pctx.lineTo(s.x, s.y);
-            pctx.stroke();
-
-            pctx.strokeStyle = `hsla(${s.hue}, ${s.sat}%, 72%, ${0.85 * al})`;
-            pctx.lineWidth = s.w * 1.4 * al + 0.4;
-            pctx.beginPath();
-            pctx.moveTo(s.px, s.py);
-            pctx.lineTo(s.x, s.y);
-            pctx.stroke();
-        }
-
-        if (streams.length < 44 && Math.random() < 0.35) {
-            streams.push(makeStream(Math.random() * playCanvas.width, Math.random() * playCanvas.height, false));
-        }
-        while (streams.length > 260) streams.shift();
-
-        for (let i = blossoms.length - 1; i >= 0; i--) {
-            const b = blossoms[i];
-            b.r += (b.max - b.r) * 0.06;
-            b.life -= 0.011;
-            if (b.life <= 0) { blossoms.splice(i, 1); continue; }
-            const petals = 14;
-            for (let k = 0; k < petals; k++) {
-                const ang = (k / petals) * Math.PI * 2 + b.r * 0.012;
-                const px = b.x + Math.cos(ang) * b.r;
-                const py = b.y + Math.sin(ang) * b.r;
-                const ph = b.hue + k * 4;
-                pctx.beginPath();
-                pctx.arc(px, py, 3.2 * b.life + 0.5, 0, Math.PI * 2);
-                pctx.fillStyle = `hsla(${ph}, 92%, 66%, ${0.7 * b.life})`;
-                pctx.fill();
-                pctx.beginPath();
-                pctx.arc(px, py, 7 * b.life + 1, 0, Math.PI * 2);
-                pctx.fillStyle = `hsla(${ph}, 92%, 60%, ${0.16 * b.life})`;
-                pctx.fill();
+            // Chispas de las floraciones
+            pctx.globalCompositeOperation = 'lighter';
+            for (let i = sparks.length - 1; i >= 0; i--) {
+                const p = sparks[i];
+                p.x += p.vx; p.y += p.vy;
+                p.vx *= 0.985; p.vy *= 0.985;
+                p.life -= p.decay;
+                if (p.life <= 0) { sparks.splice(i, 1); continue; }
+                dot(p.x, p.y, p.r * p.life + 0.4, p.hue, 0.75 * p.life);
             }
-            pctx.beginPath();
-            pctx.arc(b.x, b.y, b.r * 0.55, 0, Math.PI * 2);
-            pctx.strokeStyle = `hsla(${b.hue + 20}, 90%, 65%, ${0.2 * b.life})`;
-            pctx.lineWidth = 1.2;
-            pctx.stroke();
+            pctx.globalCompositeOperation = 'source-over';
         }
 
-        pctx.globalCompositeOperation = 'source-over';
-        requestAnimationFrame(drawGarden);
+        requestAnimationFrame(drawKaleido);
     })();
 }
 
