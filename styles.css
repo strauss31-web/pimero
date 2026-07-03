@@ -1299,6 +1299,8 @@ h2 {
 }
 
 /* ===== Videoteca (showcase + filmstrip) ===== */
+.video-chip.active { display: none; }
+
 .video-stage {
     position: relative;
     aspect-ratio: 16 / 9;
