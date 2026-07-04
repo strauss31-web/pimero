@@ -2071,6 +2071,9 @@ a, button, .terr-panel, .stat, .obra {
     .panel {
         display: block;
         min-height: 0;
+        /* Sin sticky: el efecto de apilado tapaba el texto de la
+           tarjeta anterior en pantallas pequeñas */
+        position: static;
     }
 
     .panel-media {
