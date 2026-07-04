@@ -151,8 +151,13 @@ function loop(now) {
     if (introStart === null) introStart = now;
     intro = introDur ? Math.min(1, (now - introStart) / introDur) : 1;
     intro = 1 - Math.pow(1 - intro, 3);           // ease-out cúbico
-    yaw += (targetYaw - yaw) * 0.06;
-    pitch += (targetPitch - pitch) * 0.06;
+    // Rotación automática de base: la constelación nunca se ve estática,
+    // aunque no haya mouse ni giroscopio (clave en móvil).
+    const auto = now * 0.00016;
+    const autoYaw = Math.sin(auto) * (finePointer ? 0.18 : 0.38);
+    const autoPitch = Math.cos(auto * 0.8) * (finePointer ? 0.1 : 0.22);
+    yaw += (targetYaw + autoYaw - yaw) * 0.06;
+    pitch += (targetPitch + autoPitch - pitch) * 0.06;
     drawScene();
     requestAnimationFrame(loop);
 }
@@ -198,6 +203,21 @@ function enableGyro() {
 }
 if (!finePointer && !reduceMotion) {
     window.addEventListener('touchstart', enableGyro, { once: true });
+
+    // Rotación con el dedo: tocar o arrastrar sobre el hero gira la constelación
+    const touchRot = e => {
+        const t = e.touches[0];
+        if (!t) return;
+        const rect = canvas.getBoundingClientRect();
+        targetYaw = ((t.clientX - rect.left) / rect.width - 0.5) * 1.2;
+        targetPitch = ((t.clientY - rect.top) / rect.height - 0.5) * 0.75;
+    };
+    canvas.parentElement.addEventListener('touchstart', touchRot, { passive: true });
+    canvas.parentElement.addEventListener('touchmove', touchRot, { passive: true });
+    canvas.parentElement.addEventListener('touchend', () => {
+        targetYaw = 0;
+        targetPitch = 0;
+    });
 }
 
 // ===== Cursor personalizado con halo =====
