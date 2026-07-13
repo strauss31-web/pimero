@@ -57,7 +57,10 @@ extra_css = (
     "#lb-x:hover{border-color:var(--hot);color:var(--hot)}\n"
     "#langbtn{border:1px solid var(--line);padding:5px 12px}\n"
     "@media(max-width:600px){nav{padding:12px 14px}nav .links{gap:9px}"
-    "nav .links a{font-size:.55rem;letter-spacing:.05em}#langbtn{padding:3px 8px}}\n"
+    "nav .links a{font-size:.55rem;letter-spacing:.05em}#langbtn{padding:3px 8px}"
+    "header{padding-top:78px}h1{font-size:clamp(2.2rem,10.5vw,4rem)}"
+    ".metrics{grid-template-columns:repeat(2,1fr)}.metric{padding:12px 12px 14px}"
+    ".metric b{font-size:1.25rem}.hero-sub{font-size:.92rem;margin-bottom:24px}}\n"
 )
 if '#lb-x{' not in head:
     head = head.replace('/* REVEAL */', extra_css + '/* REVEAL */', 1)
