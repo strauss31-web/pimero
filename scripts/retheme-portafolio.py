@@ -149,8 +149,8 @@ if extras:
         s = s.replace(old_list, new_list, 1)
 
     # ---------- Fase 4: series nuevas en el AI Lab ----------
-    MGEN_ORDER = ['mgen_interactiva', 'mgen_corredorled', 'mgen_tunelrojo', 'mgen_sala360',
-                  'mgen_uv', 'mgen_jardinluz', 'mgen_neon', 'mgen_proyeccion',
+    MGEN_ORDER = ['mgen_interactiva', 'mgen_sala360', 'mgen_corredorled', 'mgen_tunelrojo',
+                  'mgen_jardinluz', 'mgen_uv', 'mgen_neon', 'mgen_proyeccion',
                   'mgen_prisma', 'mgen_mano']
     ABUE_ORDER = ['abue_dona', 'abue_telesforo', 'abue_luna', 'abue_rostro',
                   'abue_campesino1', 'abue_campesino2', 'abue_abrazo', 'abue_fuego',
@@ -158,17 +158,19 @@ if extras:
     nuevas = []
     mgen = [k for k in MGEN_ORDER if k in extras]
     if mgen:
-        nuevas.append('{"title": "Museografía Generativa", "tag": "AI Spatial Concepts", '
-                      '"note": "Immersive rooms that don\'t exist yet: AI-designed museography '
-                      'concepts \\u2014 light tunnels, 360\\u00b0 halls and reactive galleries '
-                      '\\u2014 to pitch and prototype real spaces.", '
+        nuevas.append('{"title": "Museografía Generativa", "tag": "AI Previz \\u00b7 Spaces for Clients", '
+                      '"note": "This is how I sell a room before it exists: AI previsualization of '
+                      'interactive galleries, 360\\u00b0 halls, light tunnels and reactive floors '
+                      '\\u2014 concepts your visitors can walk into, ready to be built. Have a space? '
+                      'I can show it to you finished.", '
                       '"imgs": [' + ', '.join(f'"{k}"' for k in mgen) + ']}')
     abue = [k for k in ABUE_ORDER if k in extras]
     if abue:
         nuevas.append('{"title": "Los Abuelos", "tag": "AI Stop-motion Characters \\u00b7 Museography", '
-                      '"note": "A grandmother, a grandfather and a xolo under the moon: stop-motion-style '
-                      'characters and scenes designed with AI for immersive museography \\u2014 from '
-                      'turnaround sheets to final frames.", '
+                      '"note": "Characters built to move a museum audience: a grandmother, a grandfather '
+                      'and a xolo under the moon. A complete production pipeline \\u2014 turnaround sheets, '
+                      'expression studies and final frames \\u2014 ready to project in a real room, as '
+                      'delivered for immersive museography.", '
                       '"imgs": [' + ', '.join(f'"{k}"' for k in abue) + ']}')
     if nuevas:
         s = s.replace('"ailab": [', '"ailab": [' + ', '.join(nuevas) + ', ', 1)

@@ -13,8 +13,8 @@ const ES = {
   "Azul Mirlo": {tag:"Campaña de Color y Marca IA", note:"Una marca entera construida sobre un color — el azul al que no le importa incomodarte. Identidad, glifos, producto, interiores y una campaña completa de estrategia de color."},
   "Boca Abajo Lux": {tag:"Fotografía de Producto IA", note:"Dueto de producto de lujo — el mismo objeto, dos cielos."},
   "Estudios": {tag:"Exploraciones de Retrato IA", note:"Experimentos de retrato en curso, entre el surrealismo y el documento."},
-  "Museografía Generativa": {tag:"Conceptos Espaciales con IA", note:"Salas inmersivas que aún no existen: conceptos de museografía diseñados con IA — túneles de luz, salas 360° y galerías reactivas — para vender y prototipar espacios reales."},
-  "Los Abuelos": {tag:"Personajes Stop-motion IA · Museografía", note:"Una abuela, un abuelo y un xolo bajo la luna: personajes y escenas estilo stop-motion diseñados con IA para museografía inmersiva — de las hojas de personaje a los cuadros finales."},
+  "Museografía Generativa": {tag:"Previz IA · Espacios para Clientes", note:"Así vendo una sala antes de que exista: previsualización con IA de galerías interactivas, salas 360°, túneles de luz y pisos reactivos — conceptos en los que tu visitante ya camina, listos para construirse. ¿Tienes un espacio? Te lo enseño terminado."},
+  "Los Abuelos": {tag:"Personajes Stop-motion IA · Museografía", note:"Personajes hechos para conmover al público de un museo: una abuela, un abuelo y un xolo bajo la luna. Pipeline de producción completo — hojas de personaje, estudios de expresión y cuadros finales — listo para proyectarse en sala, como se entrega en museografía inmersiva real."},
  },
  films: {
   muerte:"Western IA — película final del máster · corte completo con sonido en Vimeo",
