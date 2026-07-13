@@ -148,6 +148,18 @@ if extras:
         assert old_list in s, f'no se encontró la lista de imágenes de {proj}'
         s = s.replace(old_list, new_list, 1)
 
+    # ---------- Fase 4: serie nueva en el AI Lab (Museografía Generativa) ----------
+    MGEN_ORDER = ['mgen_tunelrojo', 'mgen_sala360', 'mgen_uv', 'mgen_neon',
+                  'mgen_proyeccion', 'mgen_mano']
+    mgen = [k for k in MGEN_ORDER if k in extras]
+    if mgen:
+        serie = ('{"title": "Museografía Generativa", "tag": "AI Spatial Concepts", '
+                 '"note": "Immersive rooms that don\'t exist yet: AI-designed museography '
+                 'concepts \\u2014 light tunnels, 360\\u00b0 halls and reactive galleries '
+                 '\\u2014 to pitch and prototype real spaces.", '
+                 '"imgs": [' + ', '.join(f'"{k}"' for k in mgen) + ']}')
+        s = s.replace('"ailab": [', '"ailab": [' + serie + ', ', 1)
+
 DST.write_text(s, encoding='utf-8')
 pend = [p for p in ('#3140FF', '#FF3D00', '#7c86ff', 'fonts.googleapis', 'onclick="closeLB()"') if p in s]
 ok = [p for p in ('#lb-x', 'langbtn', 'applyLang', 'popstate') if p not in s]

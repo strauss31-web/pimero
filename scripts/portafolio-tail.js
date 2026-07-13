@@ -3,17 +3,18 @@ const $$=(s,c=document)=>[...c.querySelectorAll(s)];
 
 /* ==================== ES / EN ==================== */
 const ES = {
- ailab: [
-  {tag:"Moda IA · Dirección de Arte", note:"Una casa de moda barroco-mexicana que nunca existió. Casting, vestuario, iluminación y pasarela — todo dirigido, nada fotografiado."},
-  {tag:"Narrativa de Producto IA", note:"Una bota de glitter, toda una mitología: noches de paparazzi, lowriders, altares y mariscos."},
-  {tag:"Personaje y Mundo IA", note:"Un antihéroe retro-tropical con biblia de personaje completa: autos en llamas, delfines, surf, ofrendas y teléfonos públicos."},
-  {tag:"Serie Conceptual IA", note:"Estudios en blanco y negro sobre el poder y la distancia. Una mesa, un hombre, tensión infinita."},
-  {tag:"Key Art y Campaña de Cine IA", note:"No solo pósters: una campaña completa de exteriores — espectaculares, autobuses, muros y redes — para una película que solo existe en IA."},
-  {tag:"Design Fiction IA · Proyecto Final", note:"Muebles imposibles de un Brasil imposible — Poltrona Carnaval, Culto ao Corpo, Cadeira Amazonas. Diseño de producto que no se puede fabricar, solo imaginar."},
-  {tag:"Campaña de Color y Marca IA", note:"Una marca entera construida sobre un color — el azul al que no le importa incomodarte. Identidad, glifos, producto, interiores y una campaña completa de estrategia de color."},
-  {tag:"Fotografía de Producto IA", note:"Dueto de producto de lujo — el mismo objeto, dos cielos."},
-  {tag:"Exploraciones de Retrato IA", note:"Experimentos de retrato en curso, entre el surrealismo y el documento."}
- ],
+ ailab: {
+  "F.L.A.U.X — Vía Crucis": {tag:"Moda IA · Dirección de Arte", note:"Una casa de moda barroco-mexicana que nunca existió. Casting, vestuario, iluminación y pasarela — todo dirigido, nada fotografiado."},
+  "F.L.A.U.X — La Bota": {tag:"Narrativa de Producto IA", note:"Una bota de glitter, toda una mitología: noches de paparazzi, lowriders, altares y mariscos."},
+  "F.L.A.U.X — Silverio": {tag:"Personaje y Mundo IA", note:"Un antihéroe retro-tropical con biblia de personaje completa: autos en llamas, delfines, surf, ofrendas y teléfonos públicos."},
+  "La Mesa": {tag:"Serie Conceptual IA", note:"Estudios en blanco y negro sobre el poder y la distancia. Una mesa, un hombre, tensión infinita."},
+  "Casa de Playa": {tag:"Key Art y Campaña de Cine IA", note:"No solo pósters: una campaña completa de exteriores — espectaculares, autobuses, muros y redes — para una película que solo existe en IA."},
+  "Exportações Impossíveis": {tag:"Design Fiction IA · Proyecto Final", note:"Muebles imposibles de un Brasil imposible — Poltrona Carnaval, Culto ao Corpo, Cadeira Amazonas. Diseño de producto que no se puede fabricar, solo imaginar."},
+  "Azul Mirlo": {tag:"Campaña de Color y Marca IA", note:"Una marca entera construida sobre un color — el azul al que no le importa incomodarte. Identidad, glifos, producto, interiores y una campaña completa de estrategia de color."},
+  "Boca Abajo Lux": {tag:"Fotografía de Producto IA", note:"Dueto de producto de lujo — el mismo objeto, dos cielos."},
+  "Estudios": {tag:"Exploraciones de Retrato IA", note:"Experimentos de retrato en curso, entre el surrealismo y el documento."},
+  "Museografía Generativa": {tag:"Conceptos Espaciales con IA", note:"Salas inmersivas que aún no existen: conceptos de museografía diseñados con IA — túneles de luz, salas 360° y galerías reactivas — para vender y prototipar espacios reales."},
+ },
  films: {
   muerte:"Western IA — película final del máster · corte completo con sonido en Vimeo",
   xolo:"Corto IA — un xoloitzcuintle bajo la luna",
@@ -89,7 +90,7 @@ const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.targ
 // RENDER (bilingüe: usa ES.* cuando L==='es', si no el texto original de DATA)
 function renderLab(){
   $('#lab-list').innerHTML = DATA.ailab.map((s,i)=>{
-    const p = (L==='es' && ES.ailab[i]) || {};
+    const p = (L==='es' && ES.ailab[s.title]) || {};
     return `
   <div class="series rv">
     <div class="series-head"><h3>${s.title}</h3><span class="mono">${p.tag||s.tag}</span></div>
