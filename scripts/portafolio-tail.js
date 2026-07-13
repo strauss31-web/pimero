@@ -14,6 +14,7 @@ const ES = {
   "Boca Abajo Lux": {tag:"Fotografía de Producto IA", note:"Dueto de producto de lujo — el mismo objeto, dos cielos."},
   "Estudios": {tag:"Exploraciones de Retrato IA", note:"Experimentos de retrato en curso, entre el surrealismo y el documento."},
   "Museografía Generativa": {tag:"Conceptos Espaciales con IA", note:"Salas inmersivas que aún no existen: conceptos de museografía diseñados con IA — túneles de luz, salas 360° y galerías reactivas — para vender y prototipar espacios reales."},
+  "Los Abuelos": {tag:"Personajes Stop-motion IA · Museografía", note:"Una abuela, un abuelo y un xolo bajo la luna: personajes y escenas estilo stop-motion diseñados con IA para museografía inmersiva — de las hojas de personaje a los cuadros finales."},
  },
  films: {
   muerte:"Western IA — película final del máster · corte completo con sonido en Vimeo",

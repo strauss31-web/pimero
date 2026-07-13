@@ -148,17 +148,30 @@ if extras:
         assert old_list in s, f'no se encontró la lista de imágenes de {proj}'
         s = s.replace(old_list, new_list, 1)
 
-    # ---------- Fase 4: serie nueva en el AI Lab (Museografía Generativa) ----------
-    MGEN_ORDER = ['mgen_tunelrojo', 'mgen_sala360', 'mgen_uv', 'mgen_neon',
-                  'mgen_proyeccion', 'mgen_mano']
+    # ---------- Fase 4: series nuevas en el AI Lab ----------
+    MGEN_ORDER = ['mgen_interactiva', 'mgen_corredorled', 'mgen_tunelrojo', 'mgen_sala360',
+                  'mgen_uv', 'mgen_jardinluz', 'mgen_neon', 'mgen_proyeccion',
+                  'mgen_prisma', 'mgen_mano']
+    ABUE_ORDER = ['abue_dona', 'abue_telesforo', 'abue_luna', 'abue_rostro',
+                  'abue_campesino1', 'abue_campesino2', 'abue_abrazo', 'abue_fuego',
+                  'abue_xolo', 'abue_asustada', 'abue_bustos', 'abue_esqueletos']
+    nuevas = []
     mgen = [k for k in MGEN_ORDER if k in extras]
     if mgen:
-        serie = ('{"title": "Museografía Generativa", "tag": "AI Spatial Concepts", '
-                 '"note": "Immersive rooms that don\'t exist yet: AI-designed museography '
-                 'concepts \\u2014 light tunnels, 360\\u00b0 halls and reactive galleries '
-                 '\\u2014 to pitch and prototype real spaces.", '
-                 '"imgs": [' + ', '.join(f'"{k}"' for k in mgen) + ']}')
-        s = s.replace('"ailab": [', '"ailab": [' + serie + ', ', 1)
+        nuevas.append('{"title": "Museografía Generativa", "tag": "AI Spatial Concepts", '
+                      '"note": "Immersive rooms that don\'t exist yet: AI-designed museography '
+                      'concepts \\u2014 light tunnels, 360\\u00b0 halls and reactive galleries '
+                      '\\u2014 to pitch and prototype real spaces.", '
+                      '"imgs": [' + ', '.join(f'"{k}"' for k in mgen) + ']}')
+    abue = [k for k in ABUE_ORDER if k in extras]
+    if abue:
+        nuevas.append('{"title": "Los Abuelos", "tag": "AI Stop-motion Characters \\u00b7 Museography", '
+                      '"note": "A grandmother, a grandfather and a xolo under the moon: stop-motion-style '
+                      'characters and scenes designed with AI for immersive museography \\u2014 from '
+                      'turnaround sheets to final frames.", '
+                      '"imgs": [' + ', '.join(f'"{k}"' for k in abue) + ']}')
+    if nuevas:
+        s = s.replace('"ailab": [', '"ailab": [' + ', '.join(nuevas) + ', ', 1)
 
 DST.write_text(s, encoding='utf-8')
 pend = [p for p in ('#3140FF', '#FF3D00', '#7c86ff', 'fonts.googleapis', 'onclick="closeLB()"') if p in s]
