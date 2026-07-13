@@ -1,0 +1,52 @@
+name: Fetch Drive review images
+
+on:
+  push:
+    branches: [claude/company-website-whai60]
+    paths:
+      - 'drive-manifest.txt'
+      - '.github/workflows/fetch-drive.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Drive thumbnails (w1600)
+        run: |
+          pip install --quiet pillow requests
+          python3 - <<'PY'
+          import requests
+          from io import BytesIO
+          from pathlib import Path
+          from PIL import Image
+          Path('review/drive').mkdir(parents=True, exist_ok=True)
+          ok = fail = 0
+          for line in Path('drive-manifest.txt').read_text().splitlines():
+              line = line.strip()
+              if not line or line.startswith('#') or '|' not in line:
+                  continue
+              fid, name = line.split('|', 1)
+              try:
+                  url = f'https://drive.google.com/thumbnail?id={fid}&sz=w1600'
+                  r = requests.get(url, timeout=90)
+                  r.raise_for_status()
+                  im = Image.open(BytesIO(r.content)).convert('RGB')
+                  im.save(f'review/drive/{name}.jpg', 'JPEG', quality=85, optimize=True)
+                  print('OK  ', name, im.size)
+                  ok += 1
+              except Exception as e:
+                  print('FAIL', name, e)
+                  fail += 1
+          print(f'downloaded={ok} failed={fail}')
+          PY
+      - name: Commit review images
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add review/drive
+          git diff --cached --quiet || git commit -m "Review: imágenes grandes de Drive (temporal)"
+          git push
