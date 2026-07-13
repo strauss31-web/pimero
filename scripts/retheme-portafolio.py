@@ -14,10 +14,17 @@ Fase 2 — Mejoras (móvil + bilingüe):
     la foto en lugar de salir de la página
   - Botón ES/EN en el nav; textos y datos bilingües (traducciones en
     scripts/portafolio-tail.js, que reemplaza el JS final del archivo)
+
+Fase 3 — Imágenes extra del Museo de Juárez:
+  - Incrusta scripts/juarez-extra/*.jpg en el proyecto "juarez"
+    (fotos reales del MIJ que no venían en el archivo original)
 """
+import base64
 import re
 import sys
 import pathlib
+
+from PIL import Image
 
 HERE = pathlib.Path(__file__).resolve().parent
 SRC = pathlib.Path(sys.argv[1])
@@ -84,6 +91,34 @@ i0 = s.find('const $=(s,c=document)')
 i1 = s.rfind('</script>')
 assert i0 > 0 and i1 > i0, 'no se encontró el bloque JS final'
 s = s[:i0] + TAIL + s[i1:]
+
+# ---------- Fase 3: imágenes extra del Museo de Juárez ----------
+EXTRA_DIR = HERE / 'juarez-extra'
+# La cantina abre como imagen ancha del proyecto; el resto sigue el recorrido
+EXTRA_ORDER = ['juarez_cantina', 'juarez_muro', 'juarez_corredor', 'juarez_mapping',
+               'juarez_proyeccion', 'juarez_algodon', 'juarez_casita', 'juarez_vitrinas',
+               'juarez_collage']
+extras = {p.stem: p for p in sorted(EXTRA_DIR.glob('*.jpg'))} if EXTRA_DIR.is_dir() else {}
+if extras:
+    img_entries, ar_entries = [], []
+    for key in EXTRA_ORDER:
+        p = extras.get(key)
+        if not p:
+            continue
+        b64 = base64.b64encode(p.read_bytes()).decode()
+        img_entries.append(f'"{key}": "data:image/jpeg;base64,{b64}"')
+        w, h = Image.open(p).size
+        ar_entries.append(f'"{key}": {w / h:.3f}')
+    s = s.replace('const IMG = {', 'const IMG = {' + ', '.join(img_entries) + ', ', 1)
+    s = s.replace('const AR = {', 'const AR = {' + ', '.join(ar_entries) + ', ', 1)
+    old_list = '"imgs": ["juarez_desierto", "juarez_bartender", "juarez_fachada", "juarez_rostros"]'
+    present = [k for k in EXTRA_ORDER if k in extras]
+    new_list = ('"imgs": [' + ', '.join(f'"{k}"' for k in present[:1])
+                + ', "juarez_desierto", '
+                + ', '.join(f'"{k}"' for k in present[1:])
+                + ', "juarez_bartender", "juarez_fachada", "juarez_rostros"]')
+    assert old_list in s, 'no se encontró la lista de imágenes de juarez'
+    s = s.replace(old_list, new_list, 1)
 
 DST.write_text(s, encoding='utf-8')
 pend = [p for p in ('#3140FF', '#FF3D00', '#7c86ff', 'fonts.googleapis', 'onclick="closeLB()"') if p in s]
