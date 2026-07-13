@@ -107,7 +107,10 @@ PLACEMENTS = {
     ),
     'metro': (
         ['metro_friedeberg', 'metro_corredor'],
-        ['metro_liquido', 'metro_friedeberg', 'metro_tunel', 'metro_corredor'],
+        # Fuera: metro_corredor (marca de agua, duplicaba el túnel) y el
+        # collage con bordes (se partió en espejo/escaleras/sillas);
+        # metro_friedeberg también duplicaba el túnel al recortarse en la grilla
+        ['metro_liquido', 'metro_espejo', 'metro_escaleras', 'metro_sillas'],
     ),
     'pakal': (
         ['pakal_disco'],
