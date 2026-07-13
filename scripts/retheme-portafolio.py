@@ -15,9 +15,10 @@ Fase 2 — Mejoras (móvil + bilingüe):
   - Botón ES/EN en el nav; textos y datos bilingües (traducciones en
     scripts/portafolio-tail.js, que reemplaza el JS final del archivo)
 
-Fase 3 — Imágenes extra del Museo de Juárez:
-  - Incrusta scripts/juarez-extra/*.jpg en el proyecto "juarez"
-    (fotos reales del MIJ que no venían en el archivo original)
+Fase 3 — Imágenes extra por proyecto:
+  - Incrusta scripts/portafolio-extra/*.jpg en los proyectos indicados
+    en PLACEMENTS (fotos reales que no venían en el archivo original);
+    los archivos ausentes simplemente se omiten
 """
 import base64
 import re
@@ -92,33 +93,60 @@ i1 = s.rfind('</script>')
 assert i0 > 0 and i1 > i0, 'no se encontró el bloque JS final'
 s = s[:i0] + TAIL + s[i1:]
 
-# ---------- Fase 3: imágenes extra del Museo de Juárez ----------
-EXTRA_DIR = HERE / 'juarez-extra'
-# La cantina abre como imagen ancha del proyecto; el resto sigue el recorrido
-EXTRA_ORDER = ['juarez_cantina', 'juarez_muro', 'juarez_corredor', 'juarez_mapping',
-               'juarez_proyeccion', 'juarez_algodon', 'juarez_casita', 'juarez_vitrinas',
-               'juarez_collage']
+# ---------- Fase 3: imágenes extra por proyecto ----------
+EXTRA_DIR = HERE / 'portafolio-extra'
+# Por proyecto: (lista original de DATA, lista deseada). Las claves nuevas
+# que no tengan .jpg en portafolio-extra se omiten sin romper nada.
+PLACEMENTS = {
+    'juarez': (
+        ['juarez_desierto', 'juarez_bartender', 'juarez_fachada', 'juarez_rostros'],
+        ['juarez_cantina', 'juarez_desierto', 'juarez_muro', 'juarez_corredor',
+         'juarez_mapping', 'juarez_proyeccion', 'juarez_algodon', 'juarez_casita',
+         'juarez_vitrinas', 'juarez_collage', 'juarez_bartender', 'juarez_fachada',
+         'juarez_rostros'],
+    ),
+    'metro': (
+        ['metro_friedeberg', 'metro_corredor'],
+        ['metro_liquido', 'metro_friedeberg', 'metro_tunel', 'metro_corredor'],
+    ),
+    'pakal': (
+        ['pakal_disco'],
+        ['pakal_craneos', 'pakal_disco', 'pakal_alebrijes', 'pakal_maya'],
+    ),
+    'voices': (
+        ['voices_escenario'],
+        ['voices_escenario', 'voices_zocalo'],
+    ),
+    'santuarios': (
+        ['santuarios_volcan'],
+        ['santuarios_volcan', 'santuarios_luna'],
+    ),
+    'delirio': (
+        ['delirio_sala'],
+        ['delirio_sala', 'delirio_bosque'],
+    ),
+    'barroco': (
+        ['barroco_flores', 'barroco_sala', 'barroco_vestidos', 'barroco_museo'],
+        ['barroco_flores', 'barroco_sala', 'barroco_columnas', 'barroco_vestidos',
+         'barroco_petalos', 'barroco_museo'],
+    ),
+}
 extras = {p.stem: p for p in sorted(EXTRA_DIR.glob('*.jpg'))} if EXTRA_DIR.is_dir() else {}
 if extras:
     img_entries, ar_entries = [], []
-    for key in EXTRA_ORDER:
-        p = extras.get(key)
-        if not p:
-            continue
+    for key, p in extras.items():
         b64 = base64.b64encode(p.read_bytes()).decode()
         img_entries.append(f'"{key}": "data:image/jpeg;base64,{b64}"')
         w, h = Image.open(p).size
         ar_entries.append(f'"{key}": {w / h:.3f}')
     s = s.replace('const IMG = {', 'const IMG = {' + ', '.join(img_entries) + ', ', 1)
     s = s.replace('const AR = {', 'const AR = {' + ', '.join(ar_entries) + ', ', 1)
-    old_list = '"imgs": ["juarez_desierto", "juarez_bartender", "juarez_fachada", "juarez_rostros"]'
-    present = [k for k in EXTRA_ORDER if k in extras]
-    new_list = ('"imgs": [' + ', '.join(f'"{k}"' for k in present[:1])
-                + ', "juarez_desierto", '
-                + ', '.join(f'"{k}"' for k in present[1:])
-                + ', "juarez_bartender", "juarez_fachada", "juarez_rostros"]')
-    assert old_list in s, 'no se encontró la lista de imágenes de juarez'
-    s = s.replace(old_list, new_list, 1)
+    for proj, (orig, wanted) in PLACEMENTS.items():
+        old_list = '"imgs": [' + ', '.join(f'"{k}"' for k in orig) + ']'
+        keep = [k for k in wanted if k in extras or k in orig]
+        new_list = '"imgs": [' + ', '.join(f'"{k}"' for k in keep) + ']'
+        assert old_list in s, f'no se encontró la lista de imágenes de {proj}'
+        s = s.replace(old_list, new_list, 1)
 
 DST.write_text(s, encoding='utf-8')
 pend = [p for p in ('#3140FF', '#FF3D00', '#7c86ff', 'fonts.googleapis', 'onclick="closeLB()"') if p in s]
