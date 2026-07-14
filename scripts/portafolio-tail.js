@@ -58,7 +58,7 @@ const ES = {
   "#ailab .sec-intro":"Aquí dirijo sin set: <b>casting, vestuario, luz y mundo — todo dirigido por prompt, calificado y editado como cine</b>. Siete series producidas de inicio a fin con pipelines generativos.",
   "#films .sec-head h2":"En <em>Movimiento</em>",
   "#films .sec-head a.mono":"Películas completas → vimeo/alejandrostrauss",
-  "#films .sec-intro":"<b>Diez películas integradas en este mismo archivo</b> — corren sin internet, sin links ni permisos. Toca cualquiera para verla en grande.",
+  "#films .sec-intro":"<b>Diez películas completas viven dentro del portafolio</b> — toca cualquiera para verla en grande.",
   "#works .sec-head h2":"Construido <em>y abierto</em> al público",
   "#works .sec-head .mono":"2019 — 2026 · Espacios reales, público real",
   "#about .sec-head h2":"Lo que me hace <em class=\"hot\">distinto</em>",

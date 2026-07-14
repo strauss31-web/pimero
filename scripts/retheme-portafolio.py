@@ -206,7 +206,43 @@ if extras:
         s = re.sub('"' + prefijo + r'[a-z0-9_]+": "data:image/jpeg;base64,[A-Za-z0-9+/=]+", ', '', s)
         s = re.sub('"' + prefijo + r'[a-z0-9_]+": [0-9.]+, ', '', s)
 
+# ---------- Fase 7: medios como archivos aparte (carga progresiva) ----------
+# El HTML deja de cargar 30+ MB de base64: cada imagen/video se escribe como
+# archivo en portafolio/img|vid y el diccionario apunta a su URL relativa.
+# Así el portafolio abre en segundos y agregar proyectos no engorda la página.
+import shutil
+
+img_dir = DST.parent / 'img'
+vid_dir = DST.parent / 'vid'
+for d in (img_dir, vid_dir):
+    if d.exists():
+        shutil.rmtree(d)
+    d.mkdir(parents=True)
+
+def _extrae_img(m):
+    key, mime, b64 = m.group(1), m.group(2), m.group(3)
+    ext = 'jpg' if mime == 'jpeg' else mime
+    (img_dir / f'{key}.{ext}').write_bytes(base64.b64decode(b64))
+    return f'"{key}": "img/{key}.{ext}"'
+
+def _extrae_vid(m):
+    key, b64 = m.group(1), m.group(2)
+    (vid_dir / f'{key}.mp4').write_bytes(base64.b64decode(b64))
+    return f'"{key}": "vid/{key}.mp4"'
+
+s = re.sub(r'"([A-Za-z0-9_]+)": "data:image/(jpeg|png);base64,([A-Za-z0-9+/=]+)"', _extrae_img, s)
+s = re.sub(r'"([A-Za-z0-9_]+)": "data:video/mp4;base64,([A-Za-z0-9+/=]+)"', _extrae_vid, s)
+
+# El texto de "corren sin internet" ya no aplica con carga progresiva
+s = s.replace(
+    '<b>Ten films embedded in this very file</b> — they play offline, no links, no permissions. Tap any of them to watch big.',
+    '<b>Ten complete films live inside the portfolio</b> — tap any of them to watch big.',
+)
+
 DST.write_text(s, encoding='utf-8')
+n_img = len(list(img_dir.glob('*')))
+n_vid = len(list(vid_dir.glob('*')))
+print(f'medios externos: {n_img} imágenes, {n_vid} videos')
 pend = [p for p in ('#3140FF', '#FF3D00', '#7c86ff', 'fonts.googleapis', 'onclick="closeLB()"') if p in s]
 ok = [p for p in ('#lb-x', 'langbtn', 'applyLang', 'popstate') if p not in s]
 print(f'OK → {DST} ({DST.stat().st_size / 1e6:.1f} MB)')
