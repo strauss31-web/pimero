@@ -27,6 +27,7 @@ const ES = {
   limones:"Producto en Movimiento IA"
  },
  projects: {
+  bazaar:{title:"The Bazaar · Celebrity Xcel", role:"Dirección de Arte y Producción de Contenidos", desc:"El venue insignia del Celebrity Xcel: una plaza mediterránea de tres niveles vestida por completo de pantallas — cinco arcos LED, una cúpula de 360°, el bar y los mosaicos. Los visuales transforman el espacio entre cuatro festivales rotativos — Marruecos-Turquía, Italia, España y Grecia — sincronizados con más de 50 shows en vivo, del souk al carnaval veneciano."},
   juarez:{title:"Museo de las Identidades Juárez", role:"Dirección Creativa y Producción", desc:"Un recorrido museográfico inmersivo que replantea la narrativa de Ciudad Juárez — de su génesis en el desierto a sus años dorados de neón y los rostros de su gente hoy. Salas sonoras, hologramas, proyección stop-motion y un muro de memoria migrante."},
   pakal:{title:"Pakal: Viaje al Inframundo", role:"Dirección Creativa y Producción", desc:"Una cena-show 5D de 90 minutos que desciende a la mitología maya — interacciones con IA, escenografía UV y una degustación de más de 30 sabores sobre maíz nativo."},
   eternidad:{role:"Creativo", client:"Secretaría de Cultura · CDMX", desc:"Una peregrinación nocturna de Día de Muertos por el Bosque de Chapultepec — instalaciones, performance, flores y proyección. 534,000 visitantes en nueve noches."},

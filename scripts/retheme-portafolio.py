@@ -178,6 +178,24 @@ if extras:
     if nuevas:
         s = s.replace('"ailab": [', '"ailab": [' + ', '.join(nuevas) + ', ', 1)
 
+    # ---------- Fase 6: proyecto nuevo en Obra (THE BAZAAR · Celebrity Xcel) ----------
+    BAZAAR_ORDER = ['bazaar_arcos', 'bazaar_cupula', 'bazaar_mezquita', 'bazaar_riviera',
+                    'bazaar_estambul', 'bazaar_flores', 'bazaar_cielo', 'bazaar_musicos',
+                    'bazaar_dolcevita']
+    bazaar = [k for k in BAZAAR_ORDER if k in extras]
+    if bazaar:
+        proyecto = ('{"id": "bazaar", "title": "The Bazaar \\u00b7 Celebrity Xcel", '
+                    '"role": "Art Direction & Content Production", '
+                    '"client": "Celebrity Cruises \\u00b7 Royal Caribbean Group", '
+                    '"year": "2025\\u20132026", '
+                    '"desc": "Celebrity Xcel\'s signature venue: a three-deck Mediterranean plaza '
+                    'fully dressed in screens \\u2014 five LED arches, a 360\\u00b0 cupola, the bar '
+                    'and the mosaics. The visuals transform the space across four rotating festivals '
+                    '\\u2014 Morocco-Turkey, Italy, Spain and Greece \\u2014 synced to more than 50 '
+                    'live shows, from souk to Venetian carnival.", '
+                    '"imgs": [' + ', '.join(f'"{k}"' for k in bazaar) + '], "wide": true}')
+        s = s.replace('"projects": [', '"projects": [' + proyecto + ', ', 1)
+
     # ---------- Fase 5: series retiradas del AI Lab ----------
     # (petición de Alejandro: fuera Boca Abajo Lux y Exportações Impossíveis)
     for titulo, prefijo in [('Boca Abajo Lux', 'bocaabajo_'),
