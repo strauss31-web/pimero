@@ -178,6 +178,16 @@ if extras:
     if nuevas:
         s = s.replace('"ailab": [', '"ailab": [' + ', '.join(nuevas) + ', ', 1)
 
+    # ---------- Fase 5: series retiradas del AI Lab ----------
+    # (petición de Alejandro: fuera Boca Abajo Lux y Exportações Impossíveis)
+    for titulo, prefijo in [('Boca Abajo Lux', 'bocaabajo_'),
+                            ('Exportações Impossíveis', 'exportacoes_')]:
+        s = re.sub(r'\{[^{}]*?"title": "' + titulo + r'"[^{}]*?\}, ', '', s, count=1)
+        assert f'"title": "{titulo}"' not in s, f'no se pudo retirar {titulo}'
+        # también sus imágenes incrustadas (adelgaza el archivo)
+        s = re.sub('"' + prefijo + r'[a-z0-9_]+": "data:image/jpeg;base64,[A-Za-z0-9+/=]+", ', '', s)
+        s = re.sub('"' + prefijo + r'[a-z0-9_]+": [0-9.]+, ', '', s)
+
 DST.write_text(s, encoding='utf-8')
 pend = [p for p in ('#3140FF', '#FF3D00', '#7c86ff', 'fonts.googleapis', 'onclick="closeLB()"') if p in s]
 ok = [p for p in ('#lb-x', 'langbtn', 'applyLang', 'popstate') if p not in s]
