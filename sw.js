@@ -1,5 +1,5 @@
 /* Lúdica Lab — Service Worker: instalable + carga instantánea (cache-first). */
-const CACHE = 'ludica-v5';
+const CACHE = 'ludica-v6';
 const ASSETS = [
   './',
   './index.html',
@@ -31,8 +31,8 @@ self.addEventListener('fetch', e => {
   // Solo cachea el mismo origen; las imágenes/videos externos van directo a la red.
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
-  // El portafolio (archivo único muy pesado) va directo a la red, sin caché.
-  if (url.pathname.includes('/portafolio/')) return;
+  // Los portafolios (con sus medios pesados) van directo a la red, sin caché.
+  if (url.pathname.includes('/portafolio')) return;
   e.respondWith(
     caches.match(req).then(hit => {
       if (hit) return hit;
