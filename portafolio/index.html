@@ -37,10 +37,13 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 
 /* NAV */
 .nav{position:fixed;inset:0 0 auto;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:calc(16px + env(safe-area-inset-top,0px)) var(--pad) 26px;color:#f4f0e8;background:linear-gradient(rgba(7,7,7,.72),rgba(7,7,7,0));text-shadow:0 1px 10px rgba(0,0,0,.35)}
-.nav .links a.mbtn{display:inline-flex;align-items:center;gap:12px;padding:8px 10px 8px 16px;border-radius:999px;background:var(--ver);color:#0a0a0a;text-shadow:none;transition:transform .25s,background .25s}
-.nav .links a.mbtn:hover{text-decoration:none;transform:translateY(-1px);background:#ff5a3f}
+.nav .links .mbtn{display:inline-flex;align-items:center;gap:12px;padding:8px 10px 8px 16px;border-radius:999px;background:var(--ver);color:#0a0a0a;text-shadow:none;transition:transform .25s,background .25s}
+.nav .links .mbtn:hover{text-decoration:none;transform:translateY(-1px);background:#ff5a3f}
 .mbtn .ml{display:flex;flex-direction:column;line-height:1}
 .mbtn .ml small{font:700 10px/1 var(--t);letter-spacing:.16em;opacity:.75}
+.nav .links .mbtn{border:0}
+.nav .links a.lab{opacity:.8}
+.nav .links a.lab:hover{opacity:1}
 .mbtn .ml b{font:800 15px/1.05 var(--d);letter-spacing:-.01em;margin-top:3px}
 .mbtn .mf{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#0a0a0a;color:var(--ver);font:700 15px/1 var(--d);transition:transform .25s}
 .mbtn:hover .mf{transform:rotate(-45deg)}
@@ -51,7 +54,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .nav .lang{border:1px solid currentColor;border-radius:999px;padding:5px 12px;font-size:13px}
 
 /* TRAILER */
-.trailer{position:relative;height:100svh;min-height:560px;background:#000;overflow:hidden;color:#fff}
+.trailer{position:relative;height:100svh;min-height:560px;background:#000 center/cover no-repeat;overflow:hidden;color:#fff}
 .toma{position:absolute;inset:0;opacity:0}
 .toma.on{opacity:1}
 .toma img,.toma video{width:100%;height:100%;object-fit:cover;transform:scale(1.09)}
@@ -212,7 +215,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 
 @media (max-width:900px){
   .nav .links a{display:none}
-  .nav .links a.mbtn{display:inline-flex;padding:6px 8px 6px 12px}.mbtn .ml b{font-size:13px}.mbtn .mf{width:26px;height:26px}
+  .nav .links .mbtn{display:inline-flex;padding:6px 8px 6px 12px}.mbtn .ml b{font-size:13px}.mbtn .mf{width:26px;height:26px}
   .mani,.perfil,.caso .txt{grid-template-columns:1fr}
   .escena{width:100%!important;cursor:pointer}
   .lienzo{--cols:1fr!important}
@@ -234,8 +237,8 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
   <a class="logo" href="#top">STRAUSS</a>
   <div class="links">
     <a href="#obra" data-i="nWork">Work</a>
-    <button id="abrirIndice" data-i="nIndex">Index</button>
-    <a class="mbtn" href="labasad.html"><span class="ml"><small>LABASAD</small><b data-i="nLab">AI Master</b></span><span class="mf"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+    <a class="lab" href="labasad.html">LABASAD · <span data-i="nLab">AI Master</span></a>
+    <button class="mbtn" id="abrirIndice"><span class="ml"><small id="nProj"></small><b data-i="nIndex">Index</b></span><span class="mf"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
     <a href="#instagram">Instagram</a>
     <a href="#contacto" data-i="nContact">Contact</a>
     <button class="lang" id="lang">ES</button>
@@ -627,6 +630,8 @@ addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(P.some(p=>p
 /* ===== IDIOMA ===== */
 document.querySelectorAll('[data-i]').forEach(e=>ORIG[e.dataset.i]=e.innerHTML);
 function idioma(l){L=l;document.documentElement.lang=l;document.querySelectorAll('[data-i]').forEach(e=>{const k=e.dataset.i;e.innerHTML=l==='es'&&T.es[k]?T.es[k]:ORIG[k]});
+ const np=document.getElementById('nProj');if(np)np.textContent=P.length+(l==='es'?' PROYECTOS':' PROJECTS');
+ const th=document.getElementById('top');if(th)th.style.backgroundImage=`url("${S(A+'img/jinete_a.jpg')}")`;
  document.getElementById('lang').textContent=l==='es'?'EN':'ES';cursor.textContent=l==='es'?'Ver':'View';
  pintarCapitulos();pintarCine();pintarIndice();iniciarTrailer();try{localStorage.setItem('lang',l)}catch(e){}}
 document.getElementById('lang').onclick=()=>idioma(L==='es'?'en':'es');
