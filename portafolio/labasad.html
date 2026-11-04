@@ -9,7 +9,7 @@
 <meta property="og:image" content="img/gua_tribu_hero.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Space+Grotesk:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Space+Grotesk:wght@400;500&family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 /* =========================================================
    ALEJANDRO STRAUSS · PORTAFOLIO v7
@@ -131,6 +131,30 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .titulares{display:grid;gap:2px;margin-top:50px}
 .titulares div{font-size:clamp(40px,7vw,128px);line-height:.98;letter-spacing:-.02em;font-weight:500}
 .titulares em{font:italic 400 1.04em "Instrument Serif",serif}
+
+/* ---- Entrega LABASAD: sistema de marca, boards y adaptaciones ---- */
+.sis{display:grid;grid-template-columns:1fr 1fr;gap:46px;margin-top:46px}
+.sis h4{font:700 11px/1 var(--t);letter-spacing:.2em;text-transform:uppercase;color:var(--cob,#d9894f);margin:0 0 18px;padding-bottom:9px;border-bottom:1px solid rgba(236,228,216,.16)}
+.spec{margin:0 0 16px}
+.spec b{display:block;font-size:clamp(30px,3.4vw,52px);line-height:1.04;font-weight:500}
+.spec b em{font:italic 400 1em "Instrument Serif",serif}
+.spec .sans{font-family:"Geist","Space Grotesk",system-ui,sans-serif;font-weight:500;letter-spacing:-.01em}
+.spec span{display:block;margin-top:5px;font-size:14px;color:#a99f92}
+.sw{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.sw li{display:grid;grid-template-columns:46px 1fr auto;gap:14px;align-items:center;font-size:14px}
+.sw i{height:34px;border-radius:3px;outline:1px solid rgba(236,228,216,.18)}
+.sw b{font-weight:500}
+.sw span{color:#8f867b;font-variant-numeric:tabular-nums}
+.board{margin-top:40px}
+.board h4{font:700 11px/1 var(--t);letter-spacing:.2em;text-transform:uppercase;color:var(--cob,#d9894f);margin:0 0 6px}
+.board p.cap{margin:0 0 18px;color:#a99f92;font-size:15px;max-width:46em}
+.hojas{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.hojas img,.board>img{width:100%;display:block;background:#0b0b0b}
+.adap{margin-top:44px}
+.adap .ooh{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.adap .some{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+.adap img{width:100%;display:block;background:#0b0b0b}
+@media(max-width:900px){.sis{grid-template-columns:1fr;gap:34px}.hojas,.adap .ooh{grid-template-columns:1fr}.adap .some{grid-template-columns:1fr 1fr}}
 .paleta{display:flex;height:70px;margin-top:40px;max-width:720px}.paleta i{flex:1}
 .mosaico{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;margin-top:50px}
 .mosaico button{overflow:hidden;background:#111}
@@ -347,12 +371,47 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
         <div><em class="cobre">Toma</em> tu tiempo.</div>
       </div>
       <p class="chico" data-i="g2b">An all black can. Instrument Serif with Geist. Copper in gradient, a copper drop on the i, the valve next to the wordmark. Split headlines with the key word in copper italic serif and the rest in bone white sans.</p>
-      <div class="paleta"><i style="background:#000;outline:1px solid #2a2a2a"></i><i style="background:#7a3f1f"></i><i style="background:#d9894f"></i><i style="background:#f3c08f"></i><i style="background:#ece4d8"></i></div>
+      <div class="sis">
+        <div>
+          <h4 data-i="sisT">Typography</h4>
+          <p class="spec"><b><em>Instrument Serif</em></b><span data-i="sisT1">Headlines and the key word, always in copper italic.</span></p>
+          <p class="spec"><b class="sans">Geist</b><span data-i="sisT2">Body copy, data and legal. Never competes with the serif.</span></p>
+        </div>
+        <div>
+          <h4 data-i="sisC">Colour</h4>
+          <ul class="sw">
+            <li><i style="background:#000000"></i><b data-i="sw1">Can black</b><span>#000000</span></li>
+            <li><i style="background:#7a3f1f"></i><b data-i="sw2">Dark copper</b><span>#7A3F1F</span></li>
+            <li><i style="background:#d9894f"></i><b data-i="sw3">Copper</b><span>#D9894F</span></li>
+            <li><i style="background:#f3c08f"></i><b data-i="sw4">Light copper</b><span>#F3C08F</span></li>
+            <li><i style="background:#ece4d8"></i><b data-i="sw5">Bone</b><span>#ECE4D8</span></li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <section class="bloq">
       <span class="eti">03 AI Photoshoot</span>
       <p class="frase" data-i="g3">Twenty photos and <em>no fixed face.</em> The brand belongs to the tribe.</p>
+      <div class="board">
+        <h4 data-i="bE">Reference &amp; exploration</h4>
+        <p class="cap" data-i="bEc">139 generations in five contact sheets. One source image, three prompt families: documentary long exposure, portrait and street. The rule was always the same, the world blurs and one person stays.</p>
+        <div class="hojas">
+          <img loading="lazy" src="img/gua_board_expl_1.jpg" alt="Hoja de contacto 1, exploración de Guachicol">
+          <img loading="lazy" src="img/gua_board_expl_2.jpg" alt="Hoja de contacto 2, exploración de Guachicol">
+          <img loading="lazy" src="img/gua_board_expl_3.jpg" alt="Hoja de contacto 3, exploración de Guachicol">
+          <img loading="lazy" src="img/gua_board_expl_4.jpg" alt="Hoja de contacto 4, exploración de Guachicol">
+          <img loading="lazy" src="img/gua_board_expl_5.jpg" alt="Hoja de contacto 5, exploración de Guachicol">
+        </div>
+      </div>
+      <div class="board">
+        <h4 data-i="bS">Selection</h4>
+        <p class="cap" data-i="bSc">Twelve of the 139, already colour graded. Chosen for the blur of life around a face in focus, never for the prettiest frame. No fixed model: the brand belongs to the tribe.</p>
+        <img loading="lazy" src="img/gua_board_seleccion.jpg" alt="Board de selección, 12 imágenes con grado de color">
+      </div>
+      <div class="board">
+        <h4 data-i="bF">Final images</h4>
+      </div>
       <div class="mosaico" id="guaMosaico"></div>
       <div class="proc">
         <h3 class="ph">Workflow del photoshoot</h3>
@@ -431,7 +490,23 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
           <div><b>Reemplazo de pantalla descartado</b><span>Componer el chat en código funcionó pero se veía pegado. Usé frames de inicio y final en Seedance.</span></div>
         </div>
       </div>
-    </section>
+    <div class="adap">
+        <h4 class="ph" data-i="adT">Adaptations · OOH and social</h4>
+        <p class="cap" data-i="adC">The same rule scales: the world blurs, one person stays, and the key word goes copper italic. Horizontal for street and metro, vertical for stories and reels.</p>
+        <div class="ooh">
+          <img loading="lazy" src="img/gua_ooh_mano.jpg" alt="OOH, de mano en mano">
+          <img loading="lazy" src="img/gua_ooh_risas.jpg" alt="OOH, si no estabas no lo entiendes">
+          <img loading="lazy" src="img/gua_ooh_tribu.jpg" alt="OOH, aquí no se entra se pertenece">
+          <img loading="lazy" src="img/gua_ooh_puerta.jpg" alt="OOH, solo entra quien sabe">
+        </div>
+        <div class="some">
+          <img loading="lazy" src="img/gua_some_pasillo.jpg" alt="Story vertical, se lleva puesta">
+          <img loading="lazy" src="img/gua_some_ventana.jpg" alt="Story vertical, no hace falta decirlo">
+          <img loading="lazy" src="img/gua_some_caja.jpg" alt="Story vertical, no preguntes de dónde salió">
+          <img loading="lazy" src="img/gua_some_auto.jpg" alt="Story vertical, se comparte">
+        </div>
+      </div>
+      </section>
   </article>
 
   <div class="cab" style="padding-top:clamp(70px,9vw,130px)"><h2 data-i="archT" style="font-size:clamp(40px,6vw,100px)">The year</h2><p data-i="archP">Every assignment of the master, class by class, in the order I made it.</p></div>
@@ -574,7 +649,7 @@ const DATA={
  ]
 };
 const T={
- es:{nObras:"Obras",nMaster:"Máster IA",nFilms:"Films",nAbout:"Perfil",nContact:"Contacto",
+ es:{sisT:"Tipografía",sisT1:"Titulares y la palabra clave, siempre en cursiva cobre.",sisT2:"Texto, datos y legales. Nunca le compite a la serif.",sisC:"Color",sw1:"Negro lata",sw2:"Cobre oscuro",sw3:"Cobre",sw4:"Cobre claro",sw5:"Hueso",bE:"Referencias y exploración",bEc:"139 generaciones en cinco hojas de contacto. Una imagen fuente y tres familias de prompt: documental de larga exposición, retrato y calle. La regla fue siempre la misma: el mundo se barre y una persona se queda.",bS:"Selección",bSc:"Doce de las 139, ya con grado de color. Elegidas por el blur de la vida alrededor de una cara en foco, nunca por el cuadro más bonito. Sin modelo fijo: la marca es de la tribu.",bF:"Imágenes finales",adT:"Adaptaciones · OOH y redes",adC:"La misma regla escala: el mundo se barre, una persona se queda y la palabra clave va en cursiva cobre. Horizontal para calle y metro, vertical para stories y reels.",nObras:"Obras",nMaster:"Máster IA",nFilms:"Films",nAbout:"Perfil",nContact:"Contacto",
   rol:"<b>Director de arte.</b> Construyo mundos donde la gente entra, en museos, metros y plazas. Hoy dirijo la IA como a un equipo de cine.",
   c1:"años dirigiendo",c2:"visitantes, un museo",c3:"visitantes en nueve noches",c4:"niñas y niños en un coro",c5:"de inmersión corporal",
   obrasT:"Obra construida",obrasP:"Espacios reales, público real. De 2019 a 2026. Abre cualquier proyecto para verlo completo.",
