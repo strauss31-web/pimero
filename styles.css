@@ -2144,3 +2144,19 @@ a, button, .terr-panel, .stat, .obra {
 @media (max-width: 768px) {
     .sound-toggle { left: 14px; bottom: 14px; font-size: 0.62rem; padding: 8px 13px; }
 }
+
+/* ---- Nav: arreglo de la franja 769-1300px ----
+   Dos problemas medidos en el sitio vivo:
+   1) Sin nowrap, cada enlace se partía en dos líneas ("[01] QUÉ / HACEMOS")
+      y el logo se encimaba con el primer enlace.
+   2) Con una sola línea, el menú necesita ~1300px; por debajo se sale y se
+      encima. El menú móvil solo entraba en 768px, dejando la franja rota. */
+.nav-links a { white-space: nowrap; }
+
+@media (max-width: 1300px) {
+  .nav-toggle { display: flex; }
+  .nav-links { position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: flex-start; gap: 4px; background: var(--red); border-bottom: 2px solid var(--black); padding: 20px 28px 28px; display: none; }
+  .nav-links.open { display: flex; }
+  .nav-links a { display: block; padding: 12px 0; font-size: 0.95rem; white-space: normal; }
+  .nav-links .nav-cta { margin-top: 10px; }
+}
