@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Alejandro Strauss · Máster en IA, LABASAD 2026</title>
+<meta name="description" content="Art direction for immersive experiences, museography, video mapping and AI-driven filmmaking. Mexico City.">
+<meta property="og:title" content="Alejandro Strauss · Art Director, Immersive & AI">
+<meta property="og:image" content="img/gua_tribu_hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Space+Grotesk:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   ALEJANDRO STRAUSS · PORTAFOLIO v7
+   Para editar textos busca "const DATA" al final.
+   Para poner videos de Vimeo busca "const VIMEO".
+   ========================================================= */
+:root{
+  --bg:#0a0a0a; --ink:#efebe3; --mute:#8f8a82; --line:rgba(239,235,227,.16); --ver:#ff3b1f;
+  --cu1:#7a3f1f; --cu2:#d9894f; --cu3:#f3c08f;
+  --d:"Syne","Arial Black",Helvetica,sans-serif;
+  --t:"Space Grotesk","Helvetica Neue",Arial,sans-serif;
+  --pad:clamp(18px,3.2vw,48px);
+  color-scheme:dark; box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){--bg:#efebe3;--ink:#0a0a0a;--mute:#6a655d;--line:rgba(10,10,10,.16);color-scheme:light}
+}
+:root[data-theme="light"]{--bg:#efebe3;--ink:#0a0a0a;--mute:#6a655d;--line:rgba(10,10,10,.16);color-scheme:light}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 var(--t);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:#000}
+img,video{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
+:focus-visible{outline:2px solid var(--ver);outline-offset:4px}
+.oculto{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* NAV */
+.nav{position:fixed;inset:0 0 auto;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:calc(16px + env(safe-area-inset-top,0px)) var(--pad) 16px;color:#fff;mix-blend-mode:difference}
+.nav .logo{font:800 17px/1 var(--d);letter-spacing:.04em;text-decoration:none}
+.nav .links{display:flex;gap:26px;font-size:15px;align-items:center}
+.nav .links a{text-decoration:none}
+.nav .links a:hover{text-decoration:underline;text-underline-offset:5px}
+.nav .lang{border:1px solid currentColor;border-radius:999px;padding:5px 12px;font-size:13px}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:600px;overflow:hidden;background:#000;color:#fff}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.06);transition:opacity 1.4s, transform 8s linear}
+.hero img.on{opacity:1;transform:scale(1)}
+.hero .rol{position:absolute;left:var(--pad);top:calc(78px + env(safe-area-inset-top,0px));max-width:30em;font-size:clamp(17px,1.4vw,21px);line-height:1.4;z-index:2;mix-blend-mode:difference}
+.hero .rol b{font-weight:500}
+.hero h1{position:absolute;left:var(--pad);right:var(--pad);bottom:calc(var(--pad) - .06em);margin:0;font:800 clamp(64px,13.6vw,250px)/.8 var(--d);letter-spacing:-.045em;text-transform:uppercase;z-index:2;mix-blend-mode:difference}
+.hero .clip{position:absolute;right:var(--pad);top:calc(78px + env(safe-area-inset-top,0px));font-size:13px;z-index:2;text-align:right;mix-blend-mode:difference;opacity:.85}
+
+
+/* SALA 3D */
+#sala{position:absolute;inset:0;z-index:1;background:#0a0a0a;opacity:0;transition:opacity 1.6s}
+#sala.vivo{opacity:1}
+#sala canvas{display:block;width:100%!important;height:100%!important}
+.hero.sala3d #heroVids{opacity:0;transition:opacity 1s}
+.hero.sala3d .clip{display:none}
+.hero.puntero #sala{cursor:pointer}
+.salaTag{position:absolute;z-index:3;pointer-events:none;font:700 15px/1.2 var(--d);color:#0a0a0a;background:#ff3b1f;padding:8px 12px;border-radius:999px;opacity:0;transform:translate(14px,-50%);transition:opacity .2s;white-space:nowrap}
+.salaTag.on{opacity:1}
+.salaHint{position:absolute;right:var(--pad);bottom:calc(var(--pad) + 4px);z-index:3;margin:0;font-size:13px;color:#fff;mix-blend-mode:difference;opacity:0;transition:opacity 1s}
+.hero.sala3d .salaHint{opacity:.8}
+.hero h1,.hero .rol{pointer-events:none}
+@media (max-width:900px){.salaHint{display:none}}
+
+/* CIFRAS */
+.cifras{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--line)}
+.cifras div{padding:28px var(--pad) 30px;border-right:1px solid var(--line)}
+.cifras div:last-child{border-right:0}
+.cifras b{display:block;font:800 clamp(34px,4vw,64px)/1 var(--d);letter-spacing:-.03em}
+.cifras span{font-size:14px;color:var(--mute)}
+
+/* SECCIONES */
+.cab{display:grid;grid-template-columns:1fr minmax(0,26em);gap:30px;align-items:end;padding:clamp(90px,12vw,170px) var(--pad) 40px}
+.cab h2{margin:0;font:800 clamp(52px,9vw,160px)/.82 var(--d);letter-spacing:-.045em;text-transform:uppercase}
+.cab p{margin:0;color:var(--mute);font-size:17px}
+
+/* OBRAS */
+.obra{display:grid;grid-template-columns:repeat(12,1fr);gap:0;border-top:1px solid var(--line);cursor:pointer;position:relative}
+.obra .foto{grid-column:1/8;aspect-ratio:16/10;overflow:hidden;background:#111}
+.obra .foto img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s cubic-bezier(.2,.7,.1,1)}
+.obra:hover .foto img{transform:scale(1.035)}
+.obra .txt{grid-column:8/13;padding:clamp(22px,3vw,44px) var(--pad);display:flex;flex-direction:column;justify-content:space-between;gap:24px}
+.obra:nth-of-type(even) .foto{grid-column:6/13;grid-row:1}
+.obra:nth-of-type(even) .txt{grid-column:1/6;grid-row:1}
+.obra .meta{display:flex;justify-content:space-between;font-size:14px;color:var(--mute);gap:12px}
+.obra h3{font:800 clamp(30px,3.6vw,58px)/.95 var(--d);letter-spacing:-.03em;margin:0 0 14px;transition:color .2s}
+.obra:hover h3{color:var(--ver)}
+.obra p{margin:0;max-width:30em;color:color-mix(in srgb,var(--ink) 80%,transparent)}
+.obra .rolp{font-size:14px;margin-top:18px}
+.obra .mas{font:700 14px/1 var(--d);display:inline-flex;gap:8px;align-items:center}
+.obra.ancha{display:block}
+.obra.ancha .foto{aspect-ratio:21/9;height:auto}
+.obra.ancha .txt{position:absolute;inset:auto 0 0 0;padding:var(--pad);color:#fff;display:grid;grid-template-columns:1fr minmax(0,28em);align-items:end;gap:30px}
+.obra.ancha .txt::before{content:"";position:absolute;inset:-60% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.72));z-index:-1}
+.obra.ancha h3{font-size:clamp(40px,6vw,110px);margin:0}
+.obra.ancha p,.obra.ancha .meta{color:rgba(255,255,255,.85)}
+
+/* MASTER */
+.master{background:#000;color:#ece4d8}
+.master .cab p{color:#a99f92}
+.ent{padding:0 var(--pad) 40px;display:grid;grid-template-columns:1fr minmax(0,30em);gap:30px;color:#cfc6b8;font-size:18px}
+.gua{--g:#000;background:#000;color:#ece4d8}
+.cobre{background:linear-gradient(100deg,var(--cu1),var(--cu2) 45%,var(--cu3) 55%,#a5582a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gua .portada{position:relative;height:100svh;min-height:560px;overflow:hidden}
+.gua .portada img{width:100%;height:100%;object-fit:cover}
+.gua .gtit{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;padding:40px var(--pad) 10px}
+.gua .gtit h2{margin:0;font:400 clamp(80px,15vw,280px)/.82 "Instrument Serif",serif}
+.gua .gtit .d{max-width:24em;font-size:16px;color:#cfc6b8;margin:0 0 14px}
+.gua .eti{font:500 14px/1.3 var(--t);color:var(--cu2);margin-bottom:22px;display:block}
+.bloq{padding:clamp(70px,10vw,140px) var(--pad);border-top:1px solid #1d1d1d}
+.bloq .frase{font:400 clamp(38px,5.6vw,96px)/1 "Instrument Serif",serif;margin:0;max-width:15em}
+.bloq .frase em{font-style:italic}
+.bloq .chico{max-width:34em;color:#a99f92;margin:28px 0 0;font-size:18px}
+.marca{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:50px}
+.marca img{width:100%;height:100%;object-fit:cover;background:#000}
+.lata3d{position:relative;background:#000;aspect-ratio:1640/2200;cursor:grab;touch-action:pan-y}
+.lata3d:active{cursor:grabbing}
+.lata3d canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.lata3d.vivo img{visibility:hidden}
+.lata3d .hint{position:absolute;left:16px;bottom:14px;font-size:13px;color:#a99f92;opacity:0;transition:opacity .4s}
+.lata3d.vivo .hint{opacity:1}
+.titulares{display:grid;gap:2px;margin-top:50px}
+.titulares div{font-size:clamp(40px,7vw,128px);line-height:.98;letter-spacing:-.02em;font-weight:500}
+.titulares em{font:italic 400 1.04em "Instrument Serif",serif}
+.paleta{display:flex;height:70px;margin-top:40px;max-width:720px}.paleta i{flex:1}
+.mosaico{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;margin-top:50px}
+.mosaico button{overflow:hidden;background:#111}
+.mosaico img{width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.2,.7,.1,1)}
+.mosaico button:hover img{transform:scale(1.04)}
+.mosaico .a{grid-column:span 8;aspect-ratio:16/9}.mosaico .b{grid-column:span 4}.mosaico .c{grid-column:span 6;aspect-ratio:16/9}.mosaico .v{grid-column:span 4;aspect-ratio:3/4}
+.tvcTop{position:relative;aspect-ratio:1280/558;background:#000;margin:30px var(--pad) 0}
+.tvcTop iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.tvcTop a{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:space-between;padding:22px;text-decoration:none;color:#fff;background-size:cover;background-position:center}
+.tvcTop a b{font:400 clamp(34px,5vw,80px)/1 "Instrument Serif",serif}
+.tvcTop a span{font:700 15px/1 var(--d);background:#ff3b1f;color:#0a0a0a;padding:12px 18px;border-radius:999px}
+.tvc .ver{position:absolute;right:20px;bottom:20px;font:700 15px/1 var(--d);background:#ff3b1f;color:#0a0a0a;padding:12px 18px;border-radius:999px;text-decoration:none}
+.tvc{position:relative;margin-top:50px;aspect-ratio:2.39;background:#000;overflow:hidden}
+.tvc img,.tvc iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
+.tvc .rot{position:absolute;left:24px;bottom:20px;font:400 clamp(30px,4vw,64px)/1 "Instrument Serif",serif;color:#fff}
+.reparto{columns:3;column-gap:30px;margin-top:40px;font-size:15px;color:#a99f92}
+.reparto div{break-inside:avoid;margin-bottom:12px}.reparto b{display:block;color:#ece4d8;font-weight:500}
+
+.clases{padding:0 var(--pad) 40px}
+.clase{display:grid;grid-template-columns:minmax(160px,22%) 1fr;border-top:1px solid #2a2a2a;padding:22px 0 30px}
+.clase>div:first-child b{display:block;font:700 17px/1.2 var(--d)}
+.clase>div:first-child span{color:#8f8679;font-size:14px}
+.piezas{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;scrollbar-width:thin}
+.pieza{flex:none;position:relative}
+.pieza .im{height:clamp(220px,24vw,340px);overflow:hidden;background:#111}
+.pieza img{height:100%;width:auto;object-fit:cover;transition:transform 1s cubic-bezier(.2,.7,.1,1)}
+.pieza:hover img{transform:scale(1.04)}
+.pieza .tipo{height:100%;aspect-ratio:3/4;display:flex;align-items:flex-end;padding:18px;background:#e0a24f;color:#0a0a0a;font:800 clamp(28px,2.6vw,44px)/.92 var(--d);letter-spacing:-.03em}
+.pieza b{display:block;font:700 17px/1.2 var(--d);margin-top:10px;color:#ece4d8}
+.pieza span{font-size:13px;color:#8f8679}
+
+
+/* TODOSANTOS */
+.tds{background:#1d1028;color:#f6e7cf;padding:clamp(90px,12vw,170px) 0 80px}
+.tdsCab{padding:0 var(--pad) 40px;display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+.tds h2{margin:0;font:800 clamp(70px,14vw,250px)/.8 var(--d);letter-spacing:-.05em;color:#f39a2e;text-transform:uppercase}
+.tdsK{font-size:14px;color:#cdb8d8}
+.tdsVideo{position:relative;aspect-ratio:21/9;background:#120a19;margin:0 var(--pad)}
+.tdsVideo iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.tdsAviso{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-decoration:none;color:#f6e7cf;border:1px solid #3a2448}
+.tdsAviso b{font:800 clamp(30px,5vw,80px)/1 var(--d);color:#f39a2e;letter-spacing:-.03em;text-transform:uppercase}
+.tdsTxt{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;padding:50px var(--pad) 0;align-items:start}
+.tdsBig{font:700 clamp(24px,2.6vw,40px)/1.12 var(--d);letter-spacing:-.02em;margin:0}
+.tdsTxt>p:last-child{grid-column:2;margin:0;color:#d4c0de}
+.tdsFicha{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px;margin:0}
+.tdsFicha dt{font-size:13px;color:#b8a2c4}.tdsFicha dd{margin:2px 0 0;font:700 17px/1.2 var(--d)}
+@media (max-width:900px){.tdsTxt{grid-template-columns:1fr}.tdsTxt>p:last-child{grid-column:auto}}
+
+
+/* TRABAJO IA */
+.wide{padding:0 var(--pad) 50px}
+.wide .pant{position:relative;aspect-ratio:16/9;background:#111}
+.wide iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.wide .pant a{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-decoration:none;font:700 16px/1 var(--d);color:var(--ink);border:1px solid var(--line)}
+.wide .wt{display:grid;grid-template-columns:1fr minmax(0,30em);gap:30px;margin-top:20px}
+.wide h3{margin:0;font:800 clamp(30px,3.6vw,58px)/.95 var(--d);letter-spacing:-.03em}
+.wide .wt span{font-size:14px;color:var(--mute)}
+.wide p{margin:0 0 10px}
+.wide small{color:var(--mute);font-size:14px}
+@media (max-width:900px){.wide .wt{grid-template-columns:1fr}}
+.reels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 var(--pad) 40px}
+.reel .pant{position:relative;aspect-ratio:1280/2276;background:#111;overflow:hidden}
+.reel iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.reel .pant a{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-decoration:none;font:700 16px/1 var(--d);color:var(--ink);border:1px solid var(--line)}
+.reel b{display:block;font:700 18px/1.2 var(--d);margin-top:12px}
+.reel span{font-size:14px;color:var(--mute)}
+@media (max-width:900px){.reels{grid-template-columns:1fr 1fr}}
+
+/* FILMS */
+.films{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-flow:dense;gap:6px;padding:0 var(--pad) 40px}
+.film{position:relative;overflow:hidden;background:#000;grid-column:span 4;aspect-ratio:16/9}
+.film.ancho{grid-column:span 8}
+.film.vert{grid-column:span 4;grid-row:span 2;aspect-ratio:auto}
+.film video{width:100%;height:100%;object-fit:cover}
+.film .ft{position:absolute;left:14px;right:14px;bottom:12px;color:#fff;mix-blend-mode:difference}
+.film .ft b{display:block;font:700 18px/1.15 var(--d)}
+.film .ft span{font-size:13px}
+
+/* ABOUT */
+.about{padding:clamp(90px,12vw,170px) var(--pad) 60px;border-top:1px solid var(--line)}
+.about .big{font:700 clamp(32px,4.6vw,78px)/1.02 var(--d);letter-spacing:-.025em;margin:0;max-width:17em}
+.about .big em{font-style:normal;color:var(--ver)}
+.about .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:60px}
+.about .cols p{margin:0;color:color-mix(in srgb,var(--ink) 82%,transparent)}
+.premios{display:flex;flex-wrap:wrap;gap:10px 34px;margin-top:50px;padding-top:24px;border-top:1px solid var(--line);font:700 16px/1.3 var(--d)}
+
+/* CONTACTO */
+.contacto{background:var(--ver);color:#0a0a0a;padding:clamp(90px,12vw,160px) var(--pad) 40px}
+.contacto h2{margin:0;font:800 clamp(52px,9vw,170px)/.84 var(--d);letter-spacing:-.045em;text-transform:uppercase}
+.contacto .l{display:flex;flex-wrap:wrap;gap:12px 34px;margin-top:50px;font:700 clamp(18px,1.8vw,26px)/1.2 var(--d)}
+.contacto .l a{text-decoration:none;border-bottom:2px solid}
+.contacto footer{display:flex;justify-content:space-between;margin-top:90px;font-size:14px;flex-wrap:wrap;gap:10px}
+
+/* VISOR */
+.visor{position:fixed;inset:0;z-index:80;background:#050505;color:#efebe3;display:none;overflow-y:auto}
+.visor.on{display:block}
+.visor .x{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));right:var(--pad);z-index:81;font:700 15px/1 var(--d);background:#efebe3;color:#050505;border-radius:999px;padding:11px 18px}
+.visor .vc{padding:calc(90px + env(safe-area-inset-top,0px)) var(--pad) 50px;display:grid;grid-template-columns:1fr minmax(0,28em);gap:30px;align-items:end}
+.visor h2{margin:0;font:800 clamp(42px,7vw,120px)/.86 var(--d);letter-spacing:-.04em}
+.visor .vd p{margin:0 0 14px;color:#cfc8bd}
+.visor .vd small{display:block;color:#8f8a82;font-size:14px;margin-bottom:16px}
+.visor .gal{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;padding:0 var(--pad) 80px}
+.visor .gal img,.visor .gal video{width:100%;height:auto;background:#111}
+.visor .gal .full{grid-column:1/-1}
+.visor .cita{font:700 clamp(30px,4.4vw,72px)/1.02 var(--d);letter-spacing:-.025em;padding:10px var(--pad) 40px;margin:0;max-width:18em}
+.visor .proc{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;padding:30px var(--pad) 10px}
+.visor .proc h3{font:700 16px/1.2 var(--d);color:#ff3b1f;margin:0 0 10px}
+.visor .proc p{margin:0;color:#cfc8bd}
+.visor .tools{padding:10px var(--pad) 40px;margin:0;color:#8f8a82;font-size:14px}
+@media (max-width:900px){.visor .proc{grid-template-columns:1fr}}
+.visor .vim{position:relative;aspect-ratio:16/9;background:#000}.visor .vim iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.visor .vlink{font:700 16px/1 var(--d);padding:16px 0;color:#ff3b1f}
+.film .full{position:absolute;top:12px;right:12px;font:700 12px/1 var(--d);background:#ff3b1f;color:#0a0a0a;padding:6px 9px;border-radius:999px}
+
+@media (max-width:900px){
+  .nav .links a{display:none}
+  .cifras{grid-template-columns:repeat(2,1fr)}.cifras div:nth-child(2n){border-right:0}.cifras div{border-bottom:1px solid var(--line)}
+  .cab,.ent,.visor .vc{grid-template-columns:1fr}
+  .obra .foto,.obra:nth-of-type(even) .foto{grid-column:1/-1;grid-row:1}
+  .obra .txt,.obra:nth-of-type(even) .txt{grid-column:1/-1;grid-row:2}
+  .obra.ancha .foto{aspect-ratio:4/3}
+  .obra.ancha .txt{grid-template-columns:1fr;position:static;color:var(--ink)}
+  .obra.ancha .txt::before{display:none}
+  .obra.ancha p,.obra.ancha .meta{color:inherit}
+  .marca{grid-template-columns:1fr}
+  .mosaico .a,.mosaico .b,.mosaico .c,.mosaico .v{grid-column:span 12;aspect-ratio:4/3}
+  .reparto{columns:2}
+  .clase{grid-template-columns:1fr;gap:14px}
+  .film,.film.ancho,.film.vert{grid-column:span 12;grid-row:auto;aspect-ratio:16/9}
+  .about .cols{grid-template-columns:1fr}
+  .visor .gal{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+<style>
+.lhead{padding:calc(120px + env(safe-area-inset-top,0px)) var(--pad) 30px;background:#000;color:#ece4d8}
+.lhead .lk{font-size:14px;color:#b3794b;margin:0 0 18px}
+.lhead h1{margin:0;font:800 clamp(48px,8vw,140px)/.84 var(--d);letter-spacing:-.045em;text-transform:uppercase;max-width:12em}
+.lhead .ld{max-width:34em;color:#a99f92;margin:26px 0 0;font-size:18px}
+.master>.cab:first-child{display:none}
+
+/* PROCESO LABASAD */
+.proc{margin-top:70px;color:#d8cfc2}
+.proc .ph{font:500 14px/1.3 var(--t);color:#d9894f;margin:60px 0 22px;padding-top:16px;border-top:1px solid #2a2a2a}
+.proc .ph:first-child{margin-top:0}
+.pidea{max-width:44em}
+.pgrande{font:400 clamp(34px,4.6vw,72px)/1.02 "Instrument Serif",serif;color:#ece4d8;margin:0 0 20px}
+.proc p{font-size:17px;margin:0 0 14px}
+.proc .regla{border-left:2px solid #d9894f;padding-left:16px;color:#c9bfb1}
+.guion{display:grid;gap:0}
+.guion div{display:grid;grid-template-columns:110px 1fr 1.2fr;gap:24px;padding:14px 0;border-bottom:1px solid #1f1f1f;font-size:15px}
+.guion b{font:600 15px/1.3 "Geist",var(--t);color:#ece4d8}
+.guion em{font:italic 400 19px/1.3 "Instrument Serif",serif;color:#e3b585}
+.kfs{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.kf{position:relative;display:block;text-align:left}
+.kf img{width:100%;aspect-ratio:2.39;object-fit:cover;background:#111;transition:opacity .2s}
+.kf:hover img{opacity:.8}
+.kf span{display:block;font-size:12px;color:#a99f92;margin-top:5px;line-height:1.3}
+.kf b{color:#d9894f;font-weight:600}
+.wf{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(8,1fr);gap:8px;counter-reset:w}
+.wf.wf5{grid-template-columns:repeat(5,1fr)}
+.wf li{counter-increment:w;border-top:2px solid #d9894f;padding-top:10px;font-size:14px}
+.wf li::before{content:counter(w,decimal-leading-zero);display:block;font:600 13px/1 "Geist",var(--t);color:#d9894f;margin-bottom:8px}
+.wf b{display:block;color:#ece4d8;font-weight:600;margin-bottom:4px}
+.wf span{color:#a99f92}
+.tools,.lecc{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 26px}
+.lecc{grid-template-columns:repeat(3,1fr)}
+.tools div,.lecc div{font-size:14px}
+.tools b,.lecc b{display:block;color:#ece4d8;font-weight:600;margin-bottom:6px;font-size:15px}
+.tools span,.lecc span{color:#a99f92}
+@media (max-width:900px){.guion div{grid-template-columns:1fr;gap:6px}.kfs{grid-template-columns:repeat(2,1fr)}.wf,.wf.wf5{grid-template-columns:1fr 1fr}.tools,.lecc{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="logo" href="index.html">STRAUSS</a>
+  <div class="links">
+    <a href="#guachicol">Guachicol</a>
+    <a href="#clases" data-i="nYear">The year</a>
+    <a href="index.html" data-i="nBack">Portfolio</a>
+    <button class="lang" id="lang">ES</button>
+  </div>
+</nav>
+<header class="lhead">
+  <p class="lk">LABASAD · Barcelona School of Arts &amp; Design</p>
+  <h1 data-i="lT">Master in AI for Visual Creation</h1>
+  <p class="ld" data-i="lD">Alejandro Strauss · March to November 2026. Final project first, then every assignment of the year, class by class.</p>
+</header>
+<div hidden><div id="heroVids"></div><div id="heroClip"></div><div id="obrasLista"></div><div id="tdsVideo"></div><div id="iaWide"></div><div id="reels"></div><div id="filmsLista"></div></div>
+<section class="master" id="master">
+  <div class="cab"><h2>AI<br>Master</h2><p data-i="masterP">LABASAD, Barcelona School of Arts &amp; Design. Master in AI for Visual Creation, March to November 2026. First the final project, then everything that led to it.</p></div>
+
+  <article class="gua" id="guachicol">
+    <div class="portada"><img src="img/gua_tribu_hero.jpg" alt="Guachicol, la tribu con sus latas negras"></div>
+    <div class="gtit"><h2 class="cobre">Guachicol</h2><p class="d" data-i="guaD">Final project. Rebranding of Guachicol Session Black IPA, by Camilera Brewing. Brand, AI photoshoot and a 45 second TV spot.</p></div>
+    <div class="tvcTop" id="tvcTop"></div>
+
+    <section class="bloq">
+      <span class="eti">01 Intro</span>
+      <p class="frase" data-i="g1">A <em>clandestine chic</em> beer. You recognise it among people who know, and it never shouts.</p>
+      <p class="chico" data-i="g1b">The seed is in F.L.A.U.X., six months earlier. The still character stays in focus while the world blurs around them. Guachicol is that same idea with a can in hand.</p>
+    </section>
+
+    <section class="bloq">
+      <span class="eti" data-i="g2e">02 Brand</span>
+      <p class="frase" data-i="g2"><em>Lo bueno no se anuncia.</em> Good things don’t advertise.</p>
+      <div class="marca">
+        <div class="lata3d" id="lata3d"><img src="img/gua_lata_referencia.jpg" alt="Lata negra de Guachicol"><span class="hint" data-i="hint3d">Drag to turn the can</span></div>
+        <img src="img/gua_etiqueta_frontal.jpg" alt="Etiqueta frontal de Guachicol">
+      </div>
+      <div class="titulares">
+        <div><em class="cobre">Róbale</em> tiempo al día.</div>
+        <div><em class="cobre">Si la ves,</em> sabes.</div>
+        <div><em class="cobre">Toma</em> tu tiempo.</div>
+      </div>
+      <p class="chico" data-i="g2b">An all black can. Instrument Serif with Geist. Copper in gradient, a copper drop on the i, the valve next to the wordmark. Split headlines with the key word in copper italic serif and the rest in bone white sans.</p>
+      <div class="paleta"><i style="background:#000;outline:1px solid #2a2a2a"></i><i style="background:#7a3f1f"></i><i style="background:#d9894f"></i><i style="background:#f3c08f"></i><i style="background:#ece4d8"></i></div>
+    </section>
+
+    <section class="bloq">
+      <span class="eti">03 AI Photoshoot</span>
+      <p class="frase" data-i="g3">Twenty photos and <em>no fixed face.</em> The brand belongs to the tribe.</p>
+      <div class="mosaico" id="guaMosaico"></div>
+      <div class="proc">
+        <h3 class="ph">Workflow del photoshoot</h3>
+        <ol class="wf wf5">
+          <li><b>Shooting exploratorio</b><span>Imágenes con IA sin personaje fijo, a propósito.</span></li>
+          <li><b>Selección</b><span>Las que sostienen el concepto, el blur de la vida y el que queda en foco.</span></li>
+          <li><b>Retoque en Magnific</b><span>Piel, textura y detalle.</span></li>
+          <li><b>Lata y logo</b><span>Latas redibujadas y ajustes de luz.</span></li>
+          <li><b>Intervención con código</b><span>Lettering, recortes y titular partido, sin Photoshop.</span></li>
+        </ol>
+        <p class="regla"><b>Por qué no hay una cara fija.</b> La marca es de la tribu, no de una persona. Cada foto es un momento que se queda mientras la ciudad pasa.</p>
+      </div>
+    </section>
+
+    <section class="bloq">
+      <span class="eti">04 Ads</span>
+      <p class="frase" data-i="g4"><em>La Toma.</em> Renata steals time back from a day that keeps stealing hers.</p>
+      <div class="tvc" id="tvc"><img src="img/gua_metro_robale.jpg" alt="Fotograma de La Toma"><span class="rot">La Toma · 45″ · 2.39:1</span></div>
+      <div class="reparto">
+        <div><b>Renata</b><span data-i="r1">takes her time</span></div><div><b>El Rorro</b><span data-i="r2">the boss</span></div>
+        <div><b>Toño, Don Chuy, El Güero</b><span data-i="r3">time thieves</span></div><div><b>Beto vagonero, Valeria</b><span data-i="r3b">time thieves</span></div>
+        <div><b>Don Ramiro</b><span data-i="r3c">time thief</span></div><div><b>Mar, Diego, Itzel</b><span data-i="r4">the tribe</span></div>
+      </div>
+      <div class="proc">
+        <h3 class="ph">La idea</h3>
+        <div class="pidea">
+          <p class="pgrande">Antes que Einstein, ya existía el ahorita.</p>
+          <p>Para la ciudad, ahorita son dos horas. Para Renata en la azotea, la tarde dura lo que ella quiera. El comercial cuenta cómo el ahorita cambia de dueño.</p>
+          <p class="regla"><b>La regla visual.</b> Mientras la ciudad la arrastra, el tiempo es de la ciudad y todo se barre a su alrededor. Cuando ella queda firme y la ciudad corre, el tiempo es suyo. Hereda el sistema de la campaña, flash con obturación lenta, negro mate y cobre.</p>
+        </div>
+
+        <h3 class="ph">Guion · seis bloques, una voz</h3>
+        <div class="guion">
+          <div><b>Oficina</b><span>Einstein, el hook en time-lapse, la bomba, el inserto de las 18:58, ahorita llego, el Rorro y Toño.</span><em>Einstein tardó diez años en demostrar que el tiempo es relativo. Yo lo compruebo todos los días a las seis.</em></div>
+          <div><b>Calle</b><span>Insurgentes y el choque, el Güero, Don Ramiro, el inserto de las 19:12.</span><em>Mar, nota de voz. ¿No que ahorita?</em></div>
+          <div><b>Metro</b><span>El andén y la marabunta, Beto, la bajada del tren.</span><em>Ahorita, ahoritita, un segundito, al ratito, luego vemos, ya merito. Todos lo decimos, y nadie sabe cuánto dura un ahorita.</em></div>
+          <div><b>Giro</b><span>El tiempo congelado en la escalera y la puerta que se abre a la luz cobre.</span><em>Así que decidí cuánto dura el mío.</em></div>
+          <div><b>Azotea</b><span>El abrazo, el ritual de los teléfonos, la lata, el primer trago y el hero shot.</span><em>Arriba el reloj vuelve a ser mío.</em></div>
+          <div><b>Remate</b><span>El chat con el Rorro, el sillón, el Rorro esperando y el packshot.</span><em>Ahorita es cuando yo diga.</em></div>
+        </div>
+
+        <h3 class="ph">Storyboard · 26 key frames</h3>
+        <div class="kfs" id="kfs"><button class="kf" data-k="01"><img loading="lazy" src="img/kf_01.jpg" alt="Toma 01, Einstein"><span><b>01</b> Einstein</span></button><button class="kf" data-k="02"><img loading="lazy" src="img/kf_02.jpg" alt="Toma 02, El hook"><span><b>02</b> El hook</span></button><button class="kf" data-k="03"><img loading="lazy" src="img/kf_03.jpg" alt="Toma 03, La bomba"><span><b>03</b> La bomba</span></button><button class="kf" data-k="04"><img loading="lazy" src="img/kf_04.jpg" alt="Toma 04, Inserto 18:58"><span><b>04</b> Inserto 18:58</span></button><button class="kf" data-k="05"><img loading="lazy" src="img/kf_05.jpg" alt="Toma 05, Ahorita llego"><span><b>05</b> Ahorita llego</span></button><button class="kf" data-k="06"><img loading="lazy" src="img/kf_06.jpg" alt="Toma 06, Se levanta"><span><b>06</b> Se levanta</span></button><button class="kf" data-k="07"><img loading="lazy" src="img/kf_07.jpg" alt="Toma 07, El Rorro"><span><b>07</b> El Rorro</span></button><button class="kf" data-k="08"><img loading="lazy" src="img/kf_08.jpg" alt="Toma 08, Toño"><span><b>08</b> Toño</span></button><button class="kf" data-k="09"><img loading="lazy" src="img/kf_09.jpg" alt="Toma 09, Insurgentes"><span><b>09</b> Insurgentes</span></button><button class="kf" data-k="10"><img loading="lazy" src="img/kf_10.jpg" alt="Toma 10, El Güero"><span><b>10</b> El Güero</span></button><button class="kf" data-k="11"><img loading="lazy" src="img/kf_11.jpg" alt="Toma 11, Don Ramiro"><span><b>11</b> Don Ramiro</span></button><button class="kf" data-k="12"><img loading="lazy" src="img/kf_12.jpg" alt="Toma 12, Inserto 19:12"><span><b>12</b> Inserto 19:12</span></button><button class="kf" data-k="13"><img loading="lazy" src="img/kf_13.jpg" alt="Toma 13, El andén"><span><b>13</b> El andén</span></button><button class="kf" data-k="14"><img loading="lazy" src="img/kf_14.jpg" alt="Toma 14, Beto"><span><b>14</b> Beto</span></button><button class="kf" data-k="15"><img loading="lazy" src="img/kf_15.jpg" alt="Toma 15, La bajada"><span><b>15</b> La bajada</span></button><button class="kf" data-k="16"><img loading="lazy" src="img/kf_16.jpg" alt="Toma 16, El tiempo congelado"><span><b>16</b> El tiempo congelado</span></button><button class="kf" data-k="17"><img loading="lazy" src="img/kf_17.jpg" alt="Toma 17, La puerta"><span><b>17</b> La puerta</span></button><button class="kf" data-k="18"><img loading="lazy" src="img/kf_18.jpg" alt="Toma 18, El abrazo"><span><b>18</b> El abrazo</span></button><button class="kf" data-k="19"><img loading="lazy" src="img/kf_19.jpg" alt="Toma 19, El ritual"><span><b>19</b> El ritual</span></button><button class="kf" data-k="20"><img loading="lazy" src="img/kf_20.jpg" alt="Toma 20, La lata"><span><b>20</b> La lata</span></button><button class="kf" data-k="21"><img loading="lazy" src="img/kf_21.jpg" alt="Toma 21, El primer trago"><span><b>21</b> El primer trago</span></button><button class="kf" data-k="22"><img loading="lazy" src="img/kf_22.jpg" alt="Toma 22, Hero shot"><span><b>22</b> Hero shot</span></button><button class="kf" data-k="23"><img loading="lazy" src="img/kf_23.jpg" alt="Toma 23, El chat"><span><b>23</b> El chat</span></button><button class="kf" data-k="24"><img loading="lazy" src="img/kf_24.jpg" alt="Toma 24, El sillón"><span><b>24</b> El sillón</span></button><button class="kf" data-k="25"><img loading="lazy" src="img/kf_25.jpg" alt="Toma 25, El Rorro esperando"><span><b>25</b> El Rorro esperando</span></button><button class="kf" data-k="26"><img loading="lazy" src="img/kf_26.jpg" alt="Toma 26, Packshot"><span><b>26</b> Packshot</span></button></div>
+
+        <h3 class="ph">Workflow · cada toma pasó por el mismo camino</h3>
+        <ol class="wf">
+          <li><b>Key asset aprobado</b><span>El cuadro del storyboard como punto de partida.</span></li>
+          <li><b>Element y biblia</b><span>Un Element por personaje, locación y producto, con su descripción completa.</span></li>
+          <li><b>Prompt estructurado</b><span>Trece secciones fijas, de la cámara a los candados.</span></li>
+          <li><b>Borrador a 480p</b><span>Dos versiones por toma.</span></li>
+          <li><b>Revisión cuadro a cuadro</b><span>Medí movimiento y audio. Las correcciones dejaron de ser a ojo.</span></li>
+          <li><b>Corrección</b><span>Del prompt, no del Element.</span></li>
+          <li><b>Final a 1080p</b><span>Solo lo aprobado sube a alta.</span></li>
+          <li><b>Montaje</b><span>Offline, online, color por actos y mezcla.</span></li>
+        </ol>
+
+        <h3 class="ph">Herramientas · un sistema, no un truco</h3>
+        <div class="tools">
+          <div><b>Higgsfield Elements</b><span>Consistencia. Renata rehecha en hoja de tres paneles y la lata con foto en alta.</span></div>
+          <div><b>Nano Banana 2.1</b><span>Key frames, insertos legibles en 4K y correcciones del texto de la lata.</span></div>
+          <div><b>Seedance 2.5</b><span>Todas las tomas, en modo omni reference con frames de inicio y final.</span></div>
+          <div><b>ElevenLabs v4</b><span>La voz en off de Renata y la nota de voz de Mar.</span></div>
+          <div><b>Suno</b><span>Cumbia urbana para la ciudad y cumbia downtempo para la azotea.</span></div>
+          <div><b>Python, OpenCV y ffmpeg</b><span>Revisión cuadro a cuadro, medición y lettering final con canal alpha.</span></div>
+          <div><b>Premiere y DaVinci</b><span>Montaje, color por actos y mezcla.</span></div>
+          <div><b>Flux en ComfyUI</b><span>Escalado de stills con textura de piel realista.</span></div>
+        </div>
+
+        <h3 class="ph">Decisiones y correcciones</h3>
+        <div class="lecc">
+          <div><b>Frame de inicio contra Element</b><span>Probé el primer trago de tres maneras. Quedó el frame de inicio para fijar el cuadro y el Element para sostener la cara.</span></div>
+          <div><b>El fondo se quedaba muerto</b><span>Pedí tráfico congelado y congeló toda la calle. Describí cada capa del fondo en acción y pedí movimiento en todos los cuadros.</span></div>
+          <div><b>Video como referencia</b><span>Las estelas del hero shot no fluían. Generé la ciudad sola como plate y la usé de referencia para el fondo.</span></div>
+          <div><b>Describir la física</b><span>El organillo se deformaba y los escurrimientos de la lata escurrían. Describir peso y rigidez lo resolvió.</span></div>
+          <div><b>Luz práctica en lugar de efectos</b><span>Glow y bloom daban un look artificial. Describir focos, velas y pantallas con su temperatura lo hizo creíble.</span></div>
+          <div><b>Reemplazo de pantalla descartado</b><span>Componer el chat en código funcionó pero se veía pegado. Usé frames de inicio y final en Seedance.</span></div>
+        </div>
+      </div>
+    </section>
+  </article>
+
+  <div class="cab" style="padding-top:clamp(70px,9vw,130px)"><h2 data-i="archT" style="font-size:clamp(40px,6vw,100px)">The year</h2><p data-i="archP">Every assignment of the master, class by class, in the order I made it.</p></div>
+  <div class="clases" id="clases"></div>
+</section>
+
+<div class="visor" id="visor" role="dialog" aria-modal="true" aria-labelledby="vT">
+  <button class="x" id="vX" data-i="cerrar">Close</button>
+  <div id="vIn"></div>
+</div>
+
+<script>
+/* ===== VIDEOS DE VIMEO: pega aquí el número de cada video cuando lo tengas ===== */
+const VIMEO = {
+  latoma:"1243055234?h=5bca22c34c",   // Guachicol TVC, La Toma
+  todosantos:"1243025050?h=97a1d51fbc", // Todossantos MASTER 4K
+  volcan:"1243021318?h=49122b3ea7",     // Volcan 4K IA
+  muerte:"1243052001?h=179aff03c0",     // Jinete Azteca Final
+  ysi:"1210031251?h=2bd426d5f4",        // ¿Y sí?
+  aba:""                                // Pieza A-B-A, tarea final de audio
+};
+/* ===== TRABAJO CON IA (fuera del máster) ===== */
+const WIDE=[
+  {id:"1219398827?h=838856e681",t:"Walmart · Back to School",
+   s:{en:"TV spot · Terán agency · 2026",es:"Spot de TV · agencia Terán · 2026"},
+   d:{en:"Every location and character in the spot was generated with AI, except the Walmart spokesperson, composited over green screen. My part was the AI generation, character sheets, locations and animation.",es:"Todas las locaciones y personajes del spot se generaron con IA, menos el vocero de Walmart, integrado con green screen. Mi parte fue la generación con IA, los character sheets, las locaciones y la animación."},
+   cr:{en:"Direction Frank Beltrán / Hikuri Lab · Client Walmart",es:"Dirección Frank Beltrán / Hikuri Lab · Cliente Walmart"}}
+];
+const REELS=[
+  {id:"1243058524?h=0afbc2b9f3",t:"Lúdica Lab · Sala 02, Coqueteo",s:{en:"AI reel for social, vertical",es:"Reel con IA para redes, vertical"}},
+  {id:"1243058061?h=29b2512586",t:"Lúdica Lab · Sala 03",s:{en:"AI ad for social, vertical",es:"Anuncio con IA para redes, vertical"}},
+  {id:"1243058402?h=b9673efa62",t:"Lúdica Lab · Ranas",s:{en:"AI reel for social, vertical",es:"Reel con IA para redes, vertical"}}
+];
+const vimeoSrc=id=>`https://player.vimeo.com/video/${id}${id.includes('?')?'&':'?'}title=0&byline=0&portrait=0&dnt=1`;
+
+const A='';
+const S=p=>window.INL?(INL[p]||''):p;
+const DATA={
+ hero:[{k:"jinete_a",t:"El Jinete Azteca"},{k:"ai_retrato_ventana",t:"Una mujer en tránsito"},{k:"silverio_p004_1",t:"Silverio"},{k:"jinete_b",t:"El Jinete Azteca"}],
+ obras:[
+  {id:"juarez",t:"Museo de las Identidades de Juárez",en:"Museum of Juárez Identities",rol:{en:"Creative direction & production",es:"Dirección creativa y producción"},lugar:"Ciudad Juárez",y:"2024",ancha:1,
+   d:{en:"An immersive museographic journey that reshapes the story of Ciudad Juárez, from its desert genesis to its neon golden years and the faces of its people today. Sound driven rooms, holograms, stop motion projection and a wall of migrant memory.",es:"Un recorrido museográfico inmersivo que reescribe la historia de Ciudad Juárez, del desierto génesis a sus años dorados de neón y los rostros de su gente hoy. Salas guiadas por sonido, hologramas, proyección en stop motion y un muro de memoria migrante."},
+   im:["juarez_desierto","juarez_bartender","juarez_fachada","juarez_rostros"]},
+  {id:"barroco",t:"Barroco Digital",en:"Digital Baroque",rol:{en:"General content direction · Fresno",es:"Dirección general de contenidos · Fresno"},lugar:"Museo Internacional del Barroco, Puebla",y:"2021–2023",
+   d:{en:"The digital reinvention of the Baroque museum's content. Immersive rooms, Vivaldi's Four Seasons, Friedeberg's Hipnerotomagia and Sentidos, a piece that answers to movement, noise and proximity.",es:"La reinvención digital de los contenidos del museo. Salas inmersivas, Las Cuatro Estaciones de Vivaldi, Hipnerotomagia de Friedeberg y Sentidos, una pieza que responde al movimiento, el ruido y la cercanía."},
+   im:["barroco_flores","barroco_sala","barroco_vestidos","barroco_museo"]},
+  {id:"eternidad",t:"Celebrando la Eternidad",en:"Celebrando la Eternidad",rol:{en:"Creative",es:"Creativo"},lugar:"Bosque de Chapultepec, CDMX",y:"2019",
+   d:{en:"A night time Day of the Dead pilgrimage through Chapultepec Forest for the city's Ministry of Culture. Installations, performance, flowers and projection. 534,000 visitors in nine nights.",es:"Un recorrido nocturno de Día de Muertos por el Bosque de Chapultepec para la Secretaría de Cultura. Instalaciones, performance, flores y proyección. 534 mil visitantes en nueve noches."},
+   im:["eternidad_catrina","eternidad_lago"]},
+  {id:"metro",t:"Galería Metro Bellas Artes",en:"Metro Gallery Bellas Artes",rol:{en:"Direction",es:"Dirección"},lugar:"Metro CDMX",y:"2019",
+   d:{en:"The first immersive art gallery inside Mexico City's metro. Pedro Friedeberg's universe reacting to the movement of 300,000 passengers a day.",es:"La primera galería de arte inmersivo dentro del metro de la Ciudad de México. El universo de Pedro Friedeberg reaccionando al paso de 300 mil personas al día."},
+   im:["metro_friedeberg","metro_corredor"]},
+  {id:"delirio",t:"Delirio",en:"Delirio",rol:{en:"Content direction · Fresno",es:"Dirección de contenidos · Fresno"},lugar:"InSite, MIB Puebla",y:"2022",
+   d:{en:"906 m² of body immersion. Visitors merge with music, image and dance past the usual limits of projection.",es:"906 m² de inmersión corporal. El visitante se funde con música, imagen y danza más allá de los límites de la proyección."},
+   im:["delirio_sala"]},
+  {id:"pakal",t:"Pakal, Viaje al Inframundo",en:"Pakal, Journey to the Underworld",rol:{en:"Creative direction & production",es:"Dirección creativa y producción"},lugar:"La Isla, Cancún",y:"2023",
+   d:{en:"A 90 minute 5D dinner show descending into Mayan mythology. AI driven interactions, UV scenography and a tasting of more than 30 native corn flavours.",es:"Un show con cena 5D de 90 minutos que baja a la mitología maya. Interacciones con IA, escenografía UV y una degustación de más de 30 sabores de maíz nativo."},
+   im:["pakal_disco"]},
+  {id:"santuarios",t:"Santuarios",en:"Santuarios",rol:{en:"Creative direction & development",es:"Dirección creativa y desarrollo"},lugar:{en:"Immersive experience",es:"Experiencia inmersiva"},y:"2023",ancha:1,
+   d:{en:"A multisensory journey through sanctuaries and spaces of reflection. Volcanoes, moons and fire at panoramic scale.",es:"Un viaje multisensorial por santuarios y espacios de reflexión. Volcanes, lunas y fuego a escala panorámica."},
+   im:["santuarios_volcan"],v:"volcan"},
+  {id:"sinaloa",t:"Bacubirito",en:"Bacubirito",rol:{en:"Video mapping concept & direction",es:"Concepto y dirección de video mapping"},lugar:"Centro de Ciencias de Sinaloa",y:"2019–2020",
+   d:{en:"The museum façade turned into a permanent immersive theatre about the creation of the universe. Running since January 2020.",es:"La fachada del museo convertida en teatro inmersivo permanente sobre la creación del universo. Funcionando desde enero de 2020."},
+   im:["sinaloa_bacubirito","sinaloa_fachada"]},
+  {id:"voices",t:"Voices from the Earth’s Core",en:"Voices from the Earth’s Core",rol:{en:"Content & show direction",es:"Dirección de contenidos y show"},lugar:"CDMX",y:"2019",
+   d:{en:"A choir of more than 1,500 children from Mexico City, staged with light and projection at monumental scale.",es:"Un coro de más de 1,500 niñas y niños de la Ciudad de México, montado con luz y proyección a escala monumental."},
+   im:["voices_escenario"]},
+  {id:"ciudad",t:"Celebrando la Ciudad",en:"Celebrando la Ciudad",rol:{en:"Creative · direction · content",es:"Creativo · dirección · contenidos"},lugar:"Zócalo, CDMX",y:"2019",
+   d:{en:"Mexico City's Christmas festival. The main square filled with light, colour and free experiences.",es:"El festival navideño de la Ciudad de México. El Zócalo lleno de luz, color y experiencias gratuitas."},
+   im:["ciudad_zocalo"]}
+ ],
+ gua:[["tribu_hero","a"],["puerta_si_la_ves","b"],["valvula_robale_tiempo","c"],["fiesta_se_nos_paso","c"],["mujer_si_la_ves_v3","v"],["tap_toma_tu_tiempo","a"],["cajuela_si_sabes","v"],["tacos_comparte_B","a"],["frente_no_se_anuncia","b"],["metro_robale","c"]],
+ clases:[
+  {n:{en:"Image fundamentals",es:"Fundamentos de imagen"},c:{en:"March, April",es:"Marzo y abril"},p:[
+   {t:"La Mesa",s:{en:"Assignment 01 · power and distance",es:"Tarea 01 · poder y distancia"},im:["lamesa_p001_0","lamesa_p001_1","lamesa_p002_0","lamesa_p003_0","lamesa_p004_0","lamesa_p004_1","lamesa_p004_2","lamesa_p004_3","lamesa_p004_4","lamesa_p004_5","lamesa_p004_6","lamesa_p004_7","lamesa_p005_3"],
+    d:{en:"The table as a border of power. Who stands on top, who lies underneath, what separates them. An eight reference moodboard, an association map in five categories and three Midjourney sketches.",es:"La mesa como frontera de poder. Quién se para arriba, quién queda tirado abajo y qué los separa. Moodboard de ocho referencias, mapa de asociaciones en cinco categorías y tres bocetos en Midjourney."}},
+   {t:{en:"Visual diagnosis",es:"Diagnóstico visual"},s:{en:"Assignment 02 · ten images, seven criteria",es:"Tarea 02 · diez imágenes, siete criterios"},im:["diag"],
+    d:{en:"Ten of my own images judged with seven criteria. Five work, four are halfway there and one fails, falling into the most obvious template.",es:"Diez imágenes mías juzgadas con siete criterios. Cinco funcionan, cuatro se quedan a medio camino y una falla, cae en el template más obvio."}},
+   {t:"Exportações Impossíveis",s:{en:"Final assignment of the class",es:"Tarea final de la clase"},im:["exportacoes_p007_0","exportacoes_p008_0","exportacoes_p009_0","exportacoes_p010_0","exportacoes_p011_0","exportacoes_p012_0"],
+    d:{en:"Impossible furniture from an impossible Brazil. Poltrona Carnaval, Culto ao Corpo and Cadeira Amazonas, built with five visual rules and three prohibitions. The same method later built Guachicol.",es:"Muebles imposibles de un Brasil imposible. Poltrona Carnaval, Culto ao Corpo y Cadeira Amazonas, hechos con cinco reglas visuales y tres prohibiciones. Ese mismo método armó Guachicol después."}}
+  ]},
+  {n:{en:"Advanced prompting",es:"Prompting avanzado"},c:{en:"April to June",es:"Abril a junio"},p:[
+   {t:{en:"Self portrait without a mirror",es:"Autorretrato sin espejo"},s:{en:"Assignment 01 · eight arms",es:"Tarea 01 · ocho brazos"},im:["ai_retrato_brazos"],
+    d:{en:"I portrayed myself with eight arms, like a tired Shiva. References from Bacon, The Cure, Dostoevsky and Béla Tarr.",es:"Me retraté con ocho brazos, como un Shiva cansado. Referencias de Bacon, The Cure, Dostoievski y Béla Tarr."}},
+   {t:{en:"A woman in transit",es:"Una mujer en tránsito"},s:{en:"Assignment 02 · prompting as control",es:"Tarea 02 · prompting as control"},im:["ai_retrato_ventana","porti"],
+    d:{en:"Exploration in Midjourney, control in Nano Banana Pro. The strongest instruction was “Do NOT beautify”.",es:"Exploración en Midjourney y control en Nano Banana Pro. La instrucción que más pesó fue «Do NOT beautify»."}},
+   {t:{en:"Recomposing the image",es:"Recomponer la imagen"},s:{en:"Assignment 03 · 9:16 and 4:3",es:"Tarea 03 · 9:16 y 4:3"},im:["recomp_000","recomp_002","recomp_004","recomp_005","recomp_006","recomp_007","recomp_008","recomp_009","recomp_010","recomp_011","recomp_012"],
+    d:{en:"The same images taken to 9:16 and 4:3. Nano Banana Pro builds physical space, ChatGPT decorates a background. Three cases with their failure, analysis and fix.",es:"Las mismas imágenes llevadas a 9:16 y 4:3. Nano Banana Pro construye espacio físico y ChatGPT decora un fondo. Tres casos con su fallo, su análisis y su corrección."}},
+   {t:"Casa de Playa",s:{en:"Assignment 04 · key art and campaign",es:"Tarea 04 · key art y campaña"},im:["casaplaya_p003_0","casaplaya_p001_0","casaplaya_p004_0","casaplaya_p006_0","casaplaya_p007_0","casaplaya_p008_0","casaplaya_p008_1","casaplaya_p008_2","casaplaya_p008_3","casaplaya_p008_4","casaplaya_p009_0"],
+    d:{en:"A full out of home campaign, billboards, buses, walls and social, for Mykaela Plotkin's film. Macarena, four, and Juan, thirteen, in a volcanic landscape.",es:"Una campaña completa de exteriores, espectaculares, camiones, muros y redes, para la película de Mykaela Plotkin. Macarena de cuatro años y Juan de trece en un paisaje volcánico."}},
+   {t:"Boca Abajo Lux",s:{en:"Assignment 05 · product photography",es:"Tarea 05 · fotografía de producto"},im:["bocaabajo_p005_0","bocaabajo_p002_0","bocaabajo_p002_1","bocaabajo_p003_0","bocaabajo_p004_0"],
+    d:{en:"Tribal pointed boots upside down against the sky. White background discarded, the field was too much, the sky stayed.",es:"Botas huacheras boca abajo contra el cielo. El fondo blanco se descartó, el campo era demasiado y se quedó el cielo."}}
+  ]},
+  {n:{en:"AI art direction",es:"Dirección de arte con IA"},c:{en:"May, June",es:"Mayo y junio"},p:[
+   {t:"F.L.A.U.X. Vía Crucis",s:{en:"Assignment 01 · moodboard and world",es:"Tarea 01 · moodboard y mundo"},im:["viacrucis_p011_0","viacrucis_p001_0","viacrucis_p002_0","viacrucis_p002_1","viacrucis_p004_0","viacrucis_p006_0","viacrucis_p007_0","viacrucis_p008_0","viacrucis_p009_0","viacrucis_p010_0","viacrucis_p012_0","viacrucis_p013_0","viacrucis_p014_0","viacrucis_p015_0","viacrucis_p016_0"],
+    d:{en:"A Mexican baroque fashion house that never existed. Cholombianos, tribaleros and tepichulos in black, magenta and gold. Casting, wardrobe, light and runway, all directed, none photographed.",es:"Una casa de moda barroca mexicana que nunca existió. Cholombianos, tribaleros y tepichulos en negro, magenta y oro. Casting, vestuario, luz y pasarela, todo dirigido, nada fotografiado."}},
+   {t:"F.L.A.U.X. La Declaración",s:{en:"Assignment 02 · one boot, a mythology",es:"Tarea 02 · una bota, una mitología"},im:["labota_p005_0","labota_p001_0","labota_p003_0","labota_p004_0","labota_p006_0","labota_p007_0","labota_p007_2","labota_p008_0","labota_p008_1"],
+    d:{en:"One glitter boot and a whole mythology. Paparazzi nights, lowriders, altars and seafood.",es:"Una bota de brillos y toda una mitología. Noches de paparazzi, lowriders, altares y mariscos."}},
+   {t:"Silverio, Su Majestad Imperial",s:{en:"Assignment 03 · phase 1, northern and sacred",es:"Tarea 03 · fase 1, norteño y sagrado"},im:["silverio_p002_0","silverio_p006_1","silverio_p010_0","silverio_p007_1","silverio_p007_3","silverio_p008_0","silverio_p009_0","silverio_p003_0","silverio_p004_0","silverio_p004_1","silverio_p004_2","silverio_p005_0","silverio_p006_0","silverio_p007_0","silverio_p007_2","silverio_p010_1","silverio_p011_0","silverio_p013_0"],
+    d:{en:"The F.L.A.U.X. artist in a northern sacred universe. A DJ altar, the desert, boots on fire, the Virgin in neon and a package shaped like a boot.",es:"El artista de F.L.A.U.X. en un universo norteño y sagrado. Altar de DJ, desierto, botas en llamas, la Virgen en neón y un empaque con forma de bota."}},
+   {t:{en:"Silverio, the tropical turn",es:"Silverio tropical"},s:{en:"Assignment 03 · phase 2, coast of Guerrero",es:"Tarea 03 · fase 2, costa de Guerrero"},im:["silverio2_p005_0","silverio2_p004_0","silverio2_p008_1","silverio2_p007_0","silverio2_p006_1","silverio2_p001_1","silverio2_p006_0","silverio2_p006_2","silverio2_p006_3","silverio2_p008_0","silverio2_p010_0","silverio2_p011_0"],
+    d:{en:"The turn to the coast of Guerrero as the root of the character. Silverio on a dolphin with a boombox, boots in the sand of Acapulco, surf, a payphone bar and an album cover with the F.L.A.U.X. box.",es:"El giro a la costa de Guerrero como raíz del personaje. Silverio sobre un delfín con boombox, las botas en la arena de Acapulco, surf, un bar con teléfono público y una portada de disco con la caja de F.L.A.U.X."}},
+   {t:"Azul Mirlo",s:{en:"A brand built on one colour",es:"Una marca hecha de un color"},im:["mirloa_p007_1","mirlo_silla","mirloa_p004_1","mirloa_p006_1","mirloa_p009_1","mirloa_p013_1","mirloa_p012_1","mirloa_p016_1","mirloa_p002_1","mirloa_p011_1","mirloa_p018_1","mirloa_p017_1","mirlob_p004_0","mirlob_p005_0","mirlob_p006_0","mirlob_p007_0"],
+    d:{en:"The blue that doesn't mind making you uncomfortable. It doesn't look for harmony, it looks for presence. Identity, product, interiors and a first month campaign.",es:"El azul que no le importa incomodar. No busca armonía, busca presencia. Identidad, producto, interiores y la campaña del primer mes."}}
+  ]},
+  {n:{en:"Generative video",es:"Video generativo"},c:{en:"June",es:"Junio"},p:[
+   {t:{en:"360 character",es:"Personaje 360"},s:{en:"Partial 01 · El Sastre del Trópico",es:"Parcial 01 · El Sastre del Trópico"},im:[],v:"sastre",
+    d:{en:"An old man with white hair in a banana print romper. References, base character, garment and turnaround views, then into motion.",es:"Un anciano de cabello blanco con un mameluco de plátanos. Referencias, personaje base, prenda y vistas de frente y espalda, y después a movimiento."}},
+   {t:"El Jinete Azteca",s:{en:"AI western, final of the class",es:"Western con IA, final de la clase"},im:["jinete_a","jinete_b","jinete_ref_mascara","jinete_ref_cruz","jinete_ref_angulo","jinete_ref_alma","jinete_ref_rojo","jinete_ref_desierto","jinete_ref_tipo"],v:"muerte",
+    cita:{en:"No rush for the one who has never been late.",es:"No hay prisa en quien nunca ha llegado tarde."},
+    d:{en:"Death arrives at a grave and shoots grief. Not the body, that was already done. It shoots what won't let the dead go. An Aztec rider, an old campesino, a cross in flames. Black and white after Gabriel Figueroa and Manuel Álvarez Bravo.",es:"La muerte llega a una tumba y dispara al duelo. No al cuerpo, eso ya estaba hecho. Dispara a lo que no deja ir al muerto. Un jinete azteca, un viejo campesino, una cruz en llamas. Blanco y negro con Gabriel Figueroa y Manuel Álvarez Bravo detrás."},
+    proc:[
+     {h:{en:"01 Concept and story",es:"01 Concepto y narrativa"},p:{en:"Death shoots grief, not the body. The invisible shot that sets the dead free.",es:"La muerte dispara al duelo, no al cuerpo. El disparo invisible que libera."}},
+     {h:{en:"02 Image generation",es:"02 Generación de imagen"},p:{en:"Nano Banana Pro with a double reference, the character (Aztec mask, old campesino) and the setting (prairie, storm, lightning). Prompt after prompt until character and scene share one photographic space.",es:"Nano Banana Pro con doble referencia, el personaje (máscara azteca, viejo campesino) y el entorno (pradera, tormenta, relámpago). Prompt a prompt hasta integrar personaje y escena en un solo espacio fotográfico."}},
+     {h:{en:"03 Animation and finish",es:"03 Animación y cierre"},p:{en:"Kling 3.0 to animate the stills. The camera as the bullet, a violent dolly in to the eyes of the old man who waits. The reverse shot of death aiming. The fade to black as the silence after the shot.",es:"Kling 3.0 para animar los shots. La cámara como bala, un dolly in violento hacia los ojos del viejo que espera. El contraplano de la muerte apuntando. El fundido a negro como silencio después del disparo."}}
+    ],
+    tools:"Higgsfield · Nano Banana Pro · Kling 3.0 · Midjourney · DaVinci Resolve"}
+  ]},
+  {n:{en:"Audio",es:"Audio"},c:{en:"July",es:"Julio"},p:[
+   {t:{en:"A-B-A piece",es:"Pieza A-B-A"},s:{en:"Final assignment · Mixtec roots",es:"Tarea final · raíz mixteca"},im:[],vimeo:"aba",
+    d:{en:"A piece of Mixtec roots made only with prompts, in Suno, ElevenLabs and a DAW. Four deviations of the model documented, among them the false endings caused by [silence holds].",es:"Una pieza de raíz mixteca hecha solo con prompts, en Suno, ElevenLabs y un DAW. Cuatro desviaciones del modelo documentadas, entre ellas los falsos finales que provocaba [silence holds]."}}
+  ]},
+  {n:{en:"Final project",es:"Proyecto final"},c:{en:"September to November",es:"Septiembre a noviembre"},p:[
+   {t:"Guachicol",s:{en:"Brand, photoshoot, TV spot",es:"Marca, photoshoot y spot"},ir:"guachicol",im:["tribu"]}
+  ]}
+ ],
+ films:[
+  {k:"latoma",t:"La Toma · Guachicol",s:{en:"TV spot, 45 seconds",es:"Spot de TV, 45 segundos"},c:"ancho",thumb:"img/gua_metro_robale.jpg"},
+  {k:"catrina",t:"Escena inicial",s:{en:"Catrina and deer",es:"Catrina y venado"},c:"vert"},
+  {k:"muerte",t:"El Jinete Azteca",s:{en:"AI western, generative video final",es:"Western con IA, final de video generativo"},c:"ancho"},
+  {k:"ysi",t:"¿Y sí?",s:{en:"Own work, 2026",es:"Obra propia, 2026"},c:"ancho",thumb:"https://i.vimeocdn.com/video/2179803603-886304bea2406ea31bec11b32dae6f35ba106630f2f2ac5ea26a2be86d5a840c-d?f=webp&region=us"},
+  {k:"xolo",t:"Xolo",s:{en:"A xoloitzcuintle under the moon",es:"Un xoloitzcuintle bajo la luna"}},
+  {k:"museoagua",t:"Museo del Agua",s:{en:"Mayan pyramid sequence",es:"Secuencia de la pirámide maya"}},
+  {k:"portal360",t:"Portal 360",s:{en:"The world comes to play",es:"El mundo viene a jugar"},c:"ancho"},
+  {k:"sastre",t:"El Sastre del Trópico",s:{en:"AI fashion film",es:"Fashion film con IA"},c:"vert"},
+  {k:"volcan",t:"Volcán",s:{en:"Santuarios, 4K projection",es:"Santuarios, proyección 4K"}},
+  {k:"nocturno",t:"Nocturno",s:{en:"Adobe, owls, desert night",es:"Adobe, búhos, noche de desierto"}},
+  {k:"bosque",t:"El Cazador",s:{en:"Hunting sequence",es:"Secuencia de cacería"},c:"ancho"},
+  {k:"limones",t:"Bodegón en fuga",s:{en:"AI product motion",es:"Producto en movimiento con IA"}}
+ ]
+};
+const T={
+ es:{nObras:"Obras",nMaster:"Máster IA",nFilms:"Films",nAbout:"Perfil",nContact:"Contacto",
+  rol:"<b>Director de arte.</b> Construyo mundos donde la gente entra, en museos, metros y plazas. Hoy dirijo la IA como a un equipo de cine.",
+  c1:"años dirigiendo",c2:"visitantes, un museo",c3:"visitantes en nueve noches",c4:"niñas y niños en un coro",c5:"de inmersión corporal",
+  obrasT:"Obra construida",obrasP:"Espacios reales, público real. De 2019 a 2026. Abre cualquier proyecto para verlo completo.",
+  masterP:"LABASAD, Barcelona School of Arts & Design. Máster en IA para la creación visual, de marzo a noviembre de 2026. Primero el proyecto final, después todo lo que llevó hasta ahí.",
+  guaD:"Proyecto final. Rebranding de Guachicol Session Black IPA, de Camilera Brewing. Marca, photoshoot con IA y un spot de 45 segundos.",
+  g1:"Una cerveza <em>clandestina chic.</em> Se reconoce entre quienes saben y nunca grita.",
+  g1b:"La semilla está en F.L.A.U.X., seis meses antes. El personaje quieto se queda en foco mientras el mundo se vuelve blur a su alrededor. Guachicol es esa misma idea con una lata en la mano.",
+  g2e:"02 Marca",g2:"<em>Lo bueno no se anuncia.</em>",
+  g2b:"Lata totalmente negra. Instrument Serif con Geist. Cobre en degradado, una gota de cobre en la i y la válvula junto al logotipo. Titulares partidos, la palabra clave en serif itálica cobre y el resto en sans blanco hueso.",
+  g3:"Veinte fotos y <em>ninguna cara fija.</em> La marca es de la tribu.",
+  g4:"<em>La Toma.</em> Renata le roba tiempo a un día que se lo roba a ella.",
+  r1:"la que se toma su tiempo",r2:"el jefe mirrey",r3:"ladrones de tiempo",r3b:"ladrones de tiempo",r3c:"ladrón de tiempo",r4:"la tribu",
+  archT:"El año",archP:"Todas las tareas del máster, clase por clase, en el orden en que las hice.",
+  filmsT:"En movimiento",filmsP:"Diez piezas corriendo. Los cortes completos con sonido están en",
+  aboutBig:"Los espacios no se miran. <em>Se habitan.</em> Veinte años convirtiendo historias en lugares.",
+  a1:"Veinte años en cine y televisión, documentales, comerciales, videoclips y series, en México y fuera. Ciencias de la Comunicación en la Universidad Iberoamericana.",
+  a2:"El documental me enseñó a mirar. La investigación es el centro de cómo creo, y es como dirijo hoy a los modelos generativos.",
+  a3:"Dirijo equipos multidisciplinarios de la primera idea a la noche de apertura. Cofundador de Lúdica Lab, estudio de experiencias inmersivas en la Ciudad de México.",
+  p1:"Premio Nacional de Periodismo",p2:"Documental nominado al Emmy",p3:"6 Pantallas de Cristal",p4:"2 premios INPUT",
+  contT:"¿Tienes un espacio?<br>Hagámoslo inolvidable.",pie:"Dirección de arte, IA, inmersivo, museografía. Ciudad de México.",cerrar:"Cerrar",nYear:"El año",nBack:"Portafolio",lT:"Máster en IA para la Creación Visual",lD:"Alejandro Strauss · de marzo a noviembre de 2026. Primero el proyecto final, después todas las tareas del año, clase por clase.",salaHint:"Arrastra para girar. Toca un cuadro para entrar.",nIA:"Trabajo IA",iaT:"Trabajo con IA",iaP:"Piezas que dirijo con IA fuera del máster, para Lúdica Lab y proyectos propios.",hint3d:"Arrastra para girar la lata",
+  tdsK:"Obra propia con IA · 2026",tdsBig:"Un videoclip para Pasatono Orquesta, de la Mixteca de Oaxaca. Seis minutos nueve segundos de plastilina, músicos calavera en un altar y una viuda que regresa.",
+  tf1:"Duración",tf2:"Formato",tf3:"Estética",tf3v:"Stop motion en plastilina",tf4:"Música",
+  tdsP:"Llega Doña. Telesforo, el viudo, toca su violín. Un maromero cruza la luna y un xolo lo ve todo. Ocho versiones entre junio y octubre hasta el master del 28 de octubre."}
+};
+const ORIG={};let L='en';
+const tx=v=>typeof v==='string'?v:(v?v[L]||v.en:'');
+
+/* HERO */
+const hv=document.getElementById('heroVids');
+DATA.hero.forEach((o,i)=>{const im=document.createElement('img');im.alt='';im.decoding='async';im.src=S(A+'img/'+o.k+'.jpg');if(i)im.loading='lazy';else im.classList.add('on');hv.appendChild(im)});
+const hvs=[...hv.children];let hi=0;const hc=document.getElementById('heroClip');
+hc.textContent=DATA.hero[0].t;
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches)setInterval(()=>{const n=(hi+1)%hvs.length;hvs[n].classList.add('on');hvs[hi].classList.remove('on');hi=n;hc.textContent=DATA.hero[hi].t},6500);
+
+function pintar(){
+ /* OBRAS */
+ const ol=document.getElementById('obrasLista');ol.innerHTML='';
+ DATA.obras.forEach(o=>{const b=document.createElement('article');b.className='obra'+(o.ancha?' ancha':'');b.tabIndex=0;b.setAttribute('role','button');
+  b.innerHTML=`<div class="foto"><img loading="lazy" src="${S(A+'img/'+o.im[0]+'.jpg')}" alt="${L==='es'?o.t:o.en}"></div>
+  <div class="txt"><div><div class="meta"><span>${tx(o.lugar)}</span><span>${o.y}</span></div></div>
+  <div><h3>${L==='es'?o.t:o.en}</h3>${o.ancha?'':`<p>${tx(o.d)}</p><div class="rolp">${tx(o.rol)}</div>`}</div>${o.ancha?`<p>${tx(o.d)}</p>`:''}</div>`;
+  const abrir=()=>visor({t:L==='es'?o.t:o.en,s:tx(o.rol)+' · '+tx(o.lugar)+' · '+o.y,d:tx(o.d),im:o.im,v:o.v});
+  b.onclick=abrir;b.onkeydown=e=>{if(e.key==='Enter')abrir()};ol.appendChild(b)});
+ /* GUACHICOL */
+ const gm=document.getElementById('guaMosaico');gm.innerHTML='';
+ DATA.gua.forEach(([n,c])=>{const b=document.createElement('button');b.className=c;b.innerHTML=`<img loading="lazy" src="${S(A+'img/gua_'+n+'.jpg')}" alt="Guachicol ${n.replace(/_/g,' ')}">`;
+  b.onclick=()=>visor({t:'Guachicol',s:'AI Photoshoot',d:'',im:DATA.gua.map(g=>'gua_'+g[0]),from:'gua_'+n});gm.appendChild(b)});
+ const tt=document.getElementById('tvcTop');
+ if(VIMEO.latoma&&!window.INL)tt.innerHTML=`<iframe src="${vimeoSrc(VIMEO.latoma)}" allow="autoplay; fullscreen; picture-in-picture" title="La Toma, Guachicol TVC"></iframe>`;
+ else tt.innerHTML=`<a href="https://vimeo.com/${VIMEO.latoma.split('?')[0]}" target="_blank" rel="noopener" style="background-image:url('${S(A+'img/gua_metro_robale.jpg')}')"><b>La Toma</b><span>${L==='es'?'Ver el spot':'Watch the spot'}</span></a>`;
+ const tv2=document.getElementById('tvc');if(!tv2.querySelector('.ver')){const a=document.createElement('a');a.className='ver';a.href='#tvcTop';tv2.appendChild(a)}
+ tv2.querySelector('.ver').textContent=L==='es'?'Ver el spot completo':'Watch the full spot';
+ const tv=document.getElementById('tdsVideo');
+ if(VIMEO.todosantos&&!window.INL)tv.innerHTML=`<iframe src="${vimeoSrc(VIMEO.todosantos)}" allow="autoplay; fullscreen; picture-in-picture" title="Todosantos"></iframe>`;
+ else tv.innerHTML=`<a class="tdsAviso" href="https://vimeo.com/${VIMEO.todosantos.split('?')[0]}" target="_blank" rel="noopener"><b>Todosantos</b><span>${L==='es'?'Ver el videoclip completo':'Watch the full music video'}</span></a>`;
+ /* CLASES */
+ const cl=document.getElementById('clases');cl.innerHTML='';
+ DATA.clases.forEach(c=>{const d=document.createElement('div');d.className='clase';d.innerHTML=`<div><b>${tx(c.n)}</b><span>${tx(c.c)}</span></div><div class="piezas"></div>`;
+  c.p.forEach(p=>{const b=document.createElement('button');b.className='pieza';
+   const src=(p.ir||p.im[0]||p.v)?S(p.ir?A+'img/gua_tribu_hero.jpg':(p.im[0]?A+'img/'+p.im[0]+'.jpg':A+'img/v_'+p.v+'.jpg')):'';
+   b.innerHTML=`<div class="im">${src?`<img loading="lazy" src="${src}" alt="">`:`<div class="tipo">${tx(p.t)}</div>`}</div><b>${tx(p.t)}</b><span>${tx(p.s)}</span>`;
+   b.onclick=()=>{if(p.ir){document.getElementById(p.ir).scrollIntoView();return}visor({t:tx(p.t),s:tx(c.n)+' · '+tx(c.c)+' 2026',d:tx(p.d),im:p.im,v:p.v||(p.vimeo&&VIMEO[p.vimeo]?p.vimeo:''),soloVimeo:!!p.vimeo,proc:p.proc,cita:p.cita,tools:p.tools})};
+   d.children[1].appendChild(b)});
+  cl.appendChild(d)});
+ /* TRABAJO IA */
+ const iw=document.getElementById('iaWide');iw.innerHTML='';
+ WIDE.forEach(w=>{const d=document.createElement('article');d.className='wide';
+  d.innerHTML=`<div class="pant">${window.INL?`<a href="https://vimeo.com/${w.id.split('?')[0]}" target="_blank" rel="noopener">${L==='es'?'Ver en Vimeo':'Watch on Vimeo'}</a>`:`<iframe loading="lazy" src="${vimeoSrc(w.id)}" allow="autoplay; fullscreen; picture-in-picture" title="${w.t}"></iframe>`}</div>
+  <div class="wt"><div><h3>${w.t}</h3><span>${tx(w.s)}</span></div><div><p>${tx(w.d)}</p><small>${tx(w.cr)}</small></div></div>`;iw.appendChild(d)});
+ const rl=document.getElementById('reels');rl.innerHTML='';
+ REELS.forEach(r=>{const d=document.createElement('div');d.className='reel';
+  d.innerHTML=`<div class="pant">${window.INL?`<a href="https://vimeo.com/${r.id.split('?')[0]}" target="_blank" rel="noopener">${L==='es'?'Ver en Vimeo':'Watch on Vimeo'}</a>`:`<iframe loading="lazy" src="${vimeoSrc(r.id)}" allow="autoplay; fullscreen; picture-in-picture" title="${r.t}"></iframe>`}</div><b>${r.t}</b><span>${tx(r.s)}</span>`;
+  rl.appendChild(d)});
+ /* FILMS */
+ const fl=document.getElementById('filmsLista');fl.innerHTML='';
+ DATA.films.forEach(f=>{const b=document.createElement('button');b.className='film'+(f.c?' '+f.c:'');
+  const th=f.thumb?(f.thumb.startsWith('http')?(window.INL?'':f.thumb):S(f.thumb)):'';
+  b.innerHTML=(f.thumb?(th?`<img loading="lazy" src="${th}" alt="" style="width:100%;height:100%;object-fit:cover">`:''):`<video muted loop playsinline preload="none" poster="${S(A+'img/v_'+f.k+'.jpg')}" src="${S(A+'vid/'+f.k+'.mp4')}"></video>`)+`<div class="ft"><b>${f.t}</b><span>${tx(f.s)}</span></div>${VIMEO[f.k]?`<span class="full">${L==='es'?'Completo':'Full film'}</span>`:''}`;
+  b.onclick=()=>visor({t:f.t,s:tx(f.s),d:'',im:[],v:f.k,soloVimeo:!!f.thumb});fl.appendChild(b);const vv=b.querySelector('video');if(vv)vio.observe(vv)});
+}
+const vio=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting)v.play().catch(()=>{});else v.pause()}),{threshold:.35});
+
+/* VISOR */
+const vs=document.getElementById('visor'),vin=document.getElementById('vIn');let ultimo=null;
+function visor(o){ultimo=document.activeElement;
+ let g='';if(o.v&&VIMEO[o.v]&&!window.INL)g+=`<div class="full vim"><iframe src="${vimeoSrc(VIMEO[o.v])}&autoplay=1" allow="autoplay; fullscreen; picture-in-picture" title="${o.t}"></iframe></div>`;
+ else if(o.v&&o.soloVimeo){g+=`<a class="full vlink" href="https://vimeo.com/${VIMEO[o.v].split('?')[0]}" target="_blank" rel="noopener">${L==='es'?'Ver en Vimeo':'Watch on Vimeo'}</a>`}
+ else if(o.v){g+=`<video class="full" src="${S(A+'vid/'+o.v+'.mp4')}" poster="${S(A+'img/v_'+o.v+'.jpg')}" controls autoplay muted loop playsinline></video>`;
+  if(VIMEO[o.v])g+=`<a class="full vlink" href="https://vimeo.com/${VIMEO[o.v].split('?')[0]}" target="_blank" rel="noopener">${L==='es'?'Ver completo en Vimeo':'Watch the full film on Vimeo'}</a>`}
+ const ims=(o.from?[o.from,...o.im.filter(i=>i!==o.from)]:o.im).filter(i=>S(A+'img/'+i+'.jpg'));
+ ims.forEach((i,n)=>g+=`<img loading="lazy" ${n===0&&!o.v?'class="full"':''} src="${S(A+'img/'+i+'.jpg')}" alt="">`);
+ const pr=o.proc?`<div class="proc">${o.proc.map(x=>`<div><h3>${tx(x.h)}</h3><p>${tx(x.p)}</p></div>`).join('')}</div>${o.tools?`<p class="tools">${o.tools}</p>`:''}`:'';
+ const ci=o.cita?`<p class="cita">${tx(o.cita)}</p>`:'';
+ const gi=g.split(/(?=<img)/);const first=o.v?gi.slice(0,1):[];const rest=o.v?gi.slice(1):gi;
+ vin.innerHTML=`<div class="vc"><h2 id="vT">${o.t}</h2><div class="vd"><small>${o.s||''}</small>${o.d?`<p>${o.d}</p>`:''}</div></div>${ci}<div class="gal">${first.join('')}</div>${pr}<div class="gal">${rest.join('')}</div>`;
+ vs.classList.add('on');vs.scrollTop=0;document.body.style.overflow='hidden';document.getElementById('vX').focus()}
+function cerrarV(){vs.classList.remove('on');vin.innerHTML='';document.body.style.overflow='';if(ultimo)ultimo.focus()}
+document.getElementById('vX').onclick=cerrarV;addEventListener('keydown',e=>{if(e.key==='Escape'&&vs.classList.contains('on'))cerrarV()});
+
+/* IDIOMA */
+document.querySelectorAll('[data-i]').forEach(e=>ORIG[e.dataset.i]=e.innerHTML);
+function idioma(l){L=l;document.documentElement.lang=l;document.querySelectorAll('[data-i]').forEach(e=>{const k=e.dataset.i;e.innerHTML=l==='es'&&T.es[k]?T.es[k]:ORIG[k]});
+ document.getElementById('lang').textContent=l==='es'?'EN':'ES';pintar();try{localStorage.setItem('lang',l)}catch(e){}}
+document.getElementById('lang').onclick=()=>idioma(L==='es'?'en':'es');
+let l0='es';try{l0=localStorage.getItem('lang')||'es'}catch(e){}
+idioma(l0);
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+
+<script>
+/* ===== LATA 3D ===== */
+(function(){
+ const box=document.getElementById('lata3d');if(!box||!window.THREE)return;
+ const etq=new Image();etq.src=S(A+'img/gua_etiqueta_frontal.jpg');
+ etq.onload=()=>{try{
+  const cw=2048,ch=1210,cv=document.createElement('canvas');cv.width=cw;cv.height=ch;const x=cv.getContext('2d');
+  x.fillStyle='#050505';x.fillRect(0,0,cw,ch);
+  const eh=ch*.96,ew=eh*etq.width/etq.height;x.drawImage(etq,(cw-ew)/2,(ch-eh)/2,ew,eh);
+  const tex=new THREE.CanvasTexture(cv);tex.anisotropy=8;tex.encoding=THREE.sRGBEncoding;
+  const r=new THREE.WebGLRenderer({antialias:true,alpha:true});r.setPixelRatio(Math.min(devicePixelRatio,2));r.outputEncoding=THREE.sRGBEncoding;
+  box.appendChild(r.domElement);
+  const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(30,1,.1,100);cam.position.set(0,.45,10.5);cam.lookAt(0,0,0);
+  sc.add(new THREE.AmbientLight(0xffffff,.35));
+  const k=new THREE.DirectionalLight(0xfff1e0,1.1);k.position.set(3,4,5);sc.add(k);
+  const rim=new THREE.DirectionalLight(0xd9894f,1.4);rim.position.set(-4,1,-3);sc.add(rim);
+  const fill=new THREE.DirectionalLight(0xffffff,.35);fill.position.set(-3,-2,4);sc.add(fill);
+  const g=new THREE.Group();sc.add(g);
+  const R=1,H=3.7;
+  const cuerpo=new THREE.Mesh(new THREE.CylinderGeometry(R,R,H,96,1,true),new THREE.MeshPhongMaterial({map:tex,shininess:70,specular:0x444444}));
+  cuerpo.rotation.y=Math.PI;g.add(cuerpo);
+  const metal=new THREE.MeshPhongMaterial({color:0x6e6e6e,shininess:90,specular:0x8a8a8a});
+  const tapa=new THREE.Mesh(new THREE.CylinderGeometry(R*.88,R,.22,96),metal);tapa.position.y=H/2+.11;g.add(tapa);
+  const aro=new THREE.Mesh(new THREE.TorusGeometry(R*.86,.035,12,96),metal);aro.rotation.x=Math.PI/2;aro.position.y=H/2+.23;g.add(aro);
+  const base=new THREE.Mesh(new THREE.CylinderGeometry(R,R*.86,.22,96),metal);base.position.y=-H/2-.11;g.add(base);
+  const pes=new THREE.Mesh(new THREE.BoxGeometry(.5,.03,.22),metal);pes.position.set(0,H/2+.24,.25);g.add(pes);
+  g.rotation.z=.04;
+  let rot=0,vel=.004,arr=false,px=0;
+  const md=e=>{arr=true;px=e.clientX;vel=0};const mm=e=>{if(!arr)return;const d=(e.clientX-px)*.012;rot+=d;vel=d;px=e.clientX};const mu=()=>{arr=false};
+  box.addEventListener('pointerdown',md);addEventListener('pointermove',mm);addEventListener('pointerup',mu);
+  const red=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function tam(){const w=box.clientWidth,hh=box.clientHeight;r.setSize(w,hh,false);cam.aspect=w/hh;cam.updateProjectionMatrix()}
+  new ResizeObserver(tam).observe(box);tam();
+  let visible=false;new IntersectionObserver(es=>{visible=es[0].isIntersecting}).observe(box);
+  (function loop(){requestAnimationFrame(loop);if(!visible)return;if(!arr){vel+=(.004-vel)*.02;if(!red)rot+=vel}g.rotation.y=rot;r.render(sc,cam)})();
+  box.classList.add('vivo');
+ }catch(e){console.warn(e)}};
+})();
+</script>
+
+<script>
+document.getElementById('kfs').addEventListener('click',e=>{const b=e.target.closest('.kf');if(!b)return;const ks=[...document.querySelectorAll('.kf')].map(x=>'kf_'+x.dataset.k);visor({t:'La Toma',s:'Storyboard · 26 key frames',d:'',im:ks,from:'kf_'+b.dataset.k})});
+</script>
+</body>
+</html>
