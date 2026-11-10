@@ -208,6 +208,15 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .galeria{display:grid;grid-template-columns:repeat(12,1fr);gap:8px;padding:0 var(--pad) 40px}
 .galeria img{width:100%;height:100%;object-fit:cover;background:#111}
 .galeria .g1{grid-column:span 12}.galeria .g2{grid-column:span 6}
+/* VIDEO VIMEO CON PORTADA (Probadita) */
+.pplay{position:absolute;inset:0;width:100%;height:100%;padding:0;cursor:pointer}
+.pplay .pbtn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:86px;height:86px;border-radius:50%;background:var(--ver);color:#0a0a0a;transition:transform .25s}
+.pplay:hover .pbtn{transform:translate(-50%,-50%) scale(1.1)}
+.ft .pz .pico{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:58px;height:58px;border-radius:50%;background:rgba(10,10,10,.55);color:#fff;backdrop-filter:blur(4px);transition:background .25s,color .25s}
+.ft:hover .pz .pico{background:var(--ver);color:#0a0a0a}
+.caso .proc{padding:clamp(40px,6vw,80px) var(--pad) 0}
+.caso .proc img{width:100%;background:#111}
+.caso .proc p{margin:14px 0 0;font-size:15px;color:#8f8a82}
 .sig{display:block;width:100%;padding:50px var(--pad) 90px;border-top:1px solid rgba(239,235,227,.16)}
 .sig small{display:block;font-size:14px;color:#ff3b1f}
 .sig b{display:block;font:800 clamp(44px,8vw,150px)/.85 var(--d);letter-spacing:-.045em;text-transform:uppercase;transition:transform .45s}
@@ -431,6 +440,9 @@ const P=[
 
 /* ===== MAS CINE CON IA (clips locales; agrega vimeo:"ID?h=hash" cuando subas la pieza completa) ===== */
 const FILMS=[
+ {k:"probadita",t:"Probadita",vimeo:"1245449190?h=9bc7d7114c",ar:"1280/2276",img:"probadita_portada",
+  s:{en:"A scrap metal robot with a tongue it can't put back in. You get burned a thousand times and come back for more.",es:"Un robot de chatarra con una lengua que no puede meter. Te quemas mil veces y regresas por más."},
+  proc:{img:"probadita_hoja_personaje",c:{en:"Character sheet before animation. Face, front and back.",es:"Hoja de personaje antes de animar. Cara, frente y espalda."}}},
  {k:"bosque",t:{en:"The Hunter",es:"El Cazador"},s:{en:"Hunting sequence",es:"Secuencia de cacería"},ar:"960/412"},
  {k:"nocturno",t:"Nocturno",s:{en:"Adobe, owls and a desert night",es:"Adobe, búhos y noche de desierto"},ar:"960/412"},
  {k:"xolo",t:"Xolo",s:{en:"A xoloitzcuintle under the moon",es:"Un xoloitzcuintle bajo la luna"},ar:"960/412"},
@@ -558,12 +570,21 @@ document.fonts&&document.fonts.ready.then(ajustarTitulos);
 /* ===== MAS CINE ===== */
 function pintarCine(){const g=document.getElementById('cgrid');g.innerHTML='';
  FILMS.forEach(f=>{const r=f.ar.split('/');const w=r[0]/r[1];const b=document.createElement('button');b.className='ft'+(w>1.6?' ancho':'');
-  b.innerHTML=`<div class="pz" style="aspect-ratio:${f.ar}"><video muted loop playsinline autoplay preload="metadata" src="${S(A+'vid/'+f.k+'.mp4')}" poster="${S(A+'img/v_'+f.k+'.jpg')}"></video></div><b>${tx(f.t)}</b><span>${tx(f.s)}</span>`;
+  const med=f.img?`<img loading="lazy" decoding="async" src="${S(A+'img/'+f.img+'.jpg')}" alt="${tx(f.t)}"><span class="pico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>`:`<video muted loop playsinline autoplay preload="metadata" src="${S(A+'vid/'+f.k+'.mp4')}" poster="${S(A+'img/v_'+f.k+'.jpg')}"></video>`;
+  b.innerHTML=`<div class="pz" style="aspect-ratio:${f.ar}">${med}</div><b>${tx(f.t)}</b><span>${tx(f.s)}</span>`;
   b.onclick=()=>abrirFilm(f);b.onmouseenter=()=>cursor.classList.add('on');b.onmouseleave=()=>cursor.classList.remove('on');
-  g.appendChild(b);vio.observe(b.querySelector('video'))})}
+  g.appendChild(b);const v=b.querySelector('video');if(v)vio.observe(v)})}
 function abrirFilm(f){previo=document.activeElement;cursor.classList.remove('on');
- const media=f.vimeo?marco(f.vimeo,f.ar,tx(f.t)):`<div class="marco" style="aspect-ratio:${f.ar};max-height:80vh;${f.ar.split('/')[0]/f.ar.split('/')[1]<1?'max-width:46vh;margin:0 auto':''}"><video src="${S(A+'vid/'+f.k+'.mp4')}" poster="${S(A+'img/v_'+f.k+'.jpg')}" controls muted autoplay loop playsinline></video></div>`;
- cin.innerHTML=`<div class="cab"><h2 id="cT">${tx(f.t)}</h2><dl class="meta"><div><dt>${L==='es'?'Formato':'Format'}</dt><dd>${L==='es'?'Video con IA':'AI video'}</dd></div><div><dt>${L==='es'?'Pieza':'Piece'}</dt><dd>${tx(f.s)}</dd></div></dl></div><div class="media">${media}</div><div style="height:90px"></div>`;
+ const r=f.ar.split('/'),vert=r[0]/r[1]<1;
+ let media;
+ if(f.vimeo){const sty=vert?`aspect-ratio:${f.ar};width:min(calc(78svh*${r[0]}/${r[1]}),100%);margin:0 auto`:`aspect-ratio:${f.ar};max-height:80vh`;
+  media=window.INL
+   ?`<div class="marco" style="${sty}"><a class="sal" href="https://vimeo.com/${f.vimeo.split('?')[0]}" target="_blank" rel="noopener"><b>${tx(f.t)}</b><span>${L==='es'?'Ver en Vimeo':'Watch on Vimeo'}</span></a></div>`
+   :`<div class="marco" style="${sty}"><button class="pplay" aria-label="Play · ${tx(f.t)}"><img src="${S(A+'img/'+(f.img||'v_'+f.k)+'.jpg')}" alt="${tx(f.t)}"><span class="pbtn" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button></div>`}
+ else media=`<div class="marco" style="aspect-ratio:${f.ar};max-height:80vh;${vert?'max-width:46vh;margin:0 auto':''}"><video src="${S(A+'vid/'+f.k+'.mp4')}" poster="${S(A+'img/v_'+f.k+'.jpg')}" controls muted autoplay loop playsinline></video></div>`;
+ const proc=f.proc?`<div class="proc"><img loading="lazy" decoding="async" src="${S(A+'img/'+f.proc.img+'.jpg')}" alt="${tx(f.proc.c)}"><p>${tx(f.proc.c)}</p></div>`:'';
+ cin.innerHTML=`<div class="cab"><h2 id="cT">${tx(f.t)}</h2><dl class="meta"><div><dt>${L==='es'?'Formato':'Format'}</dt><dd>${L==='es'?'Video con IA':'AI video'}</dd></div><div><dt>${L==='es'?'Pieza':'Piece'}</dt><dd>${tx(f.s)}</dd></div></dl></div><div class="media">${media}</div>${proc}<div style="height:90px"></div>`;
+ const pb=cin.querySelector('.pplay');if(pb)pb.onclick=()=>{pb.parentElement.innerHTML=`<iframe src="${vimeoSrc(f.vimeo)}&autoplay=1&playsinline=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="${tx(f.t)}"></iframe>`};
  caso.classList.add('on');caso.scrollTop=0;document.body.style.overflow='hidden';document.getElementById('cX').focus()}
 
 /* ===== INDICE ===== */
