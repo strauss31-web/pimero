@@ -542,9 +542,14 @@ const P=[
   reels:["1243058524?h=0afbc2b9f3","1243058061?h=29b2512586","1243058402?h=b9673efa62"],thumb:"2221476706-d092a466f16858b44c4aaf1854400a1bb5140cab310892a620123e7136acbfe4",
   frase:{en:"Museum rooms that flirt back.",es:"Salas de museo que coquetean de vuelta."},
   d:{en:"A series of vertical pieces for the studio, made with AI. Each one turns a room of an imagined museum into a short scene.",es:"Una serie de piezas verticales para el estudio, hechas con IA. Cada una convierte una sala de un museo imaginado en una escena corta."},im:[]},
- {id:"ysi",t:"¿Y sí?",m:{en:"Short film · own work",es:"Cortometraje · obra propia"},y:"2026",cli:{en:"Own work",es:"Obra propia"},rol:{en:"Direction",es:"Dirección"},
+ {id:"ysi",t:{en:"The Hunter",es:"El Cazador"},m:{en:"Short film · own work",es:"Cortometraje · obra propia"},y:"2026",cli:{en:"Own work",es:"Obra propia"},rol:{en:"Direction",es:"Dirección"},
   vimeo:"1210031251?h=2bd426d5f4",ar:"1280/549",thumb:"2179803603-886304bea2406ea31bec11b32dae6f35ba106630f2f2ac5ea26a2be86d5a840c",
-  frase:{en:"¿Y sí?",es:"¿Y sí?"},d:{en:"",es:""},im:[]},
+  frase:{en:"A man sets out to hunt a cricket.",es:"Un hombre sale a cazar un grillo."},d:{en:"",es:""},im:[]},
+ {id:"probadita",t:"Probadita",m:{en:"Short film · AI",es:"Corto · IA"},y:"2026",cli:{en:"Own work",es:"Obra propia"},rol:{en:"Writing, direction, AI direction",es:"Guion, dirección y dirección de IA"},
+  vimeo:"1245449190?h=9bc7d7114c",ar:"1280/2276",cover:"probadita_portada",
+  frase:{en:"You get burned a thousand times and come back for more.",es:"Te quemas mil veces y regresas por más."},
+  d:{en:"A scrap metal robot with a tongue it can’t put back in. It gets burned by chili, scalded by the soup of a lady who can’t stand it, steals a kid’s cotton candy on the Metro and still comes back at night for more.",es:"Un robot de chatarra con una lengua que no puede meter. Se enchila, se quema con el caldo de una doña que no lo quiere ni ver, se roba el algodón de un niño en el Metro y aun así regresa de noche por más."},
+  im:["probadita_hoja_personaje"]},
  {id:"estudios",t:{en:"AI Studies",es:"Estudios con IA"},m:{en:"Image and motion · AI",es:"Imagen y movimiento · IA"},y:"Serie",cli:{en:"Own work",es:"Obra propia"},rol:{en:"Art direction",es:"Dirección de arte"},
   cover:"est_lichi",loop:true,vids:["est_rostros","est_vespa"],
   frase:{en:"Still lifes that look back.",es:"Naturalezas muertas que te miran de vuelta."},
@@ -596,10 +601,6 @@ const P=[
 
 /* ===== MAS CINE CON IA (clips locales; agrega vimeo:"ID?h=hash" cuando subas la pieza completa) ===== */
 const FILMS=[
- {k:"probadita",t:"Probadita",vimeo:"1245449190?h=9bc7d7114c",ar:"1280/2276",img:"probadita_portada",
-  s:{en:"A scrap metal robot with a tongue it can't put back in. You get burned a thousand times and come back for more.",es:"Un robot de chatarra con una lengua que no puede meter. Te quemas mil veces y regresas por más."},
-  proc:{img:"probadita_hoja_personaje",c:{en:"Character sheet before animation. Face, front and back.",es:"Hoja de personaje antes de animar. Cara, frente y espalda."}}},
- {k:"bosque",t:{en:"The Hunter",es:"El Cazador"},s:{en:"Hunting sequence",es:"Secuencia de cacería"},ar:"960/412"},
  {k:"nocturno",t:"Nocturno",s:{en:"Adobe, owls and a desert night",es:"Adobe, búhos y noche de desierto"},ar:"960/412"},
  {k:"xolo",t:"Xolo",s:{en:"A xoloitzcuintle under the moon",es:"Un xoloitzcuintle bajo la luna"},ar:"960/412"},
  {k:"museoagua",t:{en:"Water Museum",es:"Museo del Agua"},s:{en:"The Mayan pyramid sequence",es:"La secuencia de la pirámide maya"},ar:"16/9"},
@@ -619,9 +620,7 @@ const NEG=[
   p:{es:"Dirijo la IA como a un equipo de rodaje. Spots, cortos, videoclips y campañas con personajes, mundos y movimiento hechos con criterio de cine.",en:"I direct AI like a film crew. Spots, shorts, music videos and campaigns, with characters, worlds and motion made with a filmmaker’s eye."},
   p2:{es:"Dirigimos la IA como a un equipo de rodaje. Spots, cortos, videoclips y campañas con personajes, mundos y movimiento hechos con criterio de cine.",en:"We direct AI like a film crew. Spots, shorts, music videos and campaigns, with characters, worlds and motion made with a filmmaker’s eye."},
   subs:[
-   {id:"pub",n:{es:"Publicidad",en:"Advertising"},ids:["paz","guachicol","walmart","ludica"]},
-   {id:"cine",n:{es:"Cine y videoclip",en:"Film and music video"},ids:["todosantos","jinete","tierra","ysi","volcan"]},
-   {id:"serie",n:{es:"Series y exploración",en:"Series and exploration"},ids:["stop","pasajeros","archivo","estudios"]}]}
+   {id:"videos",n:{es:"Videos",en:"Films"},ids:["guachicol","todosantos","probadita","stop","ysi","volcan","paz","walmart","jinete","ludica"]}]}
 ];
 if(ESTUDIO){const k=NEG.findIndex(n=>n.id===ESTUDIO);if(k>=0){const solo=NEG[k];NEG.length=0;NEG.push(solo)}}
 const CATS=NEG.flatMap(n=>n.subs.map((s,k)=>Object.assign(s,{neg:n,k})));
@@ -640,7 +639,7 @@ const CAP={
  archivo:{w:100,cols:"1fr 1fr 1fr 1fr",m:[{i:"arch_tren",ar:"1696/2528"},{i:"arch_zapatista",ar:"1856/2304"},{i:"arch_casulla",ar:"1792/2400"},{i:"arch_pez",ar:"1792/2400"}]},
  walmart:{w:84,cols:"1fr",m:[{th:"2191584596-9df8dd55853448ac0114c19acf71c890b42e3fee19abffddcb648e05469261c4",ar:"16/9"}]},
  ludica:{w:78,cols:"1fr 1fr 1fr",m:[{th:"2221476706-d092a466f16858b44c4aaf1854400a1bb5140cab310892a620123e7136acbfe4",ar:"1280/2276"},{th:"2221476244-ae23e3ebb22567fef16ccc6b14a261d5bfe527add860e845f96f6cb68195935a",ar:"1280/2276"},{th:"2221476625-b3bca70928719d712a43aaac27dd5333720a59772866a91cef1094e5bd67b9ca",ar:"1280/2276"}]},
- ysi:{w:84,cols:"1fr",m:[{th:"2179803603-886304bea2406ea31bec11b32dae6f35ba106630f2f2ac5ea26a2be86d5a840c",ar:"1280/549"}]},
+ ysi:{w:92,cols:"1fr",m:[{loc:"bosque",ar:"960/412"}]},
  estudios:{w:100,cols:"0.8fr 1.33fr 1fr",m:[{v:"est_rostros",ar:"1080/1350"},{v:"est_vespa",ar:"1112/834"},{i:"est_ave",ar:"1760/2352"}]},
  bazaar:{w:100,cols:"1.4fr 0.75fr 1.1fr",m:[{i:"bazaar_arcos",ar:"4/3"},{i:"bazaar_cupula",ar:"3/4"},{i:"bazaar_riviera",ar:"4/3"}]},
  juarez:{w:100,cols:"1.7fr 0.55fr 1fr",m:[{i:"mij_inmersiva",ar:"16/9"},{i:"mij_vr",ar:"1463/2600"},{i:"juarez_desierto",ar:"4/3"}]},
@@ -650,6 +649,7 @@ const CAP={
  pakal:{w:62,cols:"1fr",m:[{i:"pakal_disco",ar:"1/1"}]},
  delirio:{w:76,cols:"1fr",m:[{i:"delirio_sala",ar:"4/3"}]},
  volcan:{w:100,cols:"1fr",m:[{loc:"volcan",ar:"16/9"}]},
+ probadita:{w:100,cols:"1fr",m:[{i:"probadita_hoja_personaje",ar:"2720/1536"}]},
  bacubirito:{w:88,cols:"1.2fr 1fr",m:[{i:"sinaloa_bacubirito",ar:"1100/616"},{i:"sinaloa_fachada",ar:"1100/733"}]},
  voices:{w:72,cols:"1fr",m:[{i:"voices_escenario",ar:"1100/569"}]},
  ciudad:{w:72,cols:"1fr",m:[{i:"ciudad_zocalo",ar:"1100/624"}]}
@@ -706,7 +706,7 @@ function negocio(ng,n){const s=document.createElement('header');s.className='sal
  s.innerHTML=`<div class="cinta" aria-hidden="true"><span>${(tx(ng.c)+' · ').repeat(10)}</span></div>
   <div class="sala-g"><div><p class="sala-k"><b>${String(n).padStart(2,'0')}</b><span>${tot} ${L==='es'?'proyectos':'projects'}</span></p><h2 class="sala-t">${nom}</h2></div>
   <div><p class="sala-p">${tx(ESTUDIO&&ng.p2?ng.p2:ng.p)}</p><a class="cta" href="mailto:${ESTUDIO?'lab@ludicalab.com':'strauss31@gmail.com'}?subject=${encodeURIComponent((L==='es'?'Proyecto, ':'Project: ')+tx(ng.c))}">${L==='es'?'Quiero un proyecto así':'I want a project like this'}</a></div></div>
-  <div class="sala-l">${ng.subs.map(x=>`<a href="#cat-${x.id}">${tx(x.n)} <i>${x.ids.filter(id=>P.some(p=>p.id===id)).length}</i></a>`).join('')}</div>`;
+  <div class="sala-l">${ng.subs.length>1?ng.subs.map(x=>`<a href="#cat-${x.id}">${tx(x.n)} <i>${x.ids.filter(id=>P.some(p=>p.id===id)).length}</i></a>`).join(''):ng.subs[0].ids.filter(id=>P.some(p=>p.id===id)).map(id=>{const p=P.find(x=>x.id===id);return `<a href="#p-${id}">${tx(p.tl||p.t)}</a>`}).join('')}</div>`;
  io.observe(s);return s}
 function sala(cat,n,k){const s=document.createElement('header');s.className='area';s.id='cat-'+cat.id;
  const tot=cat.ids.filter(id=>P.some(p=>p.id===id));
@@ -714,7 +714,7 @@ function sala(cat,n,k){const s=document.createElement('header');s.className='are
   <div class="sala-l">${tot.map(id=>{const p=P.find(x=>x.id===id);return `<a href="#p-${id}">${tx(p.tl||p.t)}</a>`}).join('')}</div>`;
  io.observe(s);return s}
 function pintarCapitulos(){obra.innerHTML='';let nCat=0,nSala=0;
- P.forEach((p,i)=>{const cat=CATS.find(c=>c.ids.find(id=>P.some(x=>x.id===id))===p.id);if(cat){nCat=0;const nn=NEG.indexOf(cat.neg)+1;if(cat.k===0)obra.appendChild(negocio(cat.neg,nn));obra.appendChild(sala(cat,nn,cat.k+1))}nCat++;const c=CAP[p.id]||{w:84,cols:"1fr",m:[{i:p.cover||p.im[0],ar:"16/9"}]};
+ P.forEach((p,i)=>{const cat=CATS.find(c=>c.ids.find(id=>P.some(x=>x.id===id))===p.id);if(cat){nCat=0;const nn=NEG.indexOf(cat.neg)+1;if(cat.k===0)obra.appendChild(negocio(cat.neg,nn));if(cat.neg.subs.length>1)obra.appendChild(sala(cat,nn,cat.k+1))}nCat++;const c=CAP[p.id]||{w:84,cols:"1fr",m:[{i:p.cover||p.im[0],ar:"16/9"}]};
   const a=document.createElement('article');a.className='capi '+(i%2?'der':'izq');a.id='p-'+p.id;
   if(p.piezas){a.classList.add('stopm');
    a.innerHTML=`<div class="num"><b>${String(nCat).padStart(2,'0')}</b><span>${tx(p.m)}</span><span>${p.y}</span></div>
@@ -808,7 +808,7 @@ document.getElementById('cerrarIndice').onclick=()=>ind.classList.remove('on');
 
 /* ===== CASO ===== */
 const caso=document.getElementById('caso'),cin=document.getElementById('cIn');let previo=null;
-function marco(id,ar,t){return window.INL?`<div class="marco" style="aspect-ratio:${ar}"><a class="sal" href="https://vimeo.com/${id.split('?')[0]}" target="_blank" rel="noopener"><b>${t}</b><span>${L==='es'?'Ver en Vimeo':'Watch on Vimeo'}</span></a></div>`:
+function marco(id,ar,t){const q=ar.split('/'),vr=q[0]/q[1];if(vr<1)ar+=`;width:min(100%,calc(82vh*${vr.toFixed(4)}));margin-inline:auto`;return window.INL?`<div class="marco" style="aspect-ratio:${ar}"><a class="sal" href="https://vimeo.com/${id.split('?')[0]}" target="_blank" rel="noopener"><b>${t}</b><span>${L==='es'?'Ver en Vimeo':'Watch on Vimeo'}</span></a></div>`:
  `<div class="marco" style="aspect-ratio:${ar}"><iframe src="${vimeoSrc(id)}" allow="autoplay; fullscreen; picture-in-picture" title="${t}"></iframe></div>`}
 function abrir(id,push=true){const i=P.findIndex(p=>p.id===id);if(i<0)return;if(P[i].piezas){document.getElementById('p-'+id).scrollIntoView({behavior:'smooth'});return}const p=P[i],s=P[(i+1)%P.length];previo=document.activeElement;cursor.classList.remove('on');
  let media='';
