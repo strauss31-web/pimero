@@ -550,6 +550,11 @@ const P=[
   frase:{en:"You get burned a thousand times and come back for more.",es:"Te quemas mil veces y regresas por más."},
   d:{en:"A scrap metal robot with a tongue it can’t put back in. It gets burned by chili, scalded by the soup of a lady who can’t stand it, steals a kid’s cotton candy on the Metro and still comes back at night for more.",es:"Un robot de chatarra con una lengua que no puede meter. Se enchila, se quema con el caldo de una doña que no lo quiere ni ver, se roba el algodón de un niño en el Metro y aun así regresa de noche por más."},
   im:["probadita_hoja_personaje"]},
+ {id:"rebanado",t:{en:"Nothing to Hide",es:"Sin nada que ocultar"},m:{en:"Short film · AI",es:"Corto · IA"},y:"2026",cli:{en:"Own work",es:"Obra propia"},rol:{en:"Direction, AI direction",es:"Dirección y dirección de IA"},
+  film:"rebanado",ar:"16/9",cover:"rebanado_portada",
+  frase:{en:"A man who can’t hide a thing.",es:"Un hombre al que se le nota todo."},
+  d:{en:"Bruno is a living anatomical slice, a cross section of a body with every organ on display. He goes to the office meeting, the supermarket and a date, and everything he feels shows on the inside. When Valeria looks at him, his heart gives him away. A 40 second comedy made entirely with AI.",es:"Bruno es un corte anatómico vivo, una rebanada de cuerpo con los órganos a la vista. Va a la junta, al súper y a una cita, y todo lo que siente se le ve por dentro. Cuando Valeria lo mira, el corazón lo delata. Una comedia de 40 segundos hecha por completo con IA."},
+  im:["rebanado_portada","rebanado_junta","rebanado_cita","rebanado_corazon"]},
  {id:"estudios",t:{en:"AI Studies",es:"Estudios con IA"},m:{en:"Image and motion · AI",es:"Imagen y movimiento · IA"},y:"Serie",cli:{en:"Own work",es:"Obra propia"},rol:{en:"Art direction",es:"Dirección de arte"},
   cover:"est_lichi",loop:true,vids:["est_rostros","est_vespa"],
   frase:{en:"Still lifes that look back.",es:"Naturalezas muertas que te miran de vuelta."},
@@ -620,7 +625,7 @@ const NEG=[
   p:{es:"Dirijo la IA como a un equipo de rodaje. Spots, cortos, videoclips y campañas con personajes, mundos y movimiento hechos con criterio de cine.",en:"I direct AI like a film crew. Spots, shorts, music videos and campaigns, with characters, worlds and motion made with a filmmaker’s eye."},
   p2:{es:"Dirigimos la IA como a un equipo de rodaje. Spots, cortos, videoclips y campañas con personajes, mundos y movimiento hechos con criterio de cine.",en:"We direct AI like a film crew. Spots, shorts, music videos and campaigns, with characters, worlds and motion made with a filmmaker’s eye."},
   subs:[
-   {id:"videos",n:{es:"Videos",en:"Films"},ids:["guachicol","todosantos","probadita","stop","ysi","volcan","paz","walmart","jinete","ludica"]}]}
+   {id:"videos",n:{es:"Videos",en:"Films"},ids:["guachicol","todosantos","probadita","stop","ysi","volcan","rebanado","paz","walmart","jinete","ludica"]}]}
 ];
 if(ESTUDIO){const k=NEG.findIndex(n=>n.id===ESTUDIO);if(k>=0){const solo=NEG[k];NEG.length=0;NEG.push(solo)}}
 const CATS=NEG.flatMap(n=>n.subs.map((s,k)=>Object.assign(s,{neg:n,k})));
@@ -649,6 +654,7 @@ const CAP={
  pakal:{w:62,cols:"1fr",m:[{i:"pakal_disco",ar:"1/1"}]},
  delirio:{w:76,cols:"1fr",m:[{i:"delirio_sala",ar:"4/3"}]},
  volcan:{w:100,cols:"1fr",m:[{loc:"volcan",ar:"16/9"}]},
+ rebanado:{w:100,cols:"1fr",m:[{loc:"rebanado_loop",ar:"16/9"}]},
  probadita:{w:100,cols:"1fr",m:[{i:"probadita_hoja_personaje",ar:"2720/1536"}]},
  bacubirito:{w:88,cols:"1.2fr 1fr",m:[{i:"sinaloa_bacubirito",ar:"1100/616"},{i:"sinaloa_fachada",ar:"1100/733"}]},
  voices:{w:72,cols:"1fr",m:[{i:"voices_escenario",ar:"1100/569"}]},
@@ -813,10 +819,11 @@ function marco(id,ar,t){const q=ar.split('/'),vr=q[0]/q[1];if(vr<1)ar+=`;width:m
 function abrir(id,push=true){const i=P.findIndex(p=>p.id===id);if(i<0)return;if(P[i].piezas){document.getElementById('p-'+id).scrollIntoView({behavior:'smooth'});return}const p=P[i],s=P[(i+1)%P.length];previo=document.activeElement;cursor.classList.remove('on');
  let media='';
  if(p.vimeo)media=marco(p.vimeo,p.ar,tx(p.t));
+ else if(p.film)media=`<div class="marco" style="aspect-ratio:${p.ar}"><video src="${S(A+'vid/'+p.film+'.mp4')}" poster="${S(A+'img/v_'+p.film+'.jpg')}" controls playsinline preload="metadata"></video></div>`;
  else if(p.reels)media=`<div class="reelsC">${p.reels.map(r=>marco(r,'1280/2276',tx(p.t))).join('')}</div>`;
  else if(p.vids)media=`<div class="vids">${p.vids.map(k=>`<div class="marco" style="aspect-ratio:${k==='est_rostros'?'1080/1350':'1112/834'}"><video src="${S(A+'vid/'+k+'.mp4')}" poster="${S(A+'img/v_'+k+'.jpg')}" controls muted autoplay loop playsinline></video></div>`).join('')}</div>`;
  else if(p.im[0])media=`<div class="marco" style="aspect-ratio:16/9"><img src="${S(A+'img/'+p.im[0]+'.jpg')}" alt="${tx(p.t)}"></div>`;
- const resto=p.vimeo||p.reels||p.vids?p.im:p.im.slice(1);
+ const resto=p.vimeo||p.film||p.reels||p.vids?p.im:p.im.slice(1);
  const gal=resto.map((k,n)=>`<img loading="lazy" decoding="async" class="${resto.length===1?'g1':(n%3===0?'g1':'g2')}" src="${S(A+'img/'+k+'.jpg')}" alt="${tx(p.t)} ${n+2}">`).filter(x=>!x.includes('src=""')).join('');
  cin.innerHTML=`<div class="cab"><h2 id="cT">${tx(p.t)}</h2>
   <dl class="meta"><div><dt>${L==='es'?'Año':'Year'}</dt><dd>${p.y}</dd></div><div><dt>${L==='es'?'Cliente':'Client'}</dt><dd>${tx(p.cli)}</dd></div><div><dt>${L==='es'?'Rol':'Role'}</dt><dd>${tx(p.rol)}</dd></div><div><dt>${L==='es'?'Formato':'Format'}</dt><dd>${tx(p.m)}</dd></div></dl></div>
