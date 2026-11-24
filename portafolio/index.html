@@ -383,6 +383,12 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 /* botones con imán */
 .cta,.nav .links a.hablar{transition:transform .28s cubic-bezier(.2,.7,.2,1),background .25s}
 @media (prefers-reduced-motion:reduce){.stopm.in h2{filter:none}.sm-th{animation:none}.rastro{display:none}}
+
+/* ===== MODO ESTUDIO: misma tipografía que ludicalab.com (Space Mono) ===== */
+@font-face{font-family:'Space Mono';font-style:normal;font-weight:400;font-display:swap;src:url('../assets/fonts/space-mono-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Space Mono';font-style:normal;font-weight:700;font-display:swap;src:url('../assets/fonts/space-mono-latin-700-normal.woff2') format('woff2')}
+.estudio{--d:'Space Mono','Courier New',monospace;--t:'Space Mono','Courier New',monospace}
+.estudio body,body.estudio{font-size:15px;line-height:1.6}
 </style>
 </head>
 <body>

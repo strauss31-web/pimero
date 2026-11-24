@@ -1092,6 +1092,49 @@ if (videosToggle && videosGallery) {
     if (vt) vt.addEventListener('click', () => window.__sfx && window.__sfx.open());
 })();
 
+// ===== Demo reel (Vimeo): arranca solo, en loop y sin sonido, al entrar en pantalla =====
+(() => {
+    const frame = document.getElementById('reelFrame');
+    if (!frame) return;
+    const btn = document.getElementById('reelSound');
+    const ORIGIN = 'https://player.vimeo.com';
+    let iframe = null;
+    let sound = false;
+    const post = (method, value) => {
+        if (!iframe || !iframe.contentWindow) return;
+        const msg = value === undefined ? { method } : { method, value };
+        iframe.contentWindow.postMessage(JSON.stringify(msg), ORIGIN);
+    };
+    const load = () => {
+        if (iframe) return;
+        iframe = document.createElement('iframe');
+        iframe.src = `${ORIGIN}/video/${frame.dataset.vimeo}?autoplay=1&muted=1&loop=1&playsinline=1&title=0&byline=0&portrait=0&dnt=1`;
+        iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+        iframe.allowFullscreen = true;
+        iframe.title = 'Demo reel Lúdica Lab';
+        frame.appendChild(iframe);
+    };
+    if ('IntersectionObserver' in window) {
+        new IntersectionObserver(entries => entries.forEach(en => {
+            if (en.isIntersecting) { load(); post('play'); }
+            else post('pause');
+        }), { rootMargin: '200px 0px', threshold: 0.15 }).observe(frame);
+    } else {
+        load();
+    }
+    if (btn) {
+        btn.addEventListener('click', () => {
+            load();
+            sound = !sound;
+            post('setMuted', !sound);
+            post('setVolume', sound ? 1 : 0);
+            post('play');
+            btn.textContent = sound ? btn.dataset.on : btn.dataset.off;
+            btn.setAttribute('aria-pressed', String(sound));
+        });
+    }
+})();
+
 // ===== PWA: registrar service worker (instalable + carga instantánea) =====
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {

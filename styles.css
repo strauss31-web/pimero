@@ -2160,3 +2160,46 @@ a, button, .terr-panel, .stat, .obra {
   .nav-links a { display: block; padding: 12px 0; font-size: 0.95rem; white-space: normal; }
   .nav-links .nav-cta { margin-top: 10px; }
 }
+
+/* ===== Demo reel: a la vista, en loop y sin sonido hasta que lo activen ===== */
+.reel {
+    margin: 0 0 clamp(36px, 5vw, 64px);
+}
+
+.reel-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border: 2px solid var(--red);
+    overflow: hidden;
+}
+
+.reel-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+.reel-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.reel-tag {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.reel-gallery-sub {
+    text-align: center;
+    margin: 0 auto 22px;
+}
