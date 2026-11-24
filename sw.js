@@ -1,5 +1,5 @@
 /* Lúdica Lab — Service Worker: instalable + carga instantánea (cache-first). */
-const CACHE = 'ludica-v9';
+const CACHE = 'ludica-v10';
 const ASSETS = [
   './',
   './index.html',
